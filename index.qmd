@@ -16,17 +16,25 @@ toc: false
   <div class="bold-hero-mesh m1"></div>
   <div class="bold-hero-mesh m2"></div>
   <div class="bold-hero-mesh m3"></div>
-  <div class="bold-hero-inner bh-stagger">
-    <span class="bold-hero-eyebrow"><span class="pulse"></span> Open to senior DS / ML roles</span>
-    <h1>I ship ML systems that<br><span class="grad-text">survive production.</span></h1>
-    <p class="bold-hero-tag">
-      Data Scientist &amp; AI Engineer — <strong>6+ years</strong> building forecasting,
-      anomaly detection, and GenAI systems at scale for CPG, retail, and enterprise clients.
-    </p>
-    <div class="bold-hero-cta">
-      <a class="btn-bold primary magnetic" href="projects/index.html">View projects <span class="arrow">→</span></a>
-      <a class="btn-bold ghost magnetic" href="resume.pdf">Résumé (PDF)</a>
-      <a class="btn-bold ghost magnetic" href="mailto:surve.ashish@outlook.com">Get in touch</a>
+  <div class="bold-hero-inner bold-hero-split">
+    <div class="bh-stagger">
+      <span class="bold-hero-eyebrow"><span class="pulse"></span> Open to senior DS / ML roles</span>
+      <h1>I ship ML systems that<br><span class="grad-text">survive production.</span></h1>
+      <p class="bold-hero-tag">
+        Data Scientist &amp; AI Engineer — <strong>6+ years</strong> building forecasting,
+        anomaly detection, and GenAI systems at scale for CPG, retail, and enterprise clients.
+      </p>
+      <div class="bold-hero-cta">
+        <a class="btn-bold primary magnetic" href="projects/index.html">View projects <span class="arrow">→</span></a>
+        <a class="btn-bold ghost magnetic" href="resume.pdf">Résumé (PDF)</a>
+        <a class="btn-bold ghost magnetic" href="mailto:surve.ashish@outlook.com">Get in touch</a>
+      </div>
+    </div>
+    <div class="bold-hero-photo">
+      <div class="hero-blob glow"></div>
+      <div class="hero-blob main"></div>
+      <img class="hero-cutout" src="assets/hero-cutout.webp" alt="Ashish Surve — portrait" loading="eager" fetchpriority="high">
+      <div class="photo-chip"><span class="pulse"></span> 6+ yrs shipping ML</div>
     </div>
   </div>
   <div class="bold-scroll-cue">Scroll<span class="line"></span></div>

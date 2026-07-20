@@ -221,8 +221,103 @@ main.content hr { border-color: var(--border); }
 .bh-stagger > *:nth-child(4) { animation-delay: .41s; }
 @keyframes bh-up { to { opacity: 1; transform: none; } }
 
+// --- Split hero: text left, masked portrait right ---------------------------
+.bold-hero-split {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, .85fr);
+  gap: clamp(2rem, 5vw, 4.5rem);
+  align-items: center;
+}
+.bold-hero-photo {
+  position: relative;
+  z-index: 1;
+  justify-self: end;
+  width: min(100%, 370px);
+  opacity: 0;
+  transform: translateY(26px) scale(.97);
+  animation:
+    bh-photo-in .9s var(--ease) forwards .45s,
+    bh-float 7s ease-in-out infinite 1.8s;
+}
+@keyframes bh-photo-in { to { opacity: 1; transform: none; } }
+@keyframes bh-float { 0%, 100% { translate: 0 0; } 50% { translate: 0 -9px; } }
+
+// Cutout portrait emerging from a morphing gradient blob
+.hero-blob {
+  position: absolute;
+  z-index: 0;
+  border-radius: 46% 54% 60% 40% / 52% 44% 56% 48%;
+  animation: bh-morph 11s ease-in-out infinite alternate;
+}
+.hero-blob.main {
+  inset: 20% 1% 10%;
+  background: linear-gradient(150deg, #4338ca, var(--a1) 40%, #0e7490 75%, var(--a2));
+  opacity: .9;
+}
+.hero-blob.glow {
+  inset: 14% -8% 4%;
+  background: linear-gradient(150deg, var(--a1), var(--a2));
+  filter: blur(55px);
+  opacity: .45;
+  animation-delay: -5s;
+}
+@keyframes bh-morph {
+  0%   { border-radius: 46% 54% 60% 40% / 52% 44% 56% 48%; rotate: 0deg; }
+  50%  { border-radius: 58% 42% 45% 55% / 45% 58% 42% 55%; rotate: 3deg; }
+  100% { border-radius: 42% 58% 52% 48% / 58% 42% 60% 40%; rotate: -3deg; }
+}
+.hero-cutout {
+  position: relative;
+  z-index: 2;
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 5;       // head → waist crop of the tall cutout
+  object-fit: cover;
+  object-position: 50% 0;
+  // enhancement is baked into the image; keep CSS neutral
+  filter: saturate(1.02) drop-shadow(0 24px 40px rgba(0, 0, 0, .55));
+  // torso melts into the page below the blob
+  -webkit-mask-image: linear-gradient(180deg, #000 76%, transparent 98%);
+  mask-image: linear-gradient(180deg, #000 76%, transparent 98%);
+}
+
+// Floating stat chip over the card's bottom-left corner
+.photo-chip {
+  position: absolute;
+  left: -1.6rem;
+  bottom: 22%;
+  z-index: 4;
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+  padding: .55rem 1rem;
+  border-radius: 999px;
+  border: 1px solid var(--border-hi);
+  background: rgba(14, 16, 22, .8);
+  backdrop-filter: blur(10px);
+  font-size: .8rem;
+  font-weight: 700;
+  letter-spacing: .04em;
+  color: var(--fg);
+  box-shadow: 0 12px 30px -12px rgba(0, 0, 0, .8);
+}
+.photo-chip .pulse {
+  width: 8px; height: 8px; border-radius: 50%; background: #34d399;
+  animation: bh-pulse 2s infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bold-hero-photo, .bh-stagger > *, .hero-blob {
+    animation: none !important; opacity: 1 !important; transform: none !important;
+  }
+  .hero-blob.glow { opacity: .45 !important; }
+  .hero-blob.main { opacity: .9 !important; }
+}
+
 @media (max-width: 900px) {
   .bold-hero { padding: 6.5rem 1.5rem 4rem; min-height: unset; }
+  .bold-hero-split { grid-template-columns: 1fr; gap: 2.5rem; }
+  .bold-hero-photo { justify-self: center; width: min(100%, 300px); }
 }
 
 // --- Stats band ---------------------------------------------------------------
