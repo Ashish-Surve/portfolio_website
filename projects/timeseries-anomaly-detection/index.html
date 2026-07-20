@@ -75,10 +75,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-de63f62b328812d8e578a4d74e282472.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-031c1e8980ea589ec2238abdf0cf1a2d.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-04756cc1751e801bc4e98c44011a8b65.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-f09794b1a702fe5e10544aea62c0d26e.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="dark">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -107,6 +107,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   }
 }</script>
 <style>html{ scroll-behavior: smooth; }</style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;family=JetBrains+Mono:wght@400;600&amp;display=swap" rel="stylesheet">
+<meta name="theme-color" content="#07080c">
 
 
 </head>
@@ -205,6 +208,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
+<div id="reading-progress"></div>
 <div class="project-breadcrumb">
   <a href="../index.html">← All projects</a>
   <span class="tag">anomaly detection</span>
@@ -212,7 +216,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <div class="reveal">
 <div class="result-banner">
-<p>Reduced anomaly-detection false positives by 35% on multivariate time-series signals — cutting alert fatigue without missing the real incidents.</p>
+<p><strong>Result:</strong> Reduced anomaly-detection false positives by 35% on multivariate time-series signals — cutting alert fatigue without missing the real incidents.</p>
+</div>
+</div>
+<div class="reveal">
+<div class="stats-inline">
+  <div class="si"><div class="num"><span class="count" data-to="35" data-suffix="%">0</span></div><div class="lbl">fewer false positives</div></div>
+  <div class="si"><div class="num" style="font-size:1.15rem;">Multivariate</div><div class="lbl">correlation-based scoring</div></div>
+  <div class="si"><div class="num" style="font-size:1.15rem;">Config-driven</div><div class="lbl">multi-algorithm platform</div></div>
 </div>
 </div>
 <section id="the-problem" class="level2 reveal">
@@ -232,18 +243,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>sig <span class="op">=</span> np.sin(t <span class="op">/</span> <span class="dv">9</span>) <span class="op">+</span> <span class="fl">0.4</span> <span class="op">*</span> np.sin(t <span class="op">/</span> <span class="dv">3</span>) <span class="op">+</span> rng.normal(<span class="dv">0</span>, <span class="fl">0.15</span>, <span class="dv">200</span>)</span>
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>anom <span class="op">=</span> np.array([<span class="dv">40</span>, <span class="dv">96</span>, <span class="dv">150</span>, <span class="dv">178</span>])</span>
 <span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>sig[anom] <span class="op">+=</span> np.array([<span class="fl">1.8</span>, <span class="op">-</span><span class="fl">1.6</span>, <span class="fl">2.0</span>, <span class="op">-</span><span class="fl">1.7</span>])</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="fl">4.2</span>))</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>ax.plot(t, sig, color<span class="op">=</span><span class="st">"#8a909a"</span>, lw<span class="op">=</span><span class="fl">1.3</span>)</span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>ax.scatter(anom, sig[anom], color<span class="op">=</span><span class="st">"#dc2626"</span>, s<span class="op">=</span><span class="dv">42</span>, zorder<span class="op">=</span><span class="dv">3</span>,</span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>           edgecolors<span class="op">=</span><span class="st">"white"</span>, lw<span class="op">=</span><span class="fl">0.8</span>, label<span class="op">=</span><span class="st">"detected anomaly"</span>)</span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>ax.legend(frameon<span class="op">=</span><span class="va">False</span>)</span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">"time"</span>)<span class="op">;</span> ax.set_ylabel(<span class="st">"signal"</span>)</span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> s <span class="kw">in</span> [<span class="st">"top"</span>, <span class="st">"right"</span>]: ax.spines[s].set_visible(<span class="va">False</span>)</span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>ax.spines[<span class="st">"left"</span>].set_color(<span class="st">"#d5d5df"</span>)<span class="op">;</span> ax.spines[<span class="st">"bottom"</span>].set_color(<span class="st">"#d5d5df"</span>)</span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>ax.grid(axis<span class="op">=</span><span class="st">"y"</span>, color<span class="op">=</span><span class="st">"#eef0f4"</span>, lw<span class="op">=</span><span class="dv">1</span>)</span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>fig.savefig(<span class="st">"hero.png"</span>, dpi<span class="op">=</span><span class="dv">120</span>, bbox_inches<span class="op">=</span><span class="st">"tight"</span>, facecolor<span class="op">=</span><span class="st">"white"</span>)</span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>BG, FG, MUTED, GRID <span class="op">=</span> <span class="st">"#0e1016"</span>, <span class="st">"#f4f5f7"</span>, <span class="st">"#9aa3b2"</span>, <span class="st">"#22262f"</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="fl">4.2</span>))</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>fig.patch.set_facecolor(BG)<span class="op">;</span> ax.set_facecolor(BG)</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>ax.plot(t, sig, color<span class="op">=</span>MUTED, lw<span class="op">=</span><span class="fl">1.3</span>)</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>ax.scatter(anom, sig[anom], color<span class="op">=</span><span class="st">"#f87171"</span>, s<span class="op">=</span><span class="dv">42</span>, zorder<span class="op">=</span><span class="dv">3</span>,</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>           edgecolors<span class="op">=</span>BG, lw<span class="op">=</span><span class="fl">0.8</span>, label<span class="op">=</span><span class="st">"detected anomaly"</span>)</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>ax.legend(frameon<span class="op">=</span><span class="va">False</span>, labelcolor<span class="op">=</span>FG)</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">"time"</span>, color<span class="op">=</span>MUTED)<span class="op">;</span> ax.set_ylabel(<span class="st">"signal"</span>, color<span class="op">=</span>MUTED)</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>ax.tick_params(colors<span class="op">=</span>MUTED)</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> s <span class="kw">in</span> [<span class="st">"top"</span>, <span class="st">"right"</span>]: ax.spines[s].set_visible(<span class="va">False</span>)</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>ax.spines[<span class="st">"left"</span>].set_color(GRID)<span class="op">;</span> ax.spines[<span class="st">"bottom"</span>].set_color(GRID)</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>ax.grid(axis<span class="op">=</span><span class="st">"y"</span>, color<span class="op">=</span>GRID, lw<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>fig.savefig(<span class="st">"hero.png"</span>, dpi<span class="op">=</span><span class="dv">120</span>, bbox_inches<span class="op">=</span><span class="st">"tight"</span>, facecolor<span class="op">=</span>BG)</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-display">
 <div id="fig-hero" class="quarto-float quarto-figure quarto-figure-center">
@@ -271,7 +287,7 @@ Figure&nbsp;1: Multivariate signal with flagged anomalies. Red = detected; the t
 </section>
 <section id="how-it-works" class="level2 reveal">
 <h2 data-anchor-id="how-it-works">How it works</h2>
-<div id="31056aaf" class="cell" data-execution_count="2">
+<div id="40959df8" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Show the detector + explanation (sketch)</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Replace with a readable slice of your real code.</span></span>
@@ -287,26 +303,170 @@ Figure&nbsp;1: Multivariate signal with flagged anomalies. Red = detected; the t
 <h2 data-anchor-id="code">Code</h2>
 <p>[[TODO: repo link if the payroll platform’s core detector logic is shareable — otherwise link the Tiger Analytics Anomaly Detection Accelerator repo if that’s public]].</p>
 </section>
+<a class="next-project reveal" href="../rag-nl2sql/index.html">
+  <div><p class="lbl">Next project</p><p class="t">RAG-powered marketing assistant — 2nd place, internal hackathon</p></div>
+  <span class="arrow">→</span>
+</a>
 
 
 
 </main> <!-- /main -->
 <script>
 (function () {
-  var els = document.querySelectorAll('.reveal');
-  if (!('IntersectionObserver' in window) || !els.length) {
-    els.forEach(function (el) { el.classList.add('is-visible'); });
-    return;
+  var reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ---------- scroll reveal ---------- */
+  var revealEls = document.querySelectorAll('.reveal');
+  if (!('IntersectionObserver' in window) || !revealEls.length) {
+    revealEls.forEach(function (el) { el.classList.add('is-visible'); });
+  } else {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          entry.target.querySelectorAll('.bar-fill').forEach(function (f) {
+            f.style.width = f.style.getPropertyValue('--w');
+          });
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15 });
+    revealEls.forEach(function (el) { io.observe(el); });
   }
-  var io = new IntersectionObserver(function (entries) {
-    entries.forEach(function (entry) {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('is-visible');
-        io.unobserve(entry.target);
+
+  /* ---------- particle canvas (hero only) ---------- */
+  (function () {
+    var c = document.getElementById('bold-particles');
+    if (!c || reduced) return;
+    var x = c.getContext('2d'), W, H, pts = [], mouse = { x: -1e4, y: -1e4 }, running = true;
+    function resize() {
+      W = c.width = c.offsetWidth; H = c.height = c.offsetHeight;
+      pts = Array.from({ length: Math.min(80, W / 16) }, function () {
+        return {
+          x: Math.random() * W, y: Math.random() * H,
+          vx: (Math.random() - .5) * .35, vy: (Math.random() - .5) * .35, r: Math.random() * 1.6 + .6
+        };
+      });
+    }
+    resize();
+    addEventListener('resize', resize);
+    if (c.parentElement) {
+      c.parentElement.addEventListener('mousemove', function (e) {
+        var b = c.getBoundingClientRect();
+        mouse = { x: e.clientX - b.left, y: e.clientY - b.top };
+      });
+      c.parentElement.addEventListener('mouseleave', function () { mouse = { x: -1e4, y: -1e4 }; });
+    }
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(function (entries) { running = entries[0].isIntersecting; }).observe(c);
+    }
+    (function tick() {
+      requestAnimationFrame(tick);
+      if (!running) return;
+      x.clearRect(0, 0, W, H);
+      for (var i = 0; i < pts.length; i++) {
+        var p = pts[i];
+        p.x += p.vx; p.y += p.vy;
+        if (p.x < 0 || p.x > W) p.vx *= -1;
+        if (p.y < 0 || p.y > H) p.vy *= -1;
+        var dx = mouse.x - p.x, dy = mouse.y - p.y, d = Math.hypot(dx, dy);
+        if (d < 120) { p.x -= dx / d * .6; p.y -= dy / d * .6; }
+        x.beginPath(); x.arc(p.x, p.y, p.r, 0, 7); x.fillStyle = 'rgba(148,163,255,.5)'; x.fill();
       }
+      for (var i2 = 0; i2 < pts.length; i2++) {
+        for (var j = i2 + 1; j < pts.length; j++) {
+          var a = pts[i2], b = pts[j], d2 = Math.hypot(a.x - b.x, a.y - b.y);
+          if (d2 < 130) {
+            x.beginPath(); x.moveTo(a.x, a.y); x.lineTo(b.x, b.y);
+            x.strokeStyle = 'rgba(99,102,241,' + (.14 * (1 - d2 / 130)) + ')'; x.stroke();
+          }
+        }
+      }
+    })();
+  })();
+
+  /* ---------- counters ---------- */
+  var counters = document.querySelectorAll('.count');
+  if (counters.length) {
+    if (!('IntersectionObserver' in window)) {
+      counters.forEach(function (el) {
+        var to = +el.dataset.to, dec = +(el.dataset.dec || 0), suf = el.dataset.suffix || '';
+        el.textContent = to.toFixed(dec) + suf;
+      });
+    } else {
+      var cio = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (!entry.isIntersecting) return;
+          cio.unobserve(entry.target);
+          var el = entry.target, to = +el.dataset.to, dec = +(el.dataset.dec || 0), suf = el.dataset.suffix || '';
+          if (reduced) { el.textContent = to.toFixed(dec) + suf; return; }
+          var t0 = performance.now(), dur = 1400;
+          (function step(t) {
+            var p = Math.min((t - t0) / dur, 1), e2 = 1 - Math.pow(1 - p, 3);
+            el.textContent = (to * e2).toFixed(dec) + suf;
+            if (p < 1) requestAnimationFrame(step);
+          })(t0);
+        });
+      }, { threshold: 0.6 });
+      counters.forEach(function (el) { cio.observe(el); });
+    }
+  }
+
+  /* ---------- magnetic buttons ---------- */
+  if (!reduced) {
+    document.querySelectorAll('.magnetic').forEach(function (b) {
+      b.addEventListener('mousemove', function (e) {
+        var r = b.getBoundingClientRect();
+        b.style.transform = 'translate(' + ((e.clientX - r.left - r.width / 2) * .22) + 'px,' + ((e.clientY - r.top - r.height / 2) * .22) + 'px)';
+      });
+      b.addEventListener('mouseleave', function () { b.style.transform = ''; });
     });
-  }, { threshold: 0.15 });
-  els.forEach(function (el) { io.observe(el); });
+  }
+
+  /* ---------- 3D tilt cards ---------- */
+  if (!reduced) {
+    document.querySelectorAll('.tilt').forEach(function (card) {
+      card.addEventListener('mousemove', function (e) {
+        var r = card.getBoundingClientRect();
+        var px = (e.clientX - r.left) / r.width, py = (e.clientY - r.top) / r.height;
+        card.style.transform = 'rotateY(' + ((px - .5) * 10) + 'deg) rotateX(' + ((py - .5) * -10) + 'deg) translateY(-4px)';
+        card.style.setProperty('--mx', px * 100 + '%');
+        card.style.setProperty('--my', py * 100 + '%');
+      });
+      card.addEventListener('mouseleave', function () { card.style.transform = ''; });
+    });
+  }
+
+  /* ---------- timeline draw-on-scroll (about page) ---------- */
+  (function () {
+    var tl = document.getElementById('bold-timeline'), fill = document.getElementById('tlFill');
+    if (!tl || !fill) return;
+    if (reduced) { fill.style.height = '100%'; return; }
+    addEventListener('scroll', function () {
+      var r = tl.getBoundingClientRect(), vh = innerHeight;
+      var p = Math.min(1, Math.max(0, (vh * .75 - r.top) / r.height));
+      fill.style.height = (p * 100) + '%';
+    }, { passive: true });
+  })();
+
+  /* ---------- reading progress bar (project pages) ---------- */
+  (function () {
+    var bar = document.getElementById('reading-progress');
+    if (!bar) return;
+    addEventListener('scroll', function () {
+      var h = document.documentElement;
+      var pct = h.scrollTop / (h.scrollHeight - h.clientHeight) * 100;
+      bar.style.width = (isFinite(pct) ? pct : 0) + '%';
+    }, { passive: true });
+  })();
+
+  /* ---------- navbar solidify on scroll ---------- */
+  var nav = document.querySelector('.navbar');
+  if (nav) {
+    addEventListener('scroll', function () {
+      nav.classList.toggle('scrolled', scrollY > 10);
+    }, { passive: true });
+  }
 })();
 </script>
 <script id="quarto-html-after-body" type="application/javascript">

@@ -40,10 +40,10 @@ ul.task-list li input[type="checkbox"] {
 <script src="../site_libs/quarto-html/popper.min.js"></script>
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-de63f62b328812d8e578a4d74e282472.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-031c1e8980ea589ec2238abdf0cf1a2d.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-04756cc1751e801bc4e98c44011a8b65.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-f09794b1a702fe5e10544aea62c0d26e.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="dark">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -101,6 +101,9 @@ ul.task-list li input[type="checkbox"] {
   })
   </script>
 <style>html{ scroll-behavior: smooth; }</style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;family=JetBrains+Mono:wght@400;600&amp;display=swap" rel="stylesheet">
+<meta name="theme-color" content="#07080c">
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
@@ -215,20 +218,160 @@ window.Quarto = {
 </main> <!-- /main -->
 <script>
 (function () {
-  var els = document.querySelectorAll('.reveal');
-  if (!('IntersectionObserver' in window) || !els.length) {
-    els.forEach(function (el) { el.classList.add('is-visible'); });
-    return;
+  var reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ---------- scroll reveal ---------- */
+  var revealEls = document.querySelectorAll('.reveal');
+  if (!('IntersectionObserver' in window) || !revealEls.length) {
+    revealEls.forEach(function (el) { el.classList.add('is-visible'); });
+  } else {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          entry.target.querySelectorAll('.bar-fill').forEach(function (f) {
+            f.style.width = f.style.getPropertyValue('--w');
+          });
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15 });
+    revealEls.forEach(function (el) { io.observe(el); });
   }
-  var io = new IntersectionObserver(function (entries) {
-    entries.forEach(function (entry) {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('is-visible');
-        io.unobserve(entry.target);
+
+  /* ---------- particle canvas (hero only) ---------- */
+  (function () {
+    var c = document.getElementById('bold-particles');
+    if (!c || reduced) return;
+    var x = c.getContext('2d'), W, H, pts = [], mouse = { x: -1e4, y: -1e4 }, running = true;
+    function resize() {
+      W = c.width = c.offsetWidth; H = c.height = c.offsetHeight;
+      pts = Array.from({ length: Math.min(80, W / 16) }, function () {
+        return {
+          x: Math.random() * W, y: Math.random() * H,
+          vx: (Math.random() - .5) * .35, vy: (Math.random() - .5) * .35, r: Math.random() * 1.6 + .6
+        };
+      });
+    }
+    resize();
+    addEventListener('resize', resize);
+    if (c.parentElement) {
+      c.parentElement.addEventListener('mousemove', function (e) {
+        var b = c.getBoundingClientRect();
+        mouse = { x: e.clientX - b.left, y: e.clientY - b.top };
+      });
+      c.parentElement.addEventListener('mouseleave', function () { mouse = { x: -1e4, y: -1e4 }; });
+    }
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(function (entries) { running = entries[0].isIntersecting; }).observe(c);
+    }
+    (function tick() {
+      requestAnimationFrame(tick);
+      if (!running) return;
+      x.clearRect(0, 0, W, H);
+      for (var i = 0; i < pts.length; i++) {
+        var p = pts[i];
+        p.x += p.vx; p.y += p.vy;
+        if (p.x < 0 || p.x > W) p.vx *= -1;
+        if (p.y < 0 || p.y > H) p.vy *= -1;
+        var dx = mouse.x - p.x, dy = mouse.y - p.y, d = Math.hypot(dx, dy);
+        if (d < 120) { p.x -= dx / d * .6; p.y -= dy / d * .6; }
+        x.beginPath(); x.arc(p.x, p.y, p.r, 0, 7); x.fillStyle = 'rgba(148,163,255,.5)'; x.fill();
       }
+      for (var i2 = 0; i2 < pts.length; i2++) {
+        for (var j = i2 + 1; j < pts.length; j++) {
+          var a = pts[i2], b = pts[j], d2 = Math.hypot(a.x - b.x, a.y - b.y);
+          if (d2 < 130) {
+            x.beginPath(); x.moveTo(a.x, a.y); x.lineTo(b.x, b.y);
+            x.strokeStyle = 'rgba(99,102,241,' + (.14 * (1 - d2 / 130)) + ')'; x.stroke();
+          }
+        }
+      }
+    })();
+  })();
+
+  /* ---------- counters ---------- */
+  var counters = document.querySelectorAll('.count');
+  if (counters.length) {
+    if (!('IntersectionObserver' in window)) {
+      counters.forEach(function (el) {
+        var to = +el.dataset.to, dec = +(el.dataset.dec || 0), suf = el.dataset.suffix || '';
+        el.textContent = to.toFixed(dec) + suf;
+      });
+    } else {
+      var cio = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (!entry.isIntersecting) return;
+          cio.unobserve(entry.target);
+          var el = entry.target, to = +el.dataset.to, dec = +(el.dataset.dec || 0), suf = el.dataset.suffix || '';
+          if (reduced) { el.textContent = to.toFixed(dec) + suf; return; }
+          var t0 = performance.now(), dur = 1400;
+          (function step(t) {
+            var p = Math.min((t - t0) / dur, 1), e2 = 1 - Math.pow(1 - p, 3);
+            el.textContent = (to * e2).toFixed(dec) + suf;
+            if (p < 1) requestAnimationFrame(step);
+          })(t0);
+        });
+      }, { threshold: 0.6 });
+      counters.forEach(function (el) { cio.observe(el); });
+    }
+  }
+
+  /* ---------- magnetic buttons ---------- */
+  if (!reduced) {
+    document.querySelectorAll('.magnetic').forEach(function (b) {
+      b.addEventListener('mousemove', function (e) {
+        var r = b.getBoundingClientRect();
+        b.style.transform = 'translate(' + ((e.clientX - r.left - r.width / 2) * .22) + 'px,' + ((e.clientY - r.top - r.height / 2) * .22) + 'px)';
+      });
+      b.addEventListener('mouseleave', function () { b.style.transform = ''; });
     });
-  }, { threshold: 0.15 });
-  els.forEach(function (el) { io.observe(el); });
+  }
+
+  /* ---------- 3D tilt cards ---------- */
+  if (!reduced) {
+    document.querySelectorAll('.tilt').forEach(function (card) {
+      card.addEventListener('mousemove', function (e) {
+        var r = card.getBoundingClientRect();
+        var px = (e.clientX - r.left) / r.width, py = (e.clientY - r.top) / r.height;
+        card.style.transform = 'rotateY(' + ((px - .5) * 10) + 'deg) rotateX(' + ((py - .5) * -10) + 'deg) translateY(-4px)';
+        card.style.setProperty('--mx', px * 100 + '%');
+        card.style.setProperty('--my', py * 100 + '%');
+      });
+      card.addEventListener('mouseleave', function () { card.style.transform = ''; });
+    });
+  }
+
+  /* ---------- timeline draw-on-scroll (about page) ---------- */
+  (function () {
+    var tl = document.getElementById('bold-timeline'), fill = document.getElementById('tlFill');
+    if (!tl || !fill) return;
+    if (reduced) { fill.style.height = '100%'; return; }
+    addEventListener('scroll', function () {
+      var r = tl.getBoundingClientRect(), vh = innerHeight;
+      var p = Math.min(1, Math.max(0, (vh * .75 - r.top) / r.height));
+      fill.style.height = (p * 100) + '%';
+    }, { passive: true });
+  })();
+
+  /* ---------- reading progress bar (project pages) ---------- */
+  (function () {
+    var bar = document.getElementById('reading-progress');
+    if (!bar) return;
+    addEventListener('scroll', function () {
+      var h = document.documentElement;
+      var pct = h.scrollTop / (h.scrollHeight - h.clientHeight) * 100;
+      bar.style.width = (isFinite(pct) ? pct : 0) + '%';
+    }, { passive: true });
+  })();
+
+  /* ---------- navbar solidify on scroll ---------- */
+  var nav = document.querySelector('.navbar');
+  if (nav) {
+    addEventListener('scroll', function () {
+      nav.classList.toggle('scrolled', scrollY > 10);
+    }, { passive: true });
+  }
 })();
 </script>
 <script id="quarto-html-after-body" type="application/javascript">
