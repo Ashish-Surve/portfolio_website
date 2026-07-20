@@ -1,0 +1,29 @@
+---
+title: "Cutting anomaly false positives without missing the real ones"
+description: "Alert fatigue kills a detector's credibility. Modeling how signals move together — plus explainable alerts — is what earns adoption."
+date: "2026-01-18"
+categories: ["anomaly detection", "monitoring"]
+draft: true   # ← remove when ready to publish
+# NOTE: folder slug is 'uplift-holdout' — rename to
+# 'anomaly-false-positives' to match the title.
+---
+
+<!-- DRAFT — general-lesson spin-off from the anomaly-detection project. -->
+
+A detector that cries wolf gets ignored, and an ignored detector is worthless no matter its recall. The fix is usually less about a fancier model and more about modeling correlation — and making each alert explainable enough to act on.
+
+## Why per-signal thresholds over-fire
+
+\<Correlated signals move together; single-variable thresholds flag normal joint motion.\>
+
+## Explainability is adoption
+
+\<SHAP-per-alert mattered as much as the score for ops trust.\>
+
+## Takeaway
+
+Optimize false positives at fixed recall, and ship explanations with every alert.
+
+---
+
+Full project, with the method and the tradeoffs: **[Anomaly detection →](../../projects/timeseries-anomaly-detection/index.qmd)**.

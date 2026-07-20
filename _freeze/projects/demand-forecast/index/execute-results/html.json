@@ -1,0 +1,12 @@
+{
+  "hash": "70afc5101d8a8dbbc8bb721234a8e7b7",
+  "result": {
+    "engine": "jupyter",
+    "markdown": "---\ntitle: \"Hierarchical demand forecasting across 6 warehouses\"\ndescription: \"Halved forecast error vs. the incumbent planning model.\"\nimage: hero.png\norder: 2\ndate: \"2026-01-05\"\ncategories: [\"forecasting\"]\n---\n\n<!-- PLACEHOLDER PROJECT — replace the prose with your real work.\n     Structure is the same 7 sections as projects/_template.qmd. -->\n\n::: {.result-banner}\nHalved forecast error (MAE) versus the incumbent planning model across 6 warehouses — freeing up \\<X\\> in safety stock.\n:::\n\n## The problem\n\n\\<3 sentences, business framing: what was being forecast, why the old approach hurt, what a better forecast unlocks.\\>\n\n## The finding\n\n::: {#cell-fig-hero .cell execution_count=1}\n``` {.python .cell-code}\nimport numpy as np, matplotlib.pyplot as plt\nrng = np.random.default_rng(11)\nt = np.arange(60)\nactual = 100 + 15*np.sin(t/6) + rng.normal(0, 4, 60)\nfc = 100 + 15*np.sin(t/6)\nfig, ax = plt.subplots(figsize=(8, 4.2))\nax.fill_between(t, fc-8, fc+8, color=\"#2563eb\", alpha=0.12, label=\"80% interval\")\nax.plot(t, actual, color=\"#8a909a\", lw=1.6, label=\"actual\")\nax.plot(t, fc, color=\"#2563eb\", lw=2.4, label=\"forecast\")\nax.legend(frameon=False); ax.set_xlabel(\"week\"); ax.set_ylabel(\"units\")\nfor s in [\"top\",\"right\"]: ax.spines[s].set_visible(False)\nax.grid(axis=\"y\", color=\"#eef0f4\", lw=1); plt.tight_layout()\nfig.savefig(\"hero.png\", dpi=120, bbox_inches=\"tight\", facecolor=\"white\"); plt.show()\n```\n\n::: {.cell-output .cell-output-display}\n![Forecast vs. actuals with prediction interval. Replace with your real backtest.](index_files/figure-html/fig-hero-output-1.svg){#fig-hero}\n:::\n:::\n\n\n## Decisions and tradeoffs\n\n\\<2 paragraphs. Which model and why; what you reconciled across the hierarchy; and the approach that failed before this one.\\>\n\n## Measurement and limitations\n\n\\<Backtest metric, baseline comparison, and 2 honest limitations.\\>\n\n## How it works\n\n::: {#22321665 .cell execution_count=2}\n``` {.python .cell-code code-fold=\"true\" code-summary=\"Show the forecasting core\"}\n# your statsmodels / sktime / prophet pipeline here\n```\n:::\n\n\n## Code\n\n**[github.com/yourhandle/demand-forecast](https://github.com/yourhandle/demand-forecast)**\n\n",
+    "supporting": [
+      "index_files"
+    ],
+    "filters": [],
+    "includes": {}
+  }
+}

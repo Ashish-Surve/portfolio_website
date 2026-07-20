@@ -1,0 +1,33 @@
+---
+title: "About"
+pagetitle: "About — Ashish Surve"
+image: assets/profile.png
+about:
+  template: trestles
+  image: assets/profile.png
+  links:
+    - icon: github
+      text: GitHub
+      href: https://github.com/Ashish-Surve
+    - icon: linkedin
+      text: LinkedIn
+      href: https://www.linkedin.com/in/ashish-surve
+    - icon: envelope
+      text: Email
+      href: "mailto:surve.ashish@outlook.com"
+    - icon: file-earmark-pdf
+      text: Résumé
+      href: resume.pdf
+---
+
+I'm a product-focused data scientist with 6+ years building and shipping ML systems across CPG, retail, and real estate. I like problems where the modeling choice changes a business decision — and I care about work that survives contact with production.
+
+I'm currently a Senior Data Scientist (Team Lead) at Globant, leading the data science and engineering effort on a payroll fraud detection platform for a Big 4 client. I architected the end-to-end, cloud-agnostic ML and data pipelines that made the system SaaS-ready, cutting development time for new clients by 40%, and built a configurable, multi-algorithm anomaly detection platform that plugs into client front-end/back-end stacks with minimal manual intervention. The stack spans Azure ML, Synapse, Prefect, Docker, Azure Functions, and AWS SageMaker, chosen specifically so the pipelines stay portable across cloud vendors.
+
+Before that, I spent three years at Tiger Analytics as a Data Scientist (Project Lead), where most of the numbers on this site's project pages come from. I designed and productionized a PySpark-based demand forecasting accelerator on Databricks (0.94 parallelization factor, used across 20+ projects) that took model development from weeks to days. On out-of-stock prevention for a major US retailer, I led a solution that trained 300,000 models over a 2TB dataset with automated backtesting and hyperparameter tuning, avoiding $2.4M in stockout and expiry losses. A parallel engagement in Russia trained 50,000 models to 84% accuracy on high-quality segments, and a Temporal Fusion Transformer for cross-learning added a further 17% uplift over the previous best models. I also co-built a time-series anomaly detection accelerator with automated root-cause analysis, a trade-promotion optimization tool for a UK client, and prototyped an LLM + RAG marketing assistant that took 2nd place in Tiger Analytics' internal hackathon.
+
+Earlier roles: Data Scientist & Developer at vCreaTek (real-estate decision support systems, API gateway productionization), a Software Engineer Apprenticeship at Persistent Systems (led an 8-person team building a COVID-19 pedestrian-detection pipeline in one month), and an AI internship at IoTIoT.in (face-recognition pipeline, MTCNN + FaceNet). I hold a B.E. in Computer Science from Dr. D. Y. Patil Institute of Technology (SPPU, Pune), First Class with Distinction.
+
+Tools I reach for: Python, SQL, PySpark, Databricks, Spark, Dask, scikit-learn, PyTorch, TensorFlow, FastAPI, Streamlit, RAG/vector stores, and OpenAI/Hugging Face for LLM work.
+
+The fastest way to see how I think is the [projects](projects/index.qmd) page — those go deep on the Tiger Analytics work above. Code lives on [GitHub](https://github.com/Ashish-Surve); reach me at [surve.ashish@outlook.com](mailto:surve.ashish@outlook.com).

@@ -1,0 +1,81 @@
+---
+title: "Saving a CPG client $2.4M on trade promotions"
+description: "Sharper demand forecasts across an entire product portfolio cut wasted promotion spend and delivered $2.4M in client savings."
+image: hero.png
+order: 1
+date: "2026-02-10"
+categories: ["forecasting", "time series", "scale"]
+---
+
+<!-- FLAGSHIP PROJECT. Headline numbers are yours (from your GitHub).
+     Fill the [[TODO]] slots with specifics only you know — don't let me
+     invent measurement details you'd have to defend in an interview. -->
+
+::: {.result-banner}
+Trained 300,000+ demand-forecasting models across a CPG portfolio to optimize trade promotions — delivering ~$2.4M in client savings, on pipelines processing 100M+ rows a day.
+:::
+
+## The problem
+
+A CPG client planned trade promotions off forecasts that were too coarse to trust at the SKU × store level, so promo spend was routinely mis-sized. The business needed accurate, per-series demand forecasts across a very large portfolio — and needed them to refresh fast enough to plan against. [[TODO: one sentence on the specific decision the forecast fed — promo depth? volume commitment?]]
+
+## The finding
+
+```{python}
+#| label: fig-hero
+#| fig-cap: "Per-series forecast vs. actuals with prediction interval. Replace the synthetic series with a representative real backtest window."
+import numpy as np
+import matplotlib.pyplot as plt
+
+rng = np.random.default_rng(11)
+t = np.arange(60)
+base = 100 + 18 * np.sin(t / 6)
+actual = base + rng.normal(0, 5, 60)
+actual[20:24] += 40          # a promotion spike
+fc = base.copy(); fc[20:24] += 34
+fig, ax = plt.subplots(figsize=(8, 4.2))
+ax.fill_between(t, fc - 10, fc + 10, color="#2563eb", alpha=0.12, label="80% interval")
+ax.plot(t, actual, color="#8a909a", lw=1.6, label="actual")
+ax.plot(t, fc, color="#2563eb", lw=2.6, label="forecast")
+ax.axvspan(20, 23, color="#fde68a", alpha=0.4, label="promotion")
+ax.set_xlabel("week"); ax.set_ylabel("units")
+ax.legend(frameon=False, ncol=2)
+for s in ["top", "right"]: ax.spines[s].set_visible(False)
+ax.spines["left"].set_color("#d5d5df"); ax.spines["bottom"].set_color("#d5d5df")
+ax.grid(axis="y", color="#eef0f4", lw=1)
+plt.tight_layout()
+fig.savefig("hero.png", dpi=120, bbox_inches="tight", facecolor="white")
+plt.show()
+```
+
+Getting the promotion weeks right (the yellow band) is where the savings came from — that's where a generic forecast fails and money is left on the table.
+
+## Decisions and tradeoffs
+
+Training a separate model per series (300k+ of them) was a deliberate choice over one global model: it captured per-SKU seasonality and promo response that a pooled model washed out, at the cost of a much heavier training and orchestration burden. I ran this on a distributed stack (PySpark / Databricks / Dask) so the whole portfolio could retrain on 100M+ rows a day. [[TODO: which model family — gradient boosting? statistical (ETS/ARIMA)? — and why you picked it.]]
+
+[[TODO: what failed first — the honest paragraph. e.g. "A single global model was faster to train but under-forecast promo weeks by X%, so it recommended spend that didn't pay back; per-series models fixed it but forced me to solve the orchestration/cost problem." Two-ish sentences, including the tradeoff you accepted.]]
+
+## Measurement and limitations
+
+Impact was measured as client savings (~$2.4M) [[TODO: over what period, and the forecast-accuracy metric — MAPE/WAPE vs. the incumbent planning number]]. Honest limitations: [[TODO: e.g. cold-start SKUs with no promo history are weakest; the per-series design is expensive to retrain, so cadence is a cost tradeoff]].
+
+## How it works
+
+```{python}
+#| code-fold: true
+#| code-summary: "Show the per-series training loop (sketch)"
+#| eval: false
+# Sketch — replace with a real, readable slice of your pipeline.
+def train_series(df):
+    """Fit one forecaster for a single SKU x store series."""
+    ...
+
+# Distributed over the portfolio (Spark/Dask): one model per group.
+# results = (spark_df.groupBy("sku", "store")
+#                    .applyInPandas(train_series, schema=OUT_SCHEMA))
+```
+
+## Code
+
+[[TODO: link the repo — e.g. **[github.com/Ashish-Surve/…](https://github.com/Ashish-Surve)**]]. The repo is the technical-details layer; there's no separate write-up.

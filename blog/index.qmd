@@ -1,0 +1,19 @@
+---
+title: "Writing"
+pagetitle: "Writing — Ashish Surve"
+toc: false
+listing:
+  id: post-listing
+  contents:
+    - "*/index.qmd"
+  type: default          # reverse-chron list, title + date + summary
+  sort: "date desc"
+  fields: [date, title, description, reading-time]
+  categories: true
+  feed: true             # emits an RSS feed at blog/index.xml
+---
+
+Short posts on the craft — the general lessons behind the [projects](../projects/index.qmd). Each links to the project it came from.
+
+::: {#post-listing}
+:::

@@ -1,0 +1,85 @@
+---
+title: ""
+pagetitle: "Ashish Surve — Data Scientist & AI Engineer"
+page-layout: full
+toc: false
+format:
+  html:
+    css: styles.scss
+---
+
+::: {.hero-name}
+Ashish Surve
+:::
+
+::: {.hero-tagline}
+I build and ship production ML systems — forecasting, anomaly detection, and fraud detection at scale — for CPG, retail, and enterprise clients.
+:::
+
+<!-- ============================================================= -->
+<!-- PROJECT CARDS — ~70% of the page. Three, best first.          -->
+<!-- Each card: thumbnail, one-line RESULT, one-line context.       -->
+<!-- ============================================================= -->
+
+```{=html}
+<div class="project-cards">
+  <a class="project-card" href="projects/trade-promotion-forecasting/index.html">
+    <img src="assets/thumbs/project-1.png" alt="Trade-promotion forecasting at scale">
+    <div class="pc-body">
+      <p class="pc-result">Trained 300,000+ forecasting models to deliver $2.4M in client savings</p>
+      <p class="pc-sub">CPG trade-promotion optimization · 100M+ rows/day</p>
+    </div>
+  </a>
+  <a class="project-card" href="projects/timeseries-anomaly-detection/index.html">
+    <img src="assets/thumbs/project-2.png" alt="Time-series anomaly detection">
+    <div class="pc-body">
+      <p class="pc-result">Cut anomaly-detection false positives by 35%</p>
+      <p class="pc-sub">Multivariate time series · PyOD / deep models</p>
+    </div>
+  </a>
+  <a class="project-card" href="projects/rag-nl2sql/index.html">
+    <img src="assets/thumbs/project-3.png" alt="Production RAG and NL2SQL">
+    <div class="pc-body">
+      <p class="pc-result">Shipped production RAG + NL2SQL that answers business questions over live data</p>
+      <p class="pc-sub">LLM app · retrieval + agentic workflow</p>
+    </div>
+  </a>
+</div>
+```
+
+<!-- ============================================================= -->
+<!-- 3-LINE BIO + PHOTO                                             -->
+<!-- ============================================================= -->
+
+::: {.bio-row}
+![](assets/profile.png){alt="Ashish Surve"}
+
+<div>
+Product-focused data scientist with 6+ years shipping ML systems across CPG, retail, and real estate.
+Currently a Senior Data Scientist (Team Lead) at Globant, leading a payroll fraud detection platform for a Big 4 client. Previously at Tiger Analytics, where I trained 300k+ forecasting models and shipped anomaly detection and RAG systems.
+I own problems end to end, from framing and distributed feature engineering to deployment and monitoring.
+</div>
+:::
+
+<!-- ============================================================= -->
+<!-- CONTACT LINKS                                                  -->
+<!-- ============================================================= -->
+
+::: {.contact-links}
+[GitHub](https://github.com/Ashish-Surve) ·
+[LinkedIn](https://www.linkedin.com/in/ashish-surve) ·
+[Email](mailto:surve.ashish@outlook.com) ·
+[Résumé (PDF)](resume.pdf)
+:::
+
+<!-- OPTIONAL: latest 3 posts, small, at the very bottom.          -->
+<!-- Uncomment once /blog is live (3 posts).                        -->
+
+<!--
+::: {.latest-posts}
+## Latest writing
+- [Forecasting at 300k models: what breaks at scale](blog/forecasting-at-scale/index.html)
+- [Cutting anomaly false positives without missing the real ones](blog/anomaly-false-positives/index.html)
+- [What it actually takes to put RAG in production](blog/rag-in-production/index.html)
+:::
+-->

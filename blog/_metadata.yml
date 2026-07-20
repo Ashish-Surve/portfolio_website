@@ -1,0 +1,9 @@
+# Defaults for every blog post.
+format:
+  html:
+    toc: true
+    toc-title: "Contents"
+    code-fold: false     # posts are prose-first; show snippets inline
+freeze: auto
+# Posts are DRAFT by default so nothing publishes until you flip it.
+# Remove `draft: true` from a post's front matter when it's ready.

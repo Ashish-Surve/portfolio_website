@@ -1,0 +1,30 @@
+---
+title: "What it actually takes to put RAG in production"
+description: "Demos pass on vibes; production needs an eval set, SQL guardrails, and a split between retrieval and generation you can debug."
+date: "2025-12-08"
+categories: ["GenAI", "RAG", "LLM"]
+draft: true   # ← remove when ready to publish
+# NOTE: folder slug is 'experiment-readout' — rename to
+# 'rag-in-production' to match the title.
+---
+
+<!-- DRAFT — general-lesson spin-off from the RAG + NL2SQL project.
+     Tooling/craft posts pull the most search traffic — worth polishing. -->
+
+RAG looks solved in a demo and breaks the moment someone asks a multi-table question. The gap between the two is an eval set, guardrails, and an architecture where each failure has an obvious owner.
+
+## Split retrieval from generation
+
+\<Why one mega-prompt is undebuggable; separating grounding from NL2SQL makes each testable.\>
+
+## Guardrails beat cleverness
+
+\<Schema-constrained, read-only SQL trades flexibility for trust.\>
+
+## You need an eval set before you ship
+
+\<Fixed question set, graded on accuracy + SQL validity, run on every change.\>
+
+---
+
+Full project, with the eval and the tradeoffs: **[RAG + NL2SQL →](../../projects/rag-nl2sql/index.qmd)**.

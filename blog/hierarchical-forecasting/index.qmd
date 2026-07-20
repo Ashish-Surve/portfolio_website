@@ -1,0 +1,29 @@
+---
+title: "Forecasting at 300k models: what actually breaks at scale"
+description: "One model per series captures promo response a global model washes out — but only if you solve orchestration and cost first."
+date: "2026-02-12"
+categories: ["forecasting", "scale", "tooling"]
+draft: true   # ← remove when ready to publish
+# NOTE: folder slug is 'hierarchical-forecasting' — rename to
+# 'forecasting-at-scale' if you want the URL to match the title.
+---
+
+<!-- DRAFT — general-lesson spin-off from the trade-promotion project. -->
+
+The one-line version: a global demand model is easy to train and quietly wrong on the weeks that matter — promotions. Per-series models fix the accuracy, and hand you an orchestration-and-cost problem instead.
+
+## Why global models under-forecast promos
+
+\<The pooling effect: promo response varies too much across SKUs to share.\>
+
+## The part nobody warns you about
+
+\<Training 300k+ models means the bottleneck moves from modeling to distributed execution, retraining cadence, and cost.\>
+
+## Takeaway
+
+Pick the granularity your *decision* needs, then budget for the infrastructure it implies.
+
+---
+
+Full project, with the backtest and the tradeoffs: **[Trade-promotion forecasting →](../../projects/trade-promotion-forecasting/index.qmd)**.

@@ -1,0 +1,12 @@
+# Defaults applied to every page under /projects/.
+format:
+  html:
+    code-fold: true
+    code-tools: false
+    toc: true
+    toc-title: "On this page"
+    toc-location: right
+execute:
+  echo: true          # show the code (folded) so the work is inspectable
+  warning: false
+  message: false

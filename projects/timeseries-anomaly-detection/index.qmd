@@ -1,0 +1,76 @@
+---
+title: "Cutting alert fatigue 35% for an ops monitoring team"
+description: "Redesigned anomaly detection to cut false alarms by 35%, restoring analysts' trust in the system without missing real incidents."
+image: hero.png
+order: 2
+date: "2026-01-15"
+categories: ["anomaly detection", "time series"]
+---
+
+<!-- Headline (-35% false positives) is yours. Fill the [[TODO]] slots. -->
+
+::: {.result-banner}
+Reduced anomaly-detection false positives by 35% on multivariate time-series signals — cutting alert fatigue without missing the real incidents.
+:::
+
+## The problem
+
+The existing detector fired too often, and every false alarm cost an analyst's time and eroded trust in the system. The goal was to keep recall on genuine anomalies while sharply cutting the false-positive rate on correlated, multivariate signals. [[TODO: one sentence on what the signals were and what a missed anomaly cost the business.]]
+
+## The finding
+
+```{python}
+#| label: fig-hero
+#| fig-cap: "Multivariate signal with flagged anomalies. Red = detected; the tightened model stops flagging the normal correlated wobble."
+import numpy as np
+import matplotlib.pyplot as plt
+
+rng = np.random.default_rng(7)
+t = np.arange(200)
+sig = np.sin(t / 9) + 0.4 * np.sin(t / 3) + rng.normal(0, 0.15, 200)
+anom = np.array([40, 96, 150, 178])
+sig[anom] += np.array([1.8, -1.6, 2.0, -1.7])
+fig, ax = plt.subplots(figsize=(8, 4.2))
+ax.plot(t, sig, color="#8a909a", lw=1.3)
+ax.scatter(anom, sig[anom], color="#dc2626", s=42, zorder=3,
+           edgecolors="white", lw=0.8, label="detected anomaly")
+ax.legend(frameon=False)
+ax.set_xlabel("time"); ax.set_ylabel("signal")
+for s in ["top", "right"]: ax.spines[s].set_visible(False)
+ax.spines["left"].set_color("#d5d5df"); ax.spines["bottom"].set_color("#d5d5df")
+ax.grid(axis="y", color="#eef0f4", lw=1)
+plt.tight_layout()
+fig.savefig("hero.png", dpi=120, bbox_inches="tight", facecolor="white")
+plt.show()
+```
+
+The win was modeling the *correlation* between signals, so normal joint movement stopped tripping single-variable thresholds.
+
+## Decisions and tradeoffs
+
+I moved from per-signal thresholding toward a multivariate approach that models the joint distribution, so a change is only anomalous relative to how the signals usually move together. [[TODO: name the method — PyOD ensemble? a reconstruction model like InterFusion? — and why over the simpler baseline.]] I used SHAP to make each alert explainable, which mattered as much as the score itself for analyst trust.
+
+[[TODO: the failure paragraph. e.g. "A pure deep reconstruction model caught more but was a black box the ops team wouldn't act on; pairing a simpler scorer with SHAP explanations got adoption. Two sentences, incl. the tradeoff."]]
+
+## Measurement and limitations
+
+Measured as false-positive rate at fixed recall: a 35% reduction [[TODO: vs. which baseline, over what window, and how recall was held constant]]. Limitations: [[TODO: e.g. needs a clean-ish normal period to learn from; concept drift requires periodic re-fit; thin labels make recall estimates noisy]].
+
+## How it works
+
+```{python}
+#| code-fold: true
+#| code-summary: "Show the detector + explanation (sketch)"
+#| eval: false
+# Replace with a readable slice of your real code.
+from pyod.models.ecod import ECOD   # example: swap for your actual model
+
+def score(X):
+    model = ECOD().fit(X)
+    return model.decision_function(X)   # higher = more anomalous
+# SHAP on top of the scorer to explain each flagged point.
+```
+
+## Code
+
+[[TODO: repo link — e.g. **[github.com/Ashish-Surve/InterFusion_updated](https://github.com/Ashish-Surve/InterFusion_updated)** if relevant]].

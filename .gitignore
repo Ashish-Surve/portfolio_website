@@ -1,0 +1,17 @@
+# Quarto
+/_site/
+/.quarto/
+
+# Python / uv
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+.venv/
+
+# OS
+.DS_Store
+
+**/*.quarto_ipynb

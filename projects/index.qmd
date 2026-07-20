@@ -1,0 +1,20 @@
+---
+title: "Projects"
+pagetitle: "Projects — Ashish Surve"
+toc: false
+listing:
+  id: project-listing
+  contents:
+    - "*/index.qmd"      # every project folder's page
+  type: grid
+  sort: "order asc"      # control order via `order:` in each project's front matter
+  fields: [image, title, description]
+  grid-columns: 3
+  image-height: 180px
+  max-description-length: 120
+---
+
+Three projects, deep rather than wide. Best one first. Each page states the result in one line, then shows the work behind it — including what didn't work.
+
+::: {#project-listing}
+:::

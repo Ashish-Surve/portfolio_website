@@ -1,0 +1,71 @@
+project:
+  type: website
+  output-dir: _site
+  # Everything Quarto shouldn't try to render as a page:
+  render:
+    - "*.qmd"
+    - "!README.md"
+  # Static files copied verbatim into _site.
+  # (CNAME is intentionally NOT listed — add it back once you own a domain.)
+  resources:
+    - resume.pdf
+
+website:
+  title: "Ashish Surve"
+  site-url: "https://ashish-surve.github.io"   # ← swap for a custom domain later
+  description: "Data scientist & AI engineer — production ML and GenAI for CPG, retail, and real estate."
+  favicon: assets/favicon.png             # optional; safe to remove
+  reader-mode: false
+  page-navigation: false
+
+  navbar:
+    background: light
+    pinned: true
+    left:
+      - text: "Projects"
+        href: projects/index.qmd
+      # --- Writing: keep commented until 3 posts are live (see README) ---
+      # - text: "Writing"
+      #   href: blog/index.qmd
+      - text: "About"
+        href: about.qmd
+    right:
+      - icon: github
+        href: https://github.com/Ashish-Surve
+        aria-label: GitHub
+
+  # Footer keeps the contact links one click away on every page.
+  page-footer:
+    left: "© 2026 Ashish Surve"
+    right:
+      - icon: github
+        href: https://github.com/Ashish-Surve
+      - icon: linkedin
+        href: https://www.linkedin.com/in/ashish-surve
+      - icon: envelope
+        href: "mailto:surve.ashish@outlook.com"
+
+format:
+  html:
+    theme:
+      - cosmo
+      - styles.scss
+    toc: false
+    code-fold: true          # global default — project pages inherit this
+    code-tools: false
+    code-copy: true
+    highlight-style: github
+    linkcolor: "#2563eb"
+    fig-width: 8
+    fig-height: 4.5
+    fig-format: svg          # crisp charts, small files, no rasterization
+    df-print: kable
+    smooth-scroll: true
+    anchor-sections: false
+    grid:
+      body-width: 820px
+
+execute:
+  freeze: auto               # cache chunk output; re-run only when code changes
+  warning: false
+  message: false

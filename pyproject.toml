@@ -1,0 +1,17 @@
+[project]
+name = "portfolio-site"
+version = "0.1.0"
+description = "Personal data science portfolio — Quarto website"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "jupyter>=1.0",     # required by Quarto to execute Python code chunks
+    "pandas>=2.0",
+    "numpy>=1.26",
+    "matplotlib>=3.8",  # hero charts render statically — no JS, no CDN
+    "plotly>=5.20",     # optional: use for interactive charts if you prefer
+]
+
+[tool.uv]
+# Nothing app-specific here; this project is a static site, not a package.
+# `uv sync` creates the venv; Quarto uses it to run .qmd code chunks.

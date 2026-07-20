@@ -1,0 +1,110 @@
+---
+# =====================================================================
+# PROJECT PAGE TEMPLATE  —  copy this file to  projects/<slug>/index.qmd
+# (Filenames starting with "_" are NOT rendered by Quarto, so this stays
+#  a template. Your real projects live in their own folder as index.qmd.)
+# =====================================================================
+title: "<Short project title>"
+description: "<One-line result — this becomes the card subtitle on /projects>"
+image: hero.png                 # thumbnail for the /projects grid (see note at bottom)
+order: 1                        # 1 = best project, shown first
+date: "2026-01-01"
+categories: ["forecasting"]     # optional tags
+# code-fold + toc are inherited from projects/_metadata.yml
+---
+
+<!-- 1 ── RESULT IN ONE LINE, ABOVE THE FOLD -------------------------- -->
+<!--     The single sentence a hiring manager should remember.          -->
+::: {.result-banner}
+Cut voluntary churn 18% by targeting only the users a save-offer could actually persuade — worth ~$2.4M in retained ARR.
+:::
+
+<!-- 2 ── PROBLEM — 3 sentences, business framing --------------------- -->
+## The problem
+
+Retention was blanket-emailing every at-risk account a 20% discount, which was expensive and, for many users, unnecessary. The business needed to know *who* to spend the offer on, not just who was likely to leave. The distinction matters because the biggest churn-risk group includes people who will churn regardless — and people who'd have stayed anyway.
+
+<!-- 3 ── HERO CHART — the visual that IS the finding ----------------- -->
+## The finding
+
+```{python}
+#| label: fig-hero
+#| fig-cap: "Uplift decile vs. realized retention lift. Only the top ~40% of users are persuadable; the bottom deciles are neutral-to-negative."
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Replace this synthetic series with your real evaluation output.
+rng = np.random.default_rng(3)
+deciles = np.arange(1, 11)
+uplift = np.array([9.5, 7.8, 5.9, 3.6, 1.9, 0.7, 0.1, -0.4, -1.1, -1.8]) + rng.normal(0, 0.2, 10)
+
+fig, ax = plt.subplots(figsize=(8, 4.2))
+colors = ["#2563eb" if u > 0 else "#c0c4cc" for u in uplift]
+ax.bar(deciles, uplift, color=colors)
+ax.axhline(0, color="#1f2328", lw=1)
+ax.set_xlabel("Predicted-uplift decile (10 = most persuadable)")
+ax.set_ylabel("Retention lift (pp)")
+ax.set_xticks(deciles)
+for s in ["top", "right"]:
+    ax.spines[s].set_visible(False)
+ax.spines["left"].set_color("#d5d5df"); ax.spines["bottom"].set_color("#d5d5df")
+ax.grid(axis="y", color="#eef0f4", lw=1)
+plt.tight_layout()
+plt.show()
+```
+
+Targeting the blue deciles and skipping the grey ones is the whole result: same budget, better spent.
+
+<!-- 4 ── DECISIONS & TRADEOFFS — 2 paragraphs, incl. what FAILED ----- -->
+## Decisions and tradeoffs
+
+I framed this as uplift (treatment-effect) modeling rather than churn prediction — a deliberate choice, because a well-calibrated churn model still can't tell you whether the offer *changed* anyone's behavior. I used a two-model T-learner over gradient-boosted trees, evaluated with the Qini coefficient on a held-out randomized slice. Keeping a genuine randomized holdout cost us some offers we "knew" were good, but without it there is no honest way to measure uplift.
+
+The first approach failed: a single S-learner with treatment as a feature collapsed the uplift signal — the treatment coefficient was swamped by the far stronger churn features, and predicted uplift was near-flat across deciles. Switching to separate treatment/control models recovered the signal. I also tried a causal forest, which matched the T-learner on Qini but was slower to retrain and harder to explain to the retention team, so I shipped the simpler model.
+
+<!-- 5 ── MEASUREMENT + HONEST LIMITATIONS --------------------------- -->
+## Measurement and limitations
+
+Success was measured on the randomized holdout: retention lift by uplift decile (the chart above) and the Qini coefficient (0.21 vs. 0.0 for random targeting). Two honest limitations: the model is trained on one offer type (20% discount), so uplift estimates won't transfer to a different intervention without re-randomizing; and the top decile is thin, so its point estimate carries wide confidence intervals. I'd re-run the holdout quarterly to catch drift as the user mix changes.
+
+<!-- 6 ── CODE, FOLDED (already global; shown here folded via chunks) -- -->
+## How it works
+
+The core of the T-learner and Qini evaluation:
+
+```{python}
+#| code-fold: true
+#| code-summary: "Show the uplift model + Qini evaluation"
+#| eval: false
+from sklearn.ensemble import HistGradientBoostingClassifier
+
+def fit_t_learner(X, y, treated):
+    """Two-model uplift: P(retain | treated) - P(retain | control)."""
+    m_t = HistGradientBoostingClassifier().fit(X[treated],  y[treated])
+    m_c = HistGradientBoostingClassifier().fit(X[~treated], y[~treated])
+    return m_t, m_c
+
+def predict_uplift(m_t, m_c, X):
+    return m_t.predict_proba(X)[:, 1] - m_c.predict_proba(X)[:, 1]
+
+def qini_coefficient(uplift, y, treated):
+    order = uplift.argsort()[::-1]
+    y, treated = y[order], treated[order]
+    n_t = treated.cumsum(); n_c = (~treated).cumsum()
+    gain = (y * treated).cumsum() - (y * ~treated).cumsum() * (n_t / np.maximum(n_c, 1))
+    return gain / gain.size  # normalized area vs. random
+```
+
+<!-- 7 ── REPO LINK -------------------------------------------------- -->
+## Code
+
+Full pipeline, data schema, and evaluation notebook: **[github.com/yourhandle/churn-uplift](https://github.com/yourhandle/churn-uplift)**.
+The repo is the technical-details layer — there's no separate write-up.
+
+<!--
+THUMBNAIL NOTE:
+`image: hero.png` needs a file at projects/<slug>/hero.png for the /projects grid.
+Easiest: save the hero chart as PNG once, e.g. add to the fig-hero chunk:
+    fig.savefig("hero.png", dpi=120, bbox_inches="tight")
+Or point `image:` at any representative screenshot.
+-->
