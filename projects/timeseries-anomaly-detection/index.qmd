@@ -8,6 +8,7 @@ categories: ["anomaly detection", "time series"]
 ---
 
 ```{=html}
+<div id="reading-progress"></div>
 <div class="project-breadcrumb">
   <a href="../index.html">&larr; All projects</a>
   <span class="tag">anomaly detection</span>
@@ -17,8 +18,18 @@ categories: ["anomaly detection", "time series"]
 
 ::: {.reveal}
 ::: {.result-banner}
-Reduced anomaly-detection false positives by 35% on multivariate time-series signals — cutting alert fatigue without missing the real incidents.
+**Result:** Reduced anomaly-detection false positives by 35% on multivariate time-series signals — cutting alert fatigue without missing the real incidents.
 :::
+:::
+
+::: {.reveal}
+```{=html}
+<div class="stats-inline">
+  <div class="si"><div class="num"><span class="count" data-to="35" data-suffix="%">0</span></div><div class="lbl">fewer false positives</div></div>
+  <div class="si"><div class="num" style="font-size:1.15rem;">Multivariate</div><div class="lbl">correlation-based scoring</div></div>
+  <div class="si"><div class="num" style="font-size:1.15rem;">Config-driven</div><div class="lbl">multi-algorithm platform</div></div>
+</div>
+```
 :::
 
 ::: {.reveal}
@@ -41,17 +52,22 @@ t = np.arange(200)
 sig = np.sin(t / 9) + 0.4 * np.sin(t / 3) + rng.normal(0, 0.15, 200)
 anom = np.array([40, 96, 150, 178])
 sig[anom] += np.array([1.8, -1.6, 2.0, -1.7])
+
+BG, FG, MUTED, GRID = "#0e1016", "#f4f5f7", "#9aa3b2", "#22262f"
+
 fig, ax = plt.subplots(figsize=(8, 4.2))
-ax.plot(t, sig, color="#8a909a", lw=1.3)
-ax.scatter(anom, sig[anom], color="#dc2626", s=42, zorder=3,
-           edgecolors="white", lw=0.8, label="detected anomaly")
-ax.legend(frameon=False)
-ax.set_xlabel("time"); ax.set_ylabel("signal")
+fig.patch.set_facecolor(BG); ax.set_facecolor(BG)
+ax.plot(t, sig, color=MUTED, lw=1.3)
+ax.scatter(anom, sig[anom], color="#f87171", s=42, zorder=3,
+           edgecolors=BG, lw=0.8, label="detected anomaly")
+ax.legend(frameon=False, labelcolor=FG)
+ax.set_xlabel("time", color=MUTED); ax.set_ylabel("signal", color=MUTED)
+ax.tick_params(colors=MUTED)
 for s in ["top", "right"]: ax.spines[s].set_visible(False)
-ax.spines["left"].set_color("#d5d5df"); ax.spines["bottom"].set_color("#d5d5df")
-ax.grid(axis="y", color="#eef0f4", lw=1)
+ax.spines["left"].set_color(GRID); ax.spines["bottom"].set_color(GRID)
+ax.grid(axis="y", color=GRID, lw=1)
 plt.tight_layout()
-fig.savefig("hero.png", dpi=120, bbox_inches="tight", facecolor="white")
+fig.savefig("hero.png", dpi=120, bbox_inches="tight", facecolor=BG)
 plt.show()
 ```
 
@@ -93,3 +109,10 @@ def score(X):
 
 [[TODO: repo link if the payroll platform's core detector logic is shareable — otherwise link the Tiger Analytics Anomaly Detection Accelerator repo if that's public]].
 :::
+
+```{=html}
+<a class="next-project reveal" href="../rag-nl2sql/index.html">
+  <div><p class="lbl">Next project</p><p class="t">RAG-powered marketing assistant — 2nd place, internal hackathon</p></div>
+  <span class="arrow">→</span>
+</a>
+```

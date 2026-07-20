@@ -1,13 +1,18 @@
 # Design system — portfolio site
 
-Reference doc for the site's visual language. Written after the homepage dark-hero redesign, extending that pattern to the rest of the site. Update this file when the design changes — it's the source of truth, not the CSS comments.
+Reference doc for the site's visual language. **Superseded 2026-07-21**: the
+site moved from "one dark moment, then light" to the **Bold, dark-throughout**
+direction prototyped in `docs/design/` (see that folder's README for the
+original mockups). This file now documents the Bold system as shipped.
+Update this file when the design changes — it's the source of truth, not the
+CSS comments.
 
 ## Principles
 
-1. **One dark moment, then light.** The dark hero is a deliberate, singular first impression — a photo-driven "title card." Every reading surface (project pages, prose, charts, code) stays light. Recruiters skim, screenshot, and print; dark-on-dark reading surfaces work against that. Don't let dark creep past the hero.
-2. **Motion earns trust, it doesn't perform.** Animation confirms things loaded correctly and guides the eye — fade-ups, gentle hover lifts, scroll reveals. Nothing bounces, spins, or calls attention to itself. If someone notices the animation before the content, it's too much.
-3. **Depth over breadth stays visible in the UI, not just the copy.** The site's whole pitch is "three projects, deep rather than wide." Layouts should reinforce that: fewer, larger elements, not dense grids.
-4. **Every dark-hero pattern is reusable, not homepage-only.** The eyebrow / large title / supporting line / CTA pair structure built for the homepage hero becomes the header pattern for every page — projects listing, each project page, about. Consistency across page headers is what makes the site feel designed rather than patched.
+1. **Dark throughout, not just the hero.** Every page — home, projects listing, project detail, about — uses the same dark background (`--bg: #07080c`). There is no light reading surface; code blocks, prose, and charts are all restyled for dark (`highlight-style: github-dark`, chart colors matched to the palette).
+2. **Motion earns trust, it doesn't perform — but there's more of it.** Particle canvas, magnetic buttons, 3D-tilt cards, and live counters are all present, but every one is wrapped in `@media (prefers-reduced-motion: reduce)` and degrades to a static, fully legible state.
+3. **Depth over breadth stays visible in the UI, not just the copy.** Three projects, deep rather than wide — reinforced by the homepage's tilt-card grid and the projects listing's full-width alternating rows, not a dense grid.
+4. **Every header pattern is reusable, not homepage-only.** The eyebrow / large gradient title / supporting line structure is shared by the homepage hero (full 92vh) and the compact `.page-header` band (Projects listing, About).
 
 ## Design tokens
 
@@ -15,167 +20,86 @@ Reference doc for the site's visual language. Written after the homepage dark-he
 
 | Token | Value | Use |
 |---|---|---|
-| `--dark-bg` | `#0b0c10` | Hero/header sections only |
-| `--dark-fg` | `#f2f3f5` | Text on dark |
-| `--dark-fg-muted` | `#8b93a1` | Eyebrows, captions, secondary text on dark |
-| `--dark-border` | `#3a3e47` | Borders/dividers on dark |
-| `body-bg` | `#ffffff` | Everything else |
-| `body-color` | `#1f2328` | Body text |
-| `muted` | `#57606a` | Secondary text on light |
-| `primary` / `link` | `#2563eb` | Links, accents, primary actions |
-| `border` | `#e6e6ec` | Card borders on light |
-| `border-hover` | `#d5d5df` | Card borders on hover |
+| `--bg` | `#07080c` | Page background, everywhere |
+| `--bg-raised` | `#0e1016` | Cards, panels, stat tiles |
+| `--bg-raised-2` | `#12151d` | Nested/callout headers |
+| `--fg` | `#f4f5f7` | Primary text |
+| `--fg-muted` | `#9aa3b2` | Secondary text, body copy |
+| `--fg-dim` | `#5c6474` | Footer, timestamps, least-emphasis text |
+| `--a1` / `--a2` | `#6366f1` → `#22d3ee` | Gradient accent (indigo → cyan), used for `--grad` |
+| `--border` | `rgba(255,255,255,.08)` | Hairlines, card borders |
+| `--border-hi` | `rgba(255,255,255,.16)` | Hover border state |
 
-No new colors are introduced site-wide — every page reuses this palette so the "one dark moment" stays singular and intentional rather than becoming a second competing theme.
+No light theme remains — every component in `styles.scss` targets the dark tokens.
 
 ### Type
 
-- Font: Inter (already set), weight 800 for display headings, 700 for section headings, 600 for UI/nav.
-- Display scale (hero names/headlines): `clamp(2.6rem, 5vw, 4.2rem)`, tight letter-spacing (`-0.03em`), line-height `1.05`.
-- Section headings (page titles on light pages): `clamp(1.8rem, 3vw, 2.4rem)`, `-0.02em`, line-height `1.15`.
-- Body: existing 17px root / 1.6 line-height, unchanged.
-- Eyebrow labels (small caps-style tags above a heading): `.85rem`, `600` weight, `.12em` letter-spacing, uppercase, muted color.
+- Font: Inter (400/500/600/700/800/900 loaded via `assets/fonts.html`), JetBrains Mono for numeric/code accents (stat labels, breadcrumbs, timeline dates, code blocks).
+- Hero display (`.bold-hero-inner h1`): `clamp(2.8rem, 7vw, 5.2rem)`, weight 900, `-.04em` tracking.
+- Page header title (`.page-header-title`): `clamp(2.4rem, 5.5vw, 4rem)`, weight 900.
+- Section heading (`.sec-title`): `clamp(1.9rem, 3.6vw, 2.8rem)`, weight 800.
+- Body: 17px root / 1.6 line-height on marketing pages; project prose bumps to 17.5px / 1.75 for readability on dark.
+- Eyebrow labels: `.8rem`, 700 weight, `.16em` tracking, uppercase, `--a2` (cyan) color — this is the one accent color used for labels site-wide, distinct from the gradient reserved for numbers/headlines.
 
 ### Spacing & shape
 
-- Card/section corner radius: `10px`–`12px` (already established by `.project-card`/`.project-row`).
-- Full-bleed sections use `100vw` breakout (`margin-left: calc(50% - 50vw)`), consistent with the hero technique already built.
-- Standard content max-width stays at the existing `body-width: 820px` from `_quarto.yml`.
+- Cards/panels: 14–20px corner radius depending on size (`.project-card` 18px, `.stats-inline .si` inherits 14px from parent grid, `.project-row` 20px).
+- Full-bleed sections (`.bold-hero`, `.page-header`) use the `100vw` breakout technique (`margin-left: calc(50% - 50vw)`).
+- Standard content max-width stays `820px` (`_quarto.yml` grid.body-width) for reading pages; marketing sections on the homepage use a wider `1100px` wrapper.
 
 ### Motion
 
-- Entrance: `fade-up` (translateY 14px → 0, opacity 0 → 1), `.6–.7s ease`, staggered `~120ms` per element.
-- Scroll reveal: IntersectionObserver-driven `.reveal` / `.is-visible` pair (already built), threshold `0.15`, one-shot (unobserve after firing — never re-hides on scroll-up, which would feel gimmicky).
-- Hover: `translateY(-2px)` + shadow/border color shift, `.15s ease`. No scale-up on hover (reserved for the hero photo's load-in only).
-- Always wrapped in `@media (prefers-reduced-motion: reduce)` fallback to instant/static.
+- Hero load-in: staggered fade-up (`.bh-stagger`), 120ms apart, `cubic-bezier(.22,1,.36,1)`.
+- Particle canvas: ~80 drifting dots + connecting lines on the homepage hero only, reacts to cursor, pauses off-screen via IntersectionObserver.
+- Magnetic buttons (`.magnetic`): CTA translates toward cursor within a button-local radius, springs back on leave.
+- 3D tilt (`.tilt`): project cards tilt up to ~10° toward cursor with a moving radial glare.
+- Counters (`.count[data-to]`): count up from 0 once scrolled into view, cubic ease-out, respects reduced motion (jumps straight to final value).
+- Scroll reveal (`.reveal`): IntersectionObserver, one-shot, threshold 0.15 — same mechanism as before, now also drives `.bar-fill` widths and the About timeline's progress line.
+- Reading progress bar (`#reading-progress`): fixed gradient bar at viewport top, project pages only.
+- All motion wrapped in `@media (prefers-reduced-motion: reduce)` → static fallback (verified for every animated component in `styles.scss` and `assets/reveal.html`).
 
 ## Component patterns
 
-### 1. Page header (new — generalizes the homepage dark hero)
+### 1. Homepage hero (`.bold-hero`)
 
-Every top-level page (Projects listing, About, and optionally each Project page) gets a **compact dark header band** instead of the full 88vh homepage treatment. Same visual language, shorter:
+Full 92vh, gradient mesh blobs + particle canvas, eyebrow pill with live-status pulse dot, huge two-line headline with gradient second line, tagline, three CTAs (primary gradient pill + two ghost pills), scroll cue. Immediately followed by a floating stats band (`.bold-stats`) that overlaps the hero's bottom edge.
 
-```
-┌─────────────────────────────────────────────┐
-│  DARK BAND (~30–38vh, not 88vh)              │
-│                                               │
-│   EYEBROW LABEL                              │
-│   Page Title (large, animated fade-up)       │
-│   One-line supporting description            │
-│                                               │
-└─────────────────────────────────────────────┘
-        ↓ soft gradient seam into light body
-```
+### 2. Page header (`.page-header`) — Projects listing, About
 
-- No photo on these secondary headers — photo is a homepage-only device, reused elsewhere it dilutes the "one moment" principle.
-- Same fade-up stagger animation as the homepage hero, just simpler (title + one supporting line, no CTA row needed on most).
-- Projects listing header: eyebrow "Selected work", title "Projects", supporting line reuses existing intro copy ("Three projects, deep rather than wide...").
-- About header: eyebrow "About", title "About Ashish", supporting line: one-sentence positioning pulled from the existing about copy's first sentence.
-- Individual project pages: **do not** get the dark band — see below.
+Compact ~40vh dark band, same eyebrow/title/sub structure as the hero minus the photo and particle canvas, with two static gradient mesh blobs (`.page-header-mesh`) instead. Quarto's auto-rendered `#title-block-header` is suppressed via `main:has(.page-header) #title-block-header { display: none }` so there's no duplicate title.
 
-### 2. Individual project pages — light, unchanged structural pattern, refreshed banner
+### 3. Individual project pages — now dark, not light
 
-Project pages stay fully light (they're the reading/reference surface: prose, charts, code). Rather than a dark header, the existing `.result-banner` (blue-tinted left-border callout) is upgraded to feel more like a natural extension of the hero language without going dark:
+Unlike the previous (light-with-breadcrumb) direction, project pages are fully dark: breadcrumb + tags at top, gradient-text result banner, a `.stats-inline` three-tile metric band, then prose sections with `.reveal`. Matplotlib chart chunks are recolored per-figure (background `#0e1016`, muted axis text `#9aa3b2`, accent lines from the gradient palette) so charts don't render as light rectangles on a dark page. A `.next-project` card closes every page, chaining project → project → back to project 1.
 
-- Keep `.result-banner` as the "result in one line" element — it already does this job well.
-- Add a slim breadcrumb/eyebrow above the page's H1-equivalent title area: "← All projects" link + category tags, styled like the light-theme eyebrow (small, uppercase-ish, muted), so navigating back doesn't require the browser back button.
-- `.reveal` scroll-fade applies to each major section (`## The problem`, `## The finding`, etc.) for consistency with the homepage motion, applied lightly — sections should feel alive without feeling like a slideshow.
+### 4. Project cards / rows
 
-### 3. Project cards / rows — refine existing hover, no structural change
+- Homepage: `.project-cards` grid, 3D-tilt (`.tilt`), gradient glare on hover, no thumbnail images (text-forward, per the Bold mockup — thumbnails are hidden via `.project-card img { display:none }`).
+- Projects listing: `.project-row`, full-width alternating rows with a gradient-radial visual panel using the project's `hero.png`.
 
-The homepage `.project-card` grid and the `/projects` `.project-row` stacked layout are both good and shouldn't be redesigned structurally (recent work). Bring their hover/motion timing in line with the token table above (already close — just confirm consistent `.15s` timing and shadow values across both).
+### 5. Navbar
 
-### 4. Navbar
+**Changed from the previous "always light" decision.** The navbar is now always dark (`background: "#07080c"` in `_quarto.yml`), matching the rest of the site — there is no light surface left for a light navbar to contrast against. Still no scroll-triggered transparency/blur-in; it's a fixed, consistently-styled dark bar throughout, avoiding the flicker/jank risk flagged in the previous version of this doc.
 
-Currently light-only, unaffected by the dark hero (Quarto renders navbar above the page content). Options considered:
+### 6. Footer
 
-- **Recommended: leave as-is (light navbar, always).** A navbar that flips dark-on-hero/light-on-scroll adds real implementation complexity (scroll-position JS, flicker risk) for a cosmetic gain, and a consistently light navbar is a safe, stable anchor — the user always knows where nav is and how it behaves. This matches principle 2 (motion earns trust, doesn't perform).
-- Alternative (not recommended for this pass): transparent-over-hero navbar that solidifies on scroll. Nicer on paper, meaningfully more fragile to implement well in a static Quarto site, and a common source of jank/flash-of-unstyled-navbar bugs. Revisit only if the recommended approach feels flat once live.
+Dark background, muted footer links (`--fg-dim` default, `--fg` on hover), matches the rest of the page — no visual seam at the bottom of the site anymore.
 
-### 5. Footer
+## Known content notes (carried over, still accurate)
 
-No change — existing `page-footer` config is fine and consistent with the light theme throughout.
+- Trade promotion / OOS: 300,000 models, 2TB dataset, automated backtesting + hyperparameter tuning, $2.4M in avoided stockout/expiry losses — real, traceable via `about.qmd`.
+- Russia engagement: 50,000 models, 84% accuracy, plus a Temporal Fusion Transformer for cross-learning adding +17% uplift — now included on the About timeline.
+- RAG marketing assistant: 2nd place in Tiger Analytics' internal hackathon (corrected from an earlier "top 4 teams" framing) — reflected on the homepage card, projects listing, and project detail page.
 
-## Page-by-page wireframes (text form)
+## Decisions (confirmed, this pass)
 
-### Homepage (`index.qmd`) — done, reference pattern
+- Full Bold dark-throughout direction adopted site-wide (not cherry-picked) — confirmed by user.
+- `about.qmd` dropped the `trestles` Quarto about-template in favor of plain markup + a custom timeline component, because the template's built-in photo/sidebar layout assumptions collided with the dark page-header + timeline pattern (this was flagged as an open risk in the pre-Bold version of this doc, and became a real conflict once attempted).
+- Navbar and footer both moved to always-dark, replacing the previous "navbar stays light" decision — there's no light theme left for a light navbar to anchor against.
+- Chart color palettes in all three project-page Python chunks were updated in place (dark figure/axes background, light-legible text and gridlines) rather than left light-on-dark.
 
-```
-[DARK HERO — full 88vh]
-  Eyebrow · Name (huge) · Tagline · [View projects] [Résumé] [Get in touch]
-  → photo, right side
-  ↓ Scroll cue
-[LIGHT — reveal on scroll]
-  Project cards (3-across grid, image + result + context)
-[LIGHT — reveal on scroll]
-  Bio row (photo + 3-line bio)
-[LIGHT — reveal on scroll]
-  Contact links
-```
+## Open items / follow-ups
 
-### Projects listing (`projects/index.qmd`) — to build
-
-```
-[DARK HEADER — compact ~32vh]
-  Eyebrow: "Selected work"
-  Title: "Projects"
-  Supporting line: "Three projects, deep rather than wide..."
-  ↓ soft seam
-[LIGHT — reveal on scroll, staggered per row]
-  Project row 1 (image left, title/description right)
-  Project row 2
-  Project row 3
-```
-
-### Individual project page (e.g. `projects/trade-promotion-forecasting/index.qmd`) — to build
-
-```
-[LIGHT — no dark band]
-  ← All projects   ·   category tags        (new: light eyebrow/breadcrumb)
-  Title (existing H1 via Quarto)
-  [Result banner — existing, unchanged]
-[reveal] ## The problem
-[reveal] ## The finding (chart)
-[reveal] ## Decisions and tradeoffs
-[reveal] ## Measurement and limitations
-[reveal] ## How it works (code)
-[reveal] ## Code (repo link)
-```
-
-### About (`about.qmd`) — to build
-
-```
-[DARK HEADER — compact ~32vh]
-  Eyebrow: "About"
-  Title: "About Ashish"
-  Supporting line: one-sentence positioning
-  ↓ soft seam
-[LIGHT]
-  Existing `trestles` about template content (photo + bio + links)
-  Note: trestles template has its own layout assumptions — verify the
-  dark header seam doesn't visually collide with the template's own
-  photo/sidebar before shipping.
-```
-
-## Known content fix (found during audit, unrelated to visual design but worth fixing in the same pass)
-
-`about.qmd` already contains the real, specific numbers that the project pages' `[[TODO]]` placeholders were waiting on:
-- Trade promotion / OOS: **300,000 models, 2TB dataset, automated backtesting + hyperparameter tuning, $2.4M in avoided stockout/expiry losses** — this confirms the homepage/project-page headline numbers are real and traceable, contrary to the earlier caution flag.
-- Russia engagement: 50,000 models, 84% accuracy, **plus a Temporal Fusion Transformer for cross-learning adding +17% uplift** (not yet on the project page).
-- RAG marketing assistant: **took 2nd place** in Tiger Analytics' internal hackathon (project page currently says "top 4 teams" — should be corrected to 2nd place, which is a stronger and more specific claim).
-
-Recommend a follow-up content pass to pull these into the relevant project pages' TODO slots once the visual redesign ships — flagging here so it doesn't get lost.
-
-## Decisions (confirmed)
-
-- Individual project pages stay fully light, no dark band — light breadcrumb only. Confirmed.
-- Navbar stays always-light, no scroll-triggered transparency. Confirmed.
-- Content accuracy fixes (2nd place not top-4, TFT +17% uplift, $2.4M/300k confirmed via about.qmd) ship in the same pass as the visual work. Confirmed.
-
-## Implementation order (proposed)
-
-1. Extract the dark-header pattern into a reusable partial (`_dark-header.html` via Quarto include, or a documented copy-paste block) so Projects listing and About don't duplicate hand-written HTML three times.
-2. Projects listing dark header + `.reveal` on each row.
-3. About page dark header (verify `trestles` template compatibility first — flagged above as a risk).
-4. Individual project pages: light breadcrumb/eyebrow + `.reveal` per section.
-5. Cross-page QA: click through every nav path, confirm no dark-on-dark or light-on-light contrast failures, confirm animations don't double-fire on back/forward navigation.
+- **Render verification**: this port was built and statically validated (YAML front matter, Python chunk syntax, SCSS brace-balance, JS id/class cross-references) in an environment without network access to install the Quarto CLI. Run `quarto render` locally before merging to confirm no Pandoc/Quarto-specific build errors and to eyeball the rendered output.
+- Homepage project cards intentionally drop thumbnail images per the Bold mockup (text + gradient only) — confirm this reads well against the previous image-forward cards, or restore thumbnails with a dark treatment if the recruiter-facing test says otherwise.
+- `docs/design/*.html` mockups can be deleted or kept as a historical reference now that the direction has shipped — not deleted in this pass in case of rollback.

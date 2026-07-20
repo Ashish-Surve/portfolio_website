@@ -1,31 +1,21 @@
 ---
 title: "About"
 pagetitle: "About — Ashish Surve"
-image: assets/profile.png
 toc: false
-about:
-  id: about-content
-  template: trestles
-  image: assets/profile.png
-  links:
-    - icon: github
-      text: GitHub
-      href: https://github.com/Ashish-Surve
-    - icon: linkedin
-      text: LinkedIn
-      href: https://www.linkedin.com/in/ashish-surve
-    - icon: envelope
-      text: Email
-      href: "mailto:surve.ashish@outlook.com"
-    - icon: file-earmark-pdf
-      text: Résumé
-      href: resume.pdf
+title-block-style: none
 ---
+
+<!-- Dropped the `trestles` about-template for the Bold dark redesign: it
+     brings its own photo/sidebar layout assumptions that collide with the
+     dark page-header + timeline pattern below (flagged as a risk in
+     DESIGN.md before this port). Plain markup instead. -->
 
 ```{=html}
 <section class="page-header">
+  <div class="page-header-mesh m1"></div>
+  <div class="page-header-mesh m2"></div>
   <p class="page-header-eyebrow">About</p>
-  <h1 class="page-header-title">About Ashish</h1>
+  <h1 class="page-header-title">Modeling choices that<br><span class="grad-text">change decisions.</span></h1>
   <p class="page-header-sub">
     Product-focused data scientist who likes problems where the modeling
     choice changes a business decision — and work that survives contact
@@ -34,18 +24,67 @@ about:
 </section>
 ```
 
-::: {#about-content}
-
-I'm a product-focused data scientist with 6+ years building and shipping ML systems across CPG, retail, and real estate. I like problems where the modeling choice changes a business decision — and I care about work that survives contact with production.
-
-I'm currently a Senior Data Scientist (Team Lead) at Globant, leading the data science and engineering effort on a payroll fraud detection platform for a Big 4 client. I architected the end-to-end, cloud-agnostic ML and data pipelines that made the system SaaS-ready, cutting development time for new clients by 40%, and built a configurable, multi-algorithm anomaly detection platform that plugs into client front-end/back-end stacks with minimal manual intervention. The stack spans Azure ML, Synapse, Prefect, Docker, Azure Functions, and AWS SageMaker, chosen specifically so the pipelines stay portable across cloud vendors.
-
-Before that, I spent three years at Tiger Analytics as a Data Scientist (Project Lead), where most of the numbers on this site's project pages come from. I designed and productionized a PySpark-based demand forecasting accelerator on Databricks (0.94 parallelization factor, used across 20+ projects) that took model development from weeks to days. On out-of-stock prevention for a major US retailer, I led a solution that trained 300,000 models over a 2TB dataset with automated backtesting and hyperparameter tuning, avoiding $2.4M in stockout and expiry losses. A parallel engagement in Russia trained 50,000 models to 84% accuracy on high-quality segments, and a Temporal Fusion Transformer for cross-learning added a further 17% uplift over the previous best models. I also co-built a time-series anomaly detection accelerator with automated root-cause analysis, a trade-promotion optimization tool for a UK client, and prototyped an LLM + RAG marketing assistant that took 2nd place in Tiger Analytics' internal hackathon.
-
-Earlier roles: Data Scientist & Developer at vCreaTek (real-estate decision support systems, API gateway productionization), a Software Engineer Apprenticeship at Persistent Systems (led an 8-person team building a COVID-19 pedestrian-detection pipeline in one month), and an AI internship at IoTIoT.in (face-recognition pipeline, MTCNN + FaceNet). I hold a B.E. in Computer Science from Dr. D. Y. Patil Institute of Technology (SPPU, Pune), First Class with Distinction.
+::: {.reveal style="max-width:720px;margin:0 auto 4rem;color:var(--fg-muted);"}
+I'm a data scientist with **6+ years** building and shipping ML systems across CPG, retail, and real estate. I like problems where the modeling choice changes a business decision — and I care about work that survives contact with production. Most of the numbers on this site come from work I led end to end — framing, distributed feature engineering, modeling, deployment, and monitoring.
 
 Tools I reach for: Python, SQL, PySpark, Databricks, Spark, Dask, scikit-learn, PyTorch, TensorFlow, FastAPI, Streamlit, RAG/vector stores, and OpenAI/Hugging Face for LLM work.
-
-The fastest way to see how I think is the [projects](projects/index.qmd) page — those go deep on the Tiger Analytics work above. Code lives on [GitHub](https://github.com/Ashish-Surve); reach me at [surve.ashish@outlook.com](mailto:surve.ashish@outlook.com).
-
 :::
+
+```{=html}
+<div class="bold-timeline" id="bold-timeline">
+  <div class="tl-line"><div class="fill" id="tlFill"></div></div>
+
+  <div class="tl-item reveal">
+    <p class="tl-date">2023 — present</p>
+    <p class="tl-role">Senior Data Scientist · Team Lead</p>
+    <p class="tl-org">Globant — payroll fraud detection, Big 4 client</p>
+    <p class="tl-desc">Architected the end-to-end, <strong>cloud-agnostic ML and data pipelines</strong> that made the system SaaS-ready, cutting development time for new clients by <strong>40%</strong>, and built a configurable, multi-algorithm anomaly detection platform that plugs into client front-end/back-end stacks with minimal manual intervention. Stack spans Azure ML, Synapse, Prefect, Docker, Azure Functions, and AWS SageMaker, chosen so the pipelines stay portable across cloud vendors.</p>
+  </div>
+
+  <div class="tl-item reveal">
+    <p class="tl-date">2020 — 2023</p>
+    <p class="tl-role">Data Scientist · Project Lead</p>
+    <p class="tl-org">Tiger Analytics</p>
+    <p class="tl-desc">Designed and productionized a PySpark-based demand forecasting accelerator on Databricks (<strong>0.94 parallelization factor</strong>, used across 20+ projects) that took model development from weeks to days. Led out-of-stock prevention for a major US retailer: <strong>300,000 models over a 2TB dataset</strong> with automated backtesting and hyperparameter tuning, avoiding <strong>$2.4M</strong> in stockout and expiry losses. A parallel Russia engagement trained 50,000 models to 84% accuracy, with a Temporal Fusion Transformer for cross-learning adding a further <strong>+17% uplift</strong>. Also co-built a time-series anomaly-detection accelerator with automated root-cause analysis, a trade-promotion optimization tool for a UK client, and prototyped an LLM + RAG marketing assistant that took <strong>2nd place</strong> in Tiger Analytics' internal hackathon.</p>
+  </div>
+
+  <div class="tl-item reveal">
+    <p class="tl-date">2019 — 2020</p>
+    <p class="tl-role">Data Scientist &amp; Developer</p>
+    <p class="tl-org">vCreaTek</p>
+    <p class="tl-desc">Real-estate decision support systems; productionized the API gateway.</p>
+  </div>
+
+  <div class="tl-item reveal">
+    <p class="tl-date">Earlier</p>
+    <p class="tl-role">Apprenticeship &amp; internship</p>
+    <p class="tl-org">Persistent Systems · IoTIoT.in</p>
+    <p class="tl-desc">Software Engineer Apprenticeship at Persistent Systems, leading an 8-person team building a COVID-19 pedestrian-detection pipeline in one month; AI internship at IoTIoT.in on a face-recognition pipeline (MTCNN + FaceNet). B.E. Computer Science, Dr. D. Y. Patil Institute of Technology (SPPU, Pune), First Class with Distinction.</p>
+  </div>
+</div>
+```
+
+::: {.reveal}
+```{=html}
+<div class="bold-marquee" aria-hidden="true" style="max-width:720px;margin-left:auto;margin-right:auto;">
+  <div class="bold-marquee-track">
+    <span><b>Python</b> · SQL · <b>PySpark</b> · Databricks · <b>PyTorch</b> · TensorFlow · scikit-learn · <b>Azure ML</b> · SageMaker · Synapse · Prefect · Docker · <b>FastAPI</b> · RAG · vector stores · LLM agents · Dask · Streamlit&nbsp;·&nbsp;</span>
+    <span><b>Python</b> · SQL · <b>PySpark</b> · Databricks · <b>PyTorch</b> · TensorFlow · scikit-learn · <b>Azure ML</b> · SageMaker · Synapse · Prefect · Docker · <b>FastAPI</b> · RAG · vector stores · LLM agents · Dask · Streamlit&nbsp;·&nbsp;</span>
+  </div>
+</div>
+```
+:::
+
+```{=html}
+<div class="bold-contact reveal" style="padding-top:0;">
+  <h2 class="sec-title" style="font-size:clamp(1.8rem,3.6vw,2.6rem);">The fastest way to see how I think</h2>
+  <p style="color:var(--fg-muted);max-width:640px;margin:0 auto 2rem;">The projects page goes deep on the work above — the problem, the modeling choices, and what changed.</p>
+  <div class="bold-contact-row">
+    <a class="btn-bold primary magnetic" href="projects/index.html">View projects <span class="arrow">→</span></a>
+    <a class="btn-bold ghost magnetic" href="mailto:surve.ashish@outlook.com">surve.ashish@outlook.com</a>
+    <a class="btn-bold ghost magnetic" href="https://github.com/Ashish-Surve">GitHub</a>
+    <a class="btn-bold ghost magnetic" href="https://www.linkedin.com/in/ashish-surve">LinkedIn</a>
+    <a class="btn-bold ghost magnetic" href="resume.pdf">Résumé (PDF)</a>
+  </div>
+</div>
+```

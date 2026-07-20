@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Trade-promotion forecasting — Ashish Surve · Project mockup</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#07080c; --bg-raised:#0e1016; --fg:#f4f5f7; --fg-muted:#9aa3b2; --fg-dim:#5c6474;
+    --a1:#6366f1; --a2:#22d3ee; --grad:linear-gradient(100deg,var(--a1),var(--a2));
+    --border:rgba(255,255,255,.08); --border-hi:rgba(255,255,255,.16);
+    --ease:cubic-bezier(.22,1,.36,1);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--bg);color:var(--fg);font-family:Inter,system-ui,sans-serif;font-size:17.5px;line-height:1.75;overflow-x:hidden}
+  ::selection{background:rgba(99,102,241,.4)}
+  a{color:var(--a2);text-decoration:none}
+  a:hover{text-decoration:underline}
+
+  /* reading progress */
+  #progress{position:fixed;top:0;left:0;height:3px;width:0;background:var(--grad);z-index:60}
+
+  nav{position:fixed;inset:0 0 auto 0;z-index:50;display:flex;justify-content:space-between;align-items:center;
+      padding:18px 40px;backdrop-filter:blur(14px);background:rgba(7,8,12,.55);border-bottom:1px solid var(--border)}
+  .nav-logo{font-weight:800;font-size:1.05rem;letter-spacing:-.02em;color:var(--fg)}
+  .nav-logo em{font-style:normal;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .nav-links{display:flex;gap:30px;align-items:center;font-size:.92rem;font-weight:600}
+  .nav-links a{color:var(--fg-muted)}
+  .nav-links a:hover{color:var(--fg);text-decoration:none}
+  .nav-cta{padding:9px 18px;border-radius:999px;background:var(--grad);color:#fff!important;font-weight:700;font-size:.88rem}
+
+  header{padding:160px 40px 40px}
+  .wrap{max-width:760px;margin:0 auto}
+  .crumb{font-size:.85rem;font-weight:600;color:var(--fg-muted);display:flex;gap:14px;align-items:center;margin-bottom:26px}
+  .crumb a{color:var(--fg-muted)} .crumb a:hover{color:var(--fg);text-decoration:none}
+  .tags{display:flex;gap:8px}
+  .tag{font-size:.7rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--a2);
+    border:1px solid rgba(34,211,238,.25);border-radius:999px;padding:3px 11px}
+  h1{font-size:clamp(2.1rem,4.6vw,3.3rem);font-weight:900;letter-spacing:-.035em;line-height:1.1;margin-bottom:26px}
+  .stagger>*{opacity:0;transform:translateY(20px);animation:up .8s var(--ease) forwards}
+  .stagger>*:nth-child(1){animation-delay:.05s}.stagger>*:nth-child(2){animation-delay:.15s}.stagger>*:nth-child(3){animation-delay:.25s}
+  @keyframes up{to{opacity:1;transform:none}}
+
+  .result-banner{border:1px solid var(--border-hi);border-left:3px solid;border-image:linear-gradient(var(--a1),var(--a2)) 1;
+    background:linear-gradient(100deg,rgba(99,102,241,.1),rgba(34,211,238,.06));border-radius:0 14px 14px 0;
+    padding:22px 26px;font-size:1.05rem;margin-bottom:8px}
+  .result-banner b{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+
+  .stats-inline{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);
+    border:1px solid var(--border);border-radius:14px;overflow:hidden;margin:34px 0 8px}
+  .si{background:var(--bg-raised);padding:20px 22px}
+  .si .num{font-size:1.6rem;font-weight:800;letter-spacing:-.03em;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .si .lbl{font-size:.8rem;color:var(--fg-muted)}
+
+  main{padding:30px 40px 110px}
+  section{margin-top:64px}
+  h2{font-size:1.55rem;font-weight:800;letter-spacing:-.02em;margin-bottom:18px;display:flex;align-items:baseline;gap:14px}
+  h2 .idx{font-family:'JetBrains Mono',monospace;font-size:.85rem;font-weight:600;color:var(--a2)}
+  p{color:var(--fg-muted);margin-bottom:16px}
+  p strong,li strong{color:var(--fg);font-weight:600}
+  ul{color:var(--fg-muted);padding-left:22px;margin-bottom:16px}
+  li{margin-bottom:8px}
+
+  .chart{border:1px solid var(--border);border-radius:16px;background:var(--bg-raised);padding:28px;margin:26px 0}
+  .chart-title{font-size:.85rem;font-weight:700;color:var(--fg);margin-bottom:18px}
+  .bars{display:flex;flex-direction:column;gap:14px}
+  .bar-row{display:grid;grid-template-columns:150px 1fr 60px;align-items:center;gap:14px;font-size:.85rem}
+  .bar-row .lbl{color:var(--fg-muted);text-align:right}
+  .bar-row .val{font-family:'JetBrains Mono',monospace;color:var(--fg)}
+  .bar-track{height:12px;background:rgba(255,255,255,.05);border-radius:6px;overflow:hidden}
+  .bar-fill{height:100%;width:0;border-radius:6px;background:var(--grad);transition:width 1.2s var(--ease)}
+  .bar-fill.base{background:rgba(255,255,255,.22)}
+  .chart-note{font-size:.78rem;color:var(--fg-dim);margin-top:16px;margin-bottom:0}
+
+  pre{background:#0a0c12;border:1px solid var(--border);border-radius:14px;padding:22px 24px;overflow-x:auto;
+    font-family:'JetBrains Mono',monospace;font-size:.82rem;line-height:1.6;color:#c9d1e3;margin:22px 0}
+  pre .k{color:#a5b4fc}pre .s{color:#67e8f9}pre .c{color:#5c6474}
+
+  .next{margin-top:90px;border:1px solid var(--border);border-radius:18px;padding:34px 36px;display:flex;
+    justify-content:space-between;align-items:center;gap:20px;background:var(--bg-raised);transition:border-color .25s,transform .25s var(--ease)}
+  .next:hover{border-color:var(--border-hi);transform:translateY(-3px);text-decoration:none}
+  .next .lbl{font-size:.78rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--a2);margin-bottom:6px}
+  .next .t{font-size:1.25rem;font-weight:800;color:var(--fg);letter-spacing:-.02em}
+  .next .arrow{font-size:1.6rem;color:var(--a2);transition:transform .2s var(--ease)}
+  .next:hover .arrow{transform:translateX(6px)}
+
+  footer{border-top:1px solid var(--border);padding:30px 40px;display:flex;justify-content:space-between;color:var(--fg-dim);font-size:.85rem;font-family:'JetBrains Mono',monospace}
+
+  .reveal{opacity:0;transform:translateY(26px);transition:opacity .7s var(--ease),transform .7s var(--ease)}
+  .reveal.vis{opacity:1;transform:none}
+
+  @media(max-width:700px){
+    nav{padding:16px 22px}header{padding:130px 22px 30px}main{padding:20px 22px 90px}
+    .stats-inline{grid-template-columns:1fr}
+    .bar-row{grid-template-columns:100px 1fr 52px}
+    .nav-links a:not(.nav-cta){display:none}
+  }
+  @media(prefers-reduced-motion:reduce){
+    *,*::before,*::after{animation:none!important;transition:none!important}
+    .stagger>*,.reveal{opacity:1;transform:none}
+    .bar-fill{width:var(--w)!important}
+  }
+</style>
+</head>
+<body>
+<div id="progress"></div>
+
+<nav>
+  <a class="nav-logo" href="home.html">ashish<em>.surve</em></a>
+  <div class="nav-links">
+    <a href="projects.html">Projects</a>
+    <a href="about.html">About</a>
+    <a class="nav-cta" href="mailto:surve.ashish@outlook.com">Get in touch</a>
+  </div>
+</nav>
+
+<header>
+  <div class="wrap stagger">
+    <div class="crumb">
+      <a href="projects.html">← All projects</a>
+      <div class="tags"><span class="tag">Forecasting</span><span class="tag">CPG</span><span class="tag">PySpark</span></div>
+    </div>
+    <h1>Trade-promotion forecasting at retail scale</h1>
+    <div class="result-banner">
+      <b>Result:</b> 300,000 forecasting models trained over a 2TB dataset with automated backtesting and
+      hyperparameter tuning — avoiding <b>$2.4M</b> in stockout and expiry losses for a major US retailer.
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="wrap">
+
+    <div class="stats-inline reveal">
+      <div class="si"><div class="num"><span class="count" data-to="300" data-suffix="k">0</span></div><div class="lbl">models trained</div></div>
+      <div class="si"><div class="num">$<span class="count" data-to="2.4" data-dec="1" data-suffix="M">0</span></div><div class="lbl">losses avoided</div></div>
+      <div class="si"><div class="num"><span class="count" data-to="100" data-suffix="M+">0</span></div><div class="lbl">rows processed / day</div></div>
+    </div>
+
+    <section class="reveal">
+      <h2><span class="idx">01</span> The problem</h2>
+      <p>A major US retailer was losing millions annually to two opposite failure modes: <strong>stockouts</strong> during trade promotions (demand spikes the replenishment system didn't anticipate) and <strong>expiry losses</strong> when over-ordered perishable stock didn't sell through. Forecasting at the SKU × store level meant hundreds of thousands of individual demand series — far too many to model by hand, and too heterogeneous for one global model to serve well.</p>
+    </section>
+
+    <section class="reveal">
+      <h2><span class="idx">02</span> The finding</h2>
+      <p>Per-series models, tuned and backtested automatically, beat both the incumbent system and a single global model — but only once the training loop itself became the product. The chart below shows forecast error (WAPE, lower is better) across approaches:</p>
+      <div class="chart">
+        <p class="chart-title">Forecast error by approach (WAPE, illustrative)</p>
+        <div class="bars">
+          <div class="bar-row"><span class="lbl">Incumbent system</span><div class="bar-track"><div class="bar-fill base" style="--w:92%"></div></div><span class="val">32.1%</span></div>
+          <div class="bar-row"><span class="lbl">Single global model</span><div class="bar-track"><div class="bar-fill base" style="--w:74%"></div></div><span class="val">25.8%</span></div>
+          <div class="bar-row"><span class="lbl">Per-series, default HP</span><div class="bar-track"><div class="bar-fill" style="--w:58%"></div></div><span class="val">20.2%</span></div>
+          <div class="bar-row"><span class="lbl">Per-series + auto-tuning</span><div class="bar-track"><div class="bar-fill" style="--w:46%"></div></div><span class="val">16.1%</span></div>
+        </div>
+        <p class="chart-note">Mockup note: bar values are placeholders for the design — swap in the real backtest chart (SVG from Quarto) when porting.</p>
+      </div>
+    </section>
+
+    <section class="reveal">
+      <h2><span class="idx">03</span> Decisions &amp; tradeoffs</h2>
+      <ul>
+        <li><strong>Per-series over global:</strong> heterogeneous demand patterns (promo-driven spikes vs. steady staples) made a single model a poor compromise; per-series won on accuracy at the cost of orchestration complexity — which automation absorbed.</li>
+        <li><strong>PySpark on Databricks:</strong> the training loop hit a 0.94 parallelization factor, keeping 300k model fits inside a nightly window.</li>
+        <li><strong>Automated backtesting as a gate:</strong> no model shipped without beating its own rolling-origin backtest — accuracy claims stay traceable.</li>
+      </ul>
+    </section>
+
+    <section class="reveal">
+      <h2><span class="idx">04</span> How it works</h2>
+      <pre><code><span class="c"># Per-series training fan-out (simplified)</span>
+<span class="k">def</span> fit_one(series_key, df):
+    train, valid = rolling_origin_split(df)
+    best = tune(train, param_grid, folds=<span class="s">3</span>)
+    score = backtest(best, valid)
+    <span class="k">return</span> series_key, best, score
+
+results = (spark
+    .read.parquet(<span class="s">"s3://…/demand/"</span>)
+    .groupBy(<span class="s">"sku"</span>, <span class="s">"store"</span>)
+    .applyInPandas(fit_one, schema=RESULT_SCHEMA))</code></pre>
+    </section>
+
+    <section class="reveal">
+      <h2><span class="idx">05</span> Measurement &amp; limitations</h2>
+      <p>The $2.4M figure comes from the client's own before/after accounting of stockout and expiry losses on covered categories — not from model metrics alone. Limitations worth being honest about: coverage was strongest on high-volume SKUs; long-tail series fell back to hierarchical pooling, and promo cannibalization effects were only partially modeled.</p>
+    </section>
+
+    <a class="next reveal" href="projects.html">
+      <div><p class="lbl">Next project</p><p class="t">Time-series anomaly detection — cutting false positives 35%</p></div>
+      <span class="arrow">→</span>
+    </a>
+  </div>
+</main>
+
+<footer>
+  <span>© 2026 Ashish Surve</span>
+  <span>design mockup · project-detail.html</span>
+</footer>
+
+<script>
+const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* reading progress */
+const bar = document.getElementById('progress');
+addEventListener('scroll', () => {
+  const h = document.documentElement;
+  bar.style.width = (h.scrollTop / (h.scrollHeight - h.clientHeight) * 100) + '%';
+}, {passive:true});
+
+/* reveal + bar fills */
+const io = new IntersectionObserver(es => es.forEach(e => {
+  if (!e.isIntersecting) return;
+  e.target.classList.add('vis');
+  e.target.querySelectorAll('.bar-fill').forEach(f => f.style.width = f.style.getPropertyValue('--w'));
+  io.unobserve(e.target);
+}), {threshold:.15});
+document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+/* counters */
+const cio = new IntersectionObserver(es => es.forEach(e => {
+  if (!e.isIntersecting) return; cio.unobserve(e.target);
+  const el = e.target, to = +el.dataset.to, dec = +(el.dataset.dec||0), suf = el.dataset.suffix||'';
+  if (reduced){ el.textContent = to.toFixed(dec)+suf; return; }
+  const t0 = performance.now(), dur = 1300;
+  (function step(t){ const p = Math.min((t-t0)/dur,1), e2 = 1-Math.pow(1-p,3);
+    el.textContent = (to*e2).toFixed(dec)+suf;
+    if (p<1) requestAnimationFrame(step); })(t0);
+}), {threshold:.6});
+document.querySelectorAll('.count').forEach(el => cio.observe(el));
+</script>
+</body>
+</html>

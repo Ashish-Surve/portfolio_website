@@ -6,62 +6,98 @@ toc: false
 ---
 
 <!-- ============================================================= -->
-<!-- DARK HERO — the one visual departure on the site. Full-bleed, -->
-<!-- animated on load. Everything below reverts to the light theme. -->
-<!-- Swap assets/hero-photo.jpg for the real portrait.              -->
+<!-- BOLD HERO — dark-throughout direction (docs/design/home.html). -->
+<!-- Gradient mesh + particle canvas, magnetic CTAs, live counters. -->
 <!-- ============================================================= -->
 
 ```{=html}
-<section class="dark-hero">
-  <div class="dark-hero-text">
-    <p class="dark-hero-eyebrow">Data Scientist &amp; AI Engineer</p>
-    <h1 class="dark-hero-name">Ashish Surve</h1>
-    <p class="dark-hero-tagline">
-      I build and ship production ML systems — forecasting, anomaly detection,
-      and fraud detection at scale — for CPG, retail, and enterprise clients.
+<section class="bold-hero">
+  <canvas id="bold-particles"></canvas>
+  <div class="bold-hero-mesh m1"></div>
+  <div class="bold-hero-mesh m2"></div>
+  <div class="bold-hero-mesh m3"></div>
+  <div class="bold-hero-inner bh-stagger">
+    <span class="bold-hero-eyebrow"><span class="pulse"></span> Open to senior DS / ML roles</span>
+    <h1>I ship ML systems that<br><span class="grad-text">survive production.</span></h1>
+    <p class="bold-hero-tag">
+      Data Scientist &amp; AI Engineer — <strong>6+ years</strong> building forecasting,
+      anomaly detection, and GenAI systems at scale for CPG, retail, and enterprise clients.
     </p>
-    <div class="dark-hero-cta">
-      <a class="primary" href="projects/index.html">View projects</a>
-      <a class="secondary" href="resume.pdf">Résumé (PDF)</a>
-      <a class="secondary" href="mailto:surve.ashish@outlook.com">Get in touch</a>
+    <div class="bold-hero-cta">
+      <a class="btn-bold primary magnetic" href="projects/index.html">View projects <span class="arrow">→</span></a>
+      <a class="btn-bold ghost magnetic" href="resume.pdf">Résumé (PDF)</a>
+      <a class="btn-bold ghost magnetic" href="mailto:surve.ashish@outlook.com">Get in touch</a>
     </div>
   </div>
-  <div class="dark-hero-photo-wrap">
-    <img src="assets/hero-photo.jpg" alt="Ashish Surve">
-  </div>
-  <div class="dark-hero-scroll-cue"><span class="dot"></span> Scroll</div>
+  <div class="bold-scroll-cue">Scroll<span class="line"></span></div>
 </section>
 ```
 
 <!-- ============================================================= -->
-<!-- PROJECT CARDS — ~70% of the page. Three, best first.          -->
-<!-- Each card: thumbnail, one-line RESULT, one-line context.       -->
+<!-- STATS BAND — live counters, real numbers traceable to about.qmd -->
 <!-- ============================================================= -->
 
 ::: {.reveal}
 ```{=html}
-<div class="project-cards">
-  <a class="project-card" href="projects/trade-promotion-forecasting/index.html">
-    <img src="assets/thumbs/project-1.png" alt="Trade-promotion forecasting at scale">
-    <div class="pc-body">
-      <p class="pc-result">Trained 300,000+ forecasting models to deliver $2.4M in client savings</p>
-      <p class="pc-sub">CPG trade-promotion optimization · 100M+ rows/day</p>
-    </div>
-  </a>
-  <a class="project-card" href="projects/timeseries-anomaly-detection/index.html">
-    <img src="assets/thumbs/project-2.png" alt="Time-series anomaly detection">
-    <div class="pc-body">
-      <p class="pc-result">Cut anomaly-detection false positives by 35%</p>
-      <p class="pc-sub">Multivariate time series · PyOD / deep models</p>
-    </div>
-  </a>
-  <a class="project-card" href="projects/rag-nl2sql/index.html">
-    <img src="assets/thumbs/project-3.png" alt="RAG-powered marketing assistant">
-    <div class="pc-body">
-      <p class="pc-result">Built a RAG marketing assistant — 2nd place in an internal hackathon</p>
-      <p class="pc-sub">LLM agent · retrieval + structured-data Q&amp;A</p>
-    </div>
-  </a>
+<div class="bold-stats">
+  <div class="bold-stats-grid">
+    <div class="bold-stat"><div class="num"><span class="count" data-to="300" data-suffix="k+">0</span></div><div class="lbl">forecasting models trained</div></div>
+    <div class="bold-stat"><div class="num">$<span class="count" data-to="2.4" data-dec="1" data-suffix="M">0</span></div><div class="lbl">client losses avoided</div></div>
+    <div class="bold-stat"><div class="num"><span class="count" data-to="35" data-suffix="%">0</span></div><div class="lbl">fewer false positives</div></div>
+    <div class="bold-stat"><div class="num"><span class="count" data-to="6" data-suffix="+">0</span></div><div class="lbl">years shipping ML</div></div>
+  </div>
+</div>
+```
+:::
+
+<!-- ============================================================= -->
+<!-- PROJECT CARDS — 3D tilt, gradient glare, best first.          -->
+<!-- ============================================================= -->
+
+::: {.reveal}
+```{=html}
+<div style="max-width:1100px;margin:6rem auto 0;padding:0 clamp(1.5rem,5vw,5rem);">
+  <p class="sec-eyebrow">Selected work</p>
+  <h2 class="sec-title">Three projects,<br>deep rather than wide.</h2>
+  <p style="color:var(--fg-muted);max-width:560px;margin-bottom:2.5rem;">Each one goes end to end — framing, distributed feature engineering, modeling, deployment, and what actually happened after launch.</p>
+  <div class="project-cards">
+    <a class="project-card tilt" href="projects/trade-promotion-forecasting/index.html">
+      <div class="glare"></div>
+      <div class="pc-body">
+        <p class="pc-result">Trained <span class="grad-text">300,000+ models</span> to deliver $2.4M in client savings</p>
+        <p class="pc-sub">CPG trade-promotion optimization · 100M+ rows/day</p>
+      </div>
+    </a>
+    <a class="project-card tilt" href="projects/timeseries-anomaly-detection/index.html">
+      <div class="glare"></div>
+      <div class="pc-body">
+        <p class="pc-result">Cut anomaly-detection <span class="grad-text">false positives by 35%</span></p>
+        <p class="pc-sub">Multivariate time series · PyOD / deep models</p>
+      </div>
+    </a>
+    <a class="project-card tilt" href="projects/rag-nl2sql/index.html">
+      <div class="glare"></div>
+      <div class="pc-body">
+        <p class="pc-result">RAG marketing assistant — <span class="grad-text">2nd place</span>, internal hackathon</p>
+        <p class="pc-sub">LLM agent · retrieval + structured-data Q&amp;A</p>
+      </div>
+    </a>
+  </div>
+</div>
+```
+:::
+
+<!-- ============================================================= -->
+<!-- SKILL MARQUEE                                                  -->
+<!-- ============================================================= -->
+
+::: {.reveal}
+```{=html}
+<div class="bold-marquee" aria-hidden="true" style="max-width:1100px;margin-left:auto;margin-right:auto;">
+  <div class="bold-marquee-track">
+    <span><b>Python</b> · SQL · <b>PySpark</b> · Databricks · <b>PyTorch</b> · TensorFlow · scikit-learn · <b>Azure ML</b> · SageMaker · Synapse · Prefect · Docker · <b>FastAPI</b> · RAG · vector stores · LLM agents · Dask · Streamlit&nbsp;·&nbsp;</span>
+    <span><b>Python</b> · SQL · <b>PySpark</b> · Databricks · <b>PyTorch</b> · TensorFlow · scikit-learn · <b>Azure ML</b> · SageMaker · Synapse · Prefect · Docker · <b>FastAPI</b> · RAG · vector stores · LLM agents · Dask · Streamlit&nbsp;·&nbsp;</span>
+  </div>
 </div>
 ```
 :::
@@ -71,11 +107,11 @@ toc: false
 <!-- ============================================================= -->
 
 ::: {.reveal}
-::: {.bio-row}
+::: {.bio-row style="max-width:1100px;margin-left:auto;margin-right:auto;padding:2rem clamp(1.5rem,5vw,5rem);"}
 ![](assets/profile.png){alt="Ashish Surve"}
 
 <div>
-Product-focused data scientist with 6+ years shipping ML systems across CPG, retail, and real estate.
+Product-focused data scientist with <strong>6+ years</strong> shipping ML systems across CPG, retail, and real estate.
 Currently a Senior Data Scientist (Team Lead) at Globant, leading a payroll fraud detection platform for a Big 4 client. Previously at Tiger Analytics, where I trained 300k+ forecasting models and shipped anomaly detection and RAG systems.
 I own problems end to end, from framing and distributed feature engineering to deployment and monitoring.
 </div>
@@ -83,17 +119,21 @@ I own problems end to end, from framing and distributed feature engineering to d
 :::
 
 <!-- ============================================================= -->
-<!-- CONTACT LINKS                                                  -->
+<!-- CONTACT                                                        -->
 <!-- ============================================================= -->
 
-::: {.reveal}
-::: {.contact-links}
-[GitHub](https://github.com/Ashish-Surve) ·
-[LinkedIn](https://www.linkedin.com/in/ashish-surve) ·
-[Email](mailto:surve.ashish@outlook.com) ·
-[Résumé (PDF)](resume.pdf)
-:::
-:::
+```{=html}
+<section class="bold-contact reveal">
+  <p class="sec-eyebrow">Contact</p>
+  <h2 class="sec-title">Let's build something<br><span class="grad-text">that ships.</span></h2>
+  <div class="bold-contact-row">
+    <a class="btn-bold primary magnetic" href="mailto:surve.ashish@outlook.com">surve.ashish@outlook.com</a>
+    <a class="btn-bold ghost magnetic" href="https://github.com/Ashish-Surve">GitHub</a>
+    <a class="btn-bold ghost magnetic" href="https://www.linkedin.com/in/ashish-surve">LinkedIn</a>
+    <a class="btn-bold ghost magnetic" href="resume.pdf">Résumé (PDF)</a>
+  </div>
+</section>
+```
 
 <!-- OPTIONAL: latest 3 posts, small, at the very bottom.          -->
 <!-- Uncomment once /blog is live (3 posts).                        -->
