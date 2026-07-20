@@ -8,6 +8,7 @@ categories: ["GenAI", "RAG", "LLM"]
 ---
 
 ```{=html}
+<div id="reading-progress"></div>
 <div class="project-breadcrumb">
   <a href="../index.html">&larr; All projects</a>
   <span class="tag">GenAI</span>
@@ -25,8 +26,18 @@ categories: ["GenAI", "RAG", "LLM"]
 
 ::: {.reveal}
 ::: {.result-banner}
-Built a marketing assistant — an LLM agent with retrieval-augmented Q&A over structured business data — to help a CMO plan marketing activities without waiting on an analyst. Took 2nd place in Tiger Analytics' internal hackathon.
+**Result:** Built a marketing assistant — an LLM agent with retrieval-augmented Q&A over structured business data — to help a CMO plan marketing activities without waiting on an analyst. Took 2nd place in Tiger Analytics' internal hackathon.
 :::
+:::
+
+::: {.reveal}
+```{=html}
+<div class="stats-inline">
+  <div class="si"><div class="num">2nd</div><div class="lbl">place, hackathon</div></div>
+  <div class="si"><div class="num" style="font-size:1.15rem;">RAG + SQL</div><div class="lbl">hybrid retrieval</div></div>
+  <div class="si"><div class="num" style="font-size:1.15rem;">Days</div><div class="lbl">prototype to demo</div></div>
+</div>
+```
 :::
 
 ::: {.reveal}
@@ -48,17 +59,23 @@ cats = ["lookup", "aggregation", "multi-table", "temporal"]
 before = np.array([0.71, 0.52, 0.38, 0.44])
 after  = np.array([0.94, 0.86, 0.72, 0.79])
 x = np.arange(len(cats)); w = 0.38
+
+BG, FG, MUTED, GRID = "#0e1016", "#f4f5f7", "#9aa3b2", "#22262f"
+A1, A2 = "#6366f1", "#22d3ee"
+
 fig, ax = plt.subplots(figsize=(8, 4.2))
-ax.bar(x - w/2, before, w, color="#c0c4cc", label="baseline LLM")
-ax.bar(x + w/2, after,  w, color="#2563eb", label="RAG + structured QA")
-ax.set_xticks(x); ax.set_xticklabels(cats)
-ax.set_ylabel("answer accuracy"); ax.set_ylim(0, 1)
-ax.legend(frameon=False)
+fig.patch.set_facecolor(BG); ax.set_facecolor(BG)
+ax.bar(x - w/2, before, w, color=GRID, label="baseline LLM")
+ax.bar(x + w/2, after,  w, color=A1, label="RAG + structured QA")
+ax.set_xticks(x); ax.set_xticklabels(cats, color=MUTED)
+ax.set_ylabel("answer accuracy", color=MUTED); ax.set_ylim(0, 1)
+ax.tick_params(colors=MUTED)
+ax.legend(frameon=False, labelcolor=FG)
 for s in ["top", "right"]: ax.spines[s].set_visible(False)
-ax.spines["left"].set_color("#d5d5df"); ax.spines["bottom"].set_color("#d5d5df")
-ax.grid(axis="y", color="#eef0f4", lw=1)
+ax.spines["left"].set_color(GRID); ax.spines["bottom"].set_color(GRID)
+ax.grid(axis="y", color=GRID, lw=1)
 plt.tight_layout()
-fig.savefig("hero.png", dpi=120, bbox_inches="tight", facecolor="white")
+fig.savefig("hero.png", dpi=120, bbox_inches="tight", facecolor=BG)
 plt.show()
 ```
 
@@ -76,7 +93,7 @@ Embed the running app here once deployed:
 
 ```{=html}
 <iframe src="https://YOUR-APP.streamlit.app/?embed=true"
-        style="width:100%; height:640px; border:1px solid #e6e6ec; border-radius:10px;"
+        style="width:100%; height:640px; border:1px solid var(--border); border-radius:10px; background:var(--bg-raised);"
         loading="lazy"></iframe>
 ```
 Delete this note and uncomment the iframe when the Space/App is live.
@@ -116,3 +133,10 @@ def answer(question: str) -> str:
 
 [[TODO: repo link — e.g. **[github.com/Ashish-Surve/…](https://github.com/Ashish-Surve)**]].
 :::
+
+```{=html}
+<a class="next-project reveal" href="../trade-promotion-forecasting/index.html">
+  <div><p class="lbl">Back to the start</p><p class="t">Trade-promotion forecasting at retail scale</p></div>
+  <span class="arrow">→</span>
+</a>
+```

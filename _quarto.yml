@@ -19,7 +19,8 @@ website:
   page-navigation: false
 
   navbar:
-    background: light
+    background: "#07080c"
+    foreground: "#f4f5f7"
     pinned: true
     left:
       - text: "Projects"
@@ -36,6 +37,8 @@ website:
 
   # Footer keeps the contact links one click away on every page.
   page-footer:
+    background: "#07080c"
+    foreground: "#5c6474"
     left: "© 2026 Ashish Surve"
     right:
       - icon: github
@@ -50,14 +53,16 @@ format:
     theme:
       - cosmo
       - styles.scss
+    include-in-header:
+      - assets/fonts.html
     include-after-body:
       - assets/reveal.html
     toc: false
     code-fold: true          # global default — project pages inherit this
     code-tools: false
     code-copy: true
-    highlight-style: github
-    linkcolor: "#2563eb"
+    highlight-style: github-dark
+    linkcolor: "#22d3ee"
     fig-width: 8
     fig-height: 4.5
     fig-format: svg          # crisp charts, small files, no rasterization

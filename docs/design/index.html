@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Design mockups — Portfolio redesign</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#07080c; --bg-raised:#0e1016; --fg:#f4f5f7; --fg-muted:#9aa3b2; --fg-dim:#5c6474;
+    --a1:#6366f1; --a2:#22d3ee; --grad:linear-gradient(100deg,var(--a1),var(--a2));
+    --border:rgba(255,255,255,.08); --border-hi:rgba(255,255,255,.16);
+    --ease:cubic-bezier(.22,1,.36,1);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--bg);color:var(--fg);font-family:Inter,system-ui,sans-serif;font-size:17px;line-height:1.6;
+    min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:80px 30px}
+  a{text-decoration:none;color:inherit}
+  .eyebrow{font-family:'JetBrains Mono',monospace;font-size:.8rem;color:var(--a2);letter-spacing:.14em;text-transform:uppercase;margin-bottom:16px}
+  h1{font-size:clamp(2.2rem,5vw,3.4rem);font-weight:900;letter-spacing:-.04em;line-height:1.08;text-align:center;margin-bottom:14px}
+  h1 .grad{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .sub{color:var(--fg-muted);text-align:center;max-width:520px;margin-bottom:56px}
+  .grid{display:grid;grid-template-columns:repeat(2,minmax(260px,340px));gap:20px}
+  .tile{background:var(--bg-raised);border:1px solid var(--border);border-radius:18px;padding:28px;
+    transition:border-color .25s,transform .25s var(--ease),box-shadow .3s;position:relative;overflow:hidden}
+  .tile:hover{border-color:var(--border-hi);transform:translateY(-4px);box-shadow:0 24px 50px -20px rgba(0,0,0,.8)}
+  .tile::after{content:"→";position:absolute;top:24px;right:26px;color:var(--a2);font-size:1.2rem;
+    transition:transform .2s var(--ease)}
+  .tile:hover::after{transform:translateX(4px)}
+  .tile .num{font-family:'JetBrains Mono',monospace;font-size:.78rem;color:var(--fg-dim);margin-bottom:14px}
+  .tile h2{font-size:1.2rem;font-weight:800;letter-spacing:-.02em;margin-bottom:8px}
+  .tile p{font-size:.88rem;color:var(--fg-muted)}
+  .note{margin-top:52px;font-size:.82rem;color:var(--fg-dim);text-align:center;max-width:560px}
+  .note a{color:var(--a2)}
+  .stagger>*{opacity:0;transform:translateY(20px);animation:up .7s var(--ease) forwards}
+  .stagger>*:nth-child(1){animation-delay:.05s}.stagger>*:nth-child(2){animation-delay:.13s}
+  .stagger>*:nth-child(3){animation-delay:.21s}.stagger>*:nth-child(4){animation-delay:.29s}
+  @keyframes up{to{opacity:1;transform:none}}
+  @media(max-width:640px){.grid{grid-template-columns:1fr}}
+  @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.stagger>*{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+  <p class="eyebrow">docs/design · bold direction</p>
+  <h1>Portfolio redesign<br><span class="grad">interactive mockups</span></h1>
+  <p class="sub">Click through each page. Everything is self-contained HTML — open in any browser, no build step.</p>
+
+  <div class="grid stagger">
+    <a class="tile" href="home.html">
+      <p class="num">01</p>
+      <h2>Homepage</h2>
+      <p>Particle + gradient-mesh hero, magnetic CTAs, live stat counters, 3D-tilt project cards, skill marquee.</p>
+    </a>
+    <a class="tile" href="projects.html">
+      <p class="num">02</p>
+      <h2>Projects listing</h2>
+      <p>Alternating rows with metric highlights, staggered scroll reveals, hover lifts.</p>
+    </a>
+    <a class="tile" href="project-detail.html">
+      <p class="num">03</p>
+      <h2>Project detail</h2>
+      <p>Reading progress bar, animated stat band, scroll-filling result chart, numbered sections.</p>
+    </a>
+    <a class="tile" href="about.html">
+      <p class="num">04</p>
+      <h2>About</h2>
+      <p>Career timeline with a scroll-drawn gradient line, glowing milestone dots, skill marquee.</p>
+    </a>
+  </div>
+
+  <p class="note">Design tokens, motion vocabulary, and porting notes are in <a href="README.md">README.md</a>. All numbers shown are real and sourced from the résumé / about page.</p>
+</body>
+</html>

@@ -8,6 +8,7 @@ categories: ["forecasting", "time series", "scale"]
 ---
 
 ```{=html}
+<div id="reading-progress"></div>
 <div class="project-breadcrumb">
   <a href="../index.html">&larr; All projects</a>
   <span class="tag">forecasting</span>
@@ -18,8 +19,18 @@ categories: ["forecasting", "time series", "scale"]
 
 ::: {.reveal}
 ::: {.result-banner}
-Trained 300,000+ demand-forecasting models across a CPG portfolio to optimize trade promotions — delivering ~$2.4M in client savings, on pipelines processing 100M+ rows a day.
+**Result:** Trained 300,000+ demand-forecasting models across a CPG portfolio to optimize trade promotions — delivering ~$2.4M in client savings, on pipelines processing 100M+ rows a day.
 :::
+:::
+
+::: {.reveal}
+```{=html}
+<div class="stats-inline">
+  <div class="si"><div class="num"><span class="count" data-to="300" data-suffix="k+">0</span></div><div class="lbl">models trained</div></div>
+  <div class="si"><div class="num">$<span class="count" data-to="2.4" data-dec="1" data-suffix="M">0</span></div><div class="lbl">losses avoided</div></div>
+  <div class="si"><div class="num"><span class="count" data-to="100" data-suffix="M+">0</span></div><div class="lbl">rows processed / day</div></div>
+</div>
+```
 :::
 
 ::: {.reveal}
@@ -43,18 +54,24 @@ base = 100 + 18 * np.sin(t / 6)
 actual = base + rng.normal(0, 5, 60)
 actual[20:24] += 40          # a promotion spike
 fc = base.copy(); fc[20:24] += 34
+
+BG, FG, MUTED, GRID = "#0e1016", "#f4f5f7", "#9aa3b2", "#22262f"
+A1, A2 = "#6366f1", "#22d3ee"
+
 fig, ax = plt.subplots(figsize=(8, 4.2))
-ax.fill_between(t, fc - 10, fc + 10, color="#2563eb", alpha=0.12, label="80% interval")
-ax.plot(t, actual, color="#8a909a", lw=1.6, label="actual")
-ax.plot(t, fc, color="#2563eb", lw=2.6, label="forecast")
-ax.axvspan(20, 23, color="#fde68a", alpha=0.4, label="promotion")
-ax.set_xlabel("week"); ax.set_ylabel("units")
-ax.legend(frameon=False, ncol=2)
+fig.patch.set_facecolor(BG); ax.set_facecolor(BG)
+ax.fill_between(t, fc - 10, fc + 10, color=A2, alpha=0.15, label="80% interval")
+ax.plot(t, actual, color=MUTED, lw=1.6, label="actual")
+ax.plot(t, fc, color=A1, lw=2.6, label="forecast")
+ax.axvspan(20, 23, color="#fbbf24", alpha=0.25, label="promotion")
+ax.set_xlabel("week", color=MUTED); ax.set_ylabel("units", color=MUTED)
+ax.tick_params(colors=MUTED)
+leg = ax.legend(frameon=False, ncol=2, labelcolor=FG)
 for s in ["top", "right"]: ax.spines[s].set_visible(False)
-ax.spines["left"].set_color("#d5d5df"); ax.spines["bottom"].set_color("#d5d5df")
-ax.grid(axis="y", color="#eef0f4", lw=1)
+ax.spines["left"].set_color(GRID); ax.spines["bottom"].set_color(GRID)
+ax.grid(axis="y", color=GRID, lw=1)
 plt.tight_layout()
-fig.savefig("hero.png", dpi=120, bbox_inches="tight", facecolor="white")
+fig.savefig("hero.png", dpi=120, bbox_inches="tight", facecolor=BG)
 plt.show()
 ```
 
@@ -98,3 +115,10 @@ def train_series(df):
 
 [[TODO: link the repo — e.g. **[github.com/Ashish-Surve/…](https://github.com/Ashish-Surve)**]]. The repo is the technical-details layer; there's no separate write-up.
 :::
+
+```{=html}
+<a class="next-project reveal" href="../timeseries-anomaly-detection/index.html">
+  <div><p class="lbl">Next project</p><p class="t">Time-series anomaly detection — cutting false positives 35%</p></div>
+  <span class="arrow">→</span>
+</a>
+```

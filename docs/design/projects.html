@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Projects — Ashish Surve · Listing mockup</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#07080c; --bg-raised:#0e1016; --fg:#f4f5f7; --fg-muted:#9aa3b2; --fg-dim:#5c6474;
+    --a1:#6366f1; --a2:#22d3ee; --grad:linear-gradient(100deg,var(--a1),var(--a2));
+    --border:rgba(255,255,255,.08); --border-hi:rgba(255,255,255,.16);
+    --ease:cubic-bezier(.22,1,.36,1);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--bg);color:var(--fg);font-family:Inter,system-ui,sans-serif;font-size:17px;line-height:1.6;overflow-x:hidden}
+  ::selection{background:rgba(99,102,241,.4)}
+  a{color:inherit;text-decoration:none}
+
+  nav{position:fixed;inset:0 0 auto 0;z-index:50;display:flex;justify-content:space-between;align-items:center;
+      padding:18px 40px;backdrop-filter:blur(14px);background:rgba(7,8,12,.55);border-bottom:1px solid var(--border)}
+  .nav-logo{font-weight:800;font-size:1.05rem;letter-spacing:-.02em}
+  .nav-logo em{font-style:normal;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .nav-links{display:flex;gap:30px;align-items:center;font-size:.92rem;font-weight:600}
+  .nav-links a{color:var(--fg-muted);transition:color .2s}
+  .nav-links a:hover,.nav-links a.active{color:var(--fg)}
+  .nav-cta{padding:9px 18px;border-radius:999px;background:var(--grad);color:#fff!important;font-weight:700;font-size:.88rem}
+
+  header{padding:170px 40px 90px;position:relative;overflow:hidden}
+  .mesh{position:absolute;border-radius:50%;filter:blur(120px);opacity:.35;animation:drift 16s ease-in-out infinite alternate}
+  .mesh.m1{width:460px;height:460px;background:#4338ca;top:-30%;left:-6%}
+  .mesh.m2{width:380px;height:380px;background:#0e7490;top:-10%;right:-4%;animation-delay:-8s}
+  @keyframes drift{from{transform:translate(0,0)}to{transform:translate(50px,30px) scale(1.1)}}
+  .wrap{max-width:1000px;margin:0 auto;position:relative;z-index:2}
+  .eyebrow{font-size:.8rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--a2);margin-bottom:14px}
+  h1{font-size:clamp(2.6rem,6vw,4.4rem);font-weight:900;letter-spacing:-.04em;line-height:1.05;margin-bottom:16px}
+  h1 .grad{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .sub{color:var(--fg-muted);max-width:580px;font-size:1.08rem}
+  .stagger>*{opacity:0;transform:translateY(22px);animation:up .8s var(--ease) forwards}
+  .stagger>*:nth-child(1){animation-delay:.05s}.stagger>*:nth-child(2){animation-delay:.17s}.stagger>*:nth-child(3){animation-delay:.29s}
+  @keyframes up{to{opacity:1;transform:none}}
+
+  main{padding:20px 40px 120px}
+  .rows{max-width:1000px;margin:0 auto;display:flex;flex-direction:column;gap:28px}
+  .row{display:grid;grid-template-columns:1fr 1.2fr;gap:0;background:var(--bg-raised);border:1px solid var(--border);
+    border-radius:20px;overflow:hidden;transition:border-color .25s,transform .25s var(--ease),box-shadow .3s;position:relative}
+  .row:hover{border-color:var(--border-hi);transform:translateY(-4px);box-shadow:0 28px 60px -24px rgba(0,0,0,.8)}
+  .row:nth-child(even){grid-template-columns:1.2fr 1fr}
+  .row:nth-child(even) .row-visual{order:2}
+  .row-visual{position:relative;min-height:260px;background:
+    radial-gradient(circle at 30% 30%,rgba(99,102,241,.35),transparent 60%),
+    radial-gradient(circle at 75% 70%,rgba(34,211,238,.28),transparent 55%),#0a0c12;
+    display:flex;align-items:center;justify-content:center;overflow:hidden}
+  .row-visual .big{font-family:'JetBrains Mono',monospace;font-size:clamp(2rem,4.5vw,3.2rem);font-weight:700;
+    background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;letter-spacing:-.04em;
+    transition:transform .4s var(--ease)}
+  .row:hover .row-visual .big{transform:scale(1.08)}
+  .row-visual .idx{position:absolute;top:16px;left:20px;font-family:'JetBrains Mono',monospace;font-size:.8rem;color:var(--fg-dim)}
+  .row-body{padding:40px 38px;display:flex;flex-direction:column;justify-content:center}
+  .row-tags{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap}
+  .tag{font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--a2);
+    border:1px solid rgba(34,211,238,.25);border-radius:999px;padding:4px 12px}
+  .row-title{font-size:1.5rem;font-weight:800;letter-spacing:-.02em;line-height:1.25;margin-bottom:12px}
+  .row-desc{font-size:.95rem;color:var(--fg-muted);margin-bottom:20px}
+  .row-metrics{display:flex;gap:26px;margin-bottom:22px}
+  .metric b{display:block;font-size:1.15rem;font-weight:800;letter-spacing:-.02em;
+    background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .metric span{font-size:.78rem;color:var(--fg-dim)}
+  .row-link{font-size:.9rem;font-weight:700;display:inline-flex;align-items:center;gap:8px}
+  .row-link .arrow{color:var(--a2);transition:transform .2s var(--ease)}
+  .row:hover .row-link .arrow{transform:translateX(5px)}
+
+  footer{border-top:1px solid var(--border);padding:30px 40px;display:flex;justify-content:space-between;color:var(--fg-dim);font-size:.85rem;font-family:'JetBrains Mono',monospace}
+
+  .reveal{opacity:0;transform:translateY(30px);transition:opacity .7s var(--ease),transform .7s var(--ease)}
+  .reveal.vis{opacity:1;transform:none}
+
+  @media(max-width:820px){
+    .row,.row:nth-child(even){grid-template-columns:1fr}
+    .row:nth-child(even) .row-visual{order:0}
+    .row-visual{min-height:180px}
+    nav{padding:16px 22px}header{padding:140px 22px 60px}main{padding:10px 22px 90px}
+    .nav-links a:not(.nav-cta){display:none}
+  }
+  @media(prefers-reduced-motion:reduce){
+    *,*::before,*::after{animation:none!important;transition:none!important}
+    .stagger>*,.reveal{opacity:1;transform:none}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="home.html">ashish<em>.surve</em></a>
+  <div class="nav-links">
+    <a class="active" href="projects.html">Projects</a>
+    <a href="about.html">About</a>
+    <a class="nav-cta" href="mailto:surve.ashish@outlook.com">Get in touch</a>
+  </div>
+</nav>
+
+<header>
+  <div class="mesh m1"></div><div class="mesh m2"></div>
+  <div class="wrap stagger">
+    <p class="eyebrow">Selected work</p>
+    <h1>Projects that <span class="grad">moved numbers.</span></h1>
+    <p class="sub">Three projects, deep rather than wide. Each goes end to end — the problem, the modeling choices, what shipped, and what it changed.</p>
+  </div>
+</header>
+
+<main>
+  <div class="rows">
+    <a class="row reveal" href="project-detail.html">
+      <div class="row-visual"><span class="idx">/01</span><span class="big">300k models</span></div>
+      <div class="row-body">
+        <div class="row-tags"><span class="tag">Forecasting</span><span class="tag">CPG</span><span class="tag">PySpark</span></div>
+        <p class="row-title">Trade-promotion forecasting at retail scale</p>
+        <p class="row-desc">Out-of-stock prevention for a major US retailer — 300,000 models over a 2TB dataset with automated backtesting and hyperparameter tuning, processing 100M+ rows/day on Databricks.</p>
+        <div class="row-metrics">
+          <div class="metric"><b>$2.4M</b><span>losses avoided</span></div>
+          <div class="metric"><b>2TB</b><span>dataset</span></div>
+          <div class="metric"><b>0.94</b><span>parallelization factor</span></div>
+        </div>
+        <span class="row-link">Read the case study <span class="arrow">→</span></span>
+      </div>
+    </a>
+
+    <a class="row reveal" href="project-detail.html">
+      <div class="row-visual"><span class="idx">/02</span><span class="big">−35% FP</span></div>
+      <div class="row-body">
+        <div class="row-tags"><span class="tag">Anomaly detection</span><span class="tag">Time series</span><span class="tag">PyOD</span></div>
+        <p class="row-title">Time-series anomaly detection with root-cause analysis</p>
+        <p class="row-desc">Multivariate anomaly detection accelerator combining PyOD ensembles and deep models, with automated root-cause analysis so alerts arrive explained, not just flagged.</p>
+        <div class="row-metrics">
+          <div class="metric"><b>35%</b><span>fewer false positives</span></div>
+          <div class="metric"><b>Auto</b><span>root-cause analysis</span></div>
+        </div>
+        <span class="row-link">Read the case study <span class="arrow">→</span></span>
+      </div>
+    </a>
+
+    <a class="row reveal" href="project-detail.html">
+      <div class="row-visual"><span class="idx">/03</span><span class="big">RAG · 2nd</span></div>
+      <div class="row-body">
+        <div class="row-tags"><span class="tag">GenAI</span><span class="tag">RAG</span><span class="tag">NL2SQL</span></div>
+        <p class="row-title">RAG-powered marketing assistant</p>
+        <p class="row-desc">LLM agent combining retrieval over unstructured marketing docs with structured-data Q&amp;A via NL2SQL — prototyped and demoed in days, placing 2nd in Tiger Analytics' internal hackathon.</p>
+        <div class="row-metrics">
+          <div class="metric"><b>2nd</b><span>place, hackathon</span></div>
+          <div class="metric"><b>RAG+SQL</b><span>hybrid retrieval</span></div>
+        </div>
+        <span class="row-link">Read the case study <span class="arrow">→</span></span>
+      </div>
+    </a>
+  </div>
+</main>
+
+<footer>
+  <span>© 2026 Ashish Surve</span>
+  <span>design mockup · projects.html</span>
+</footer>
+
+<script>
+const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const io = new IntersectionObserver(es => es.forEach(e => {
+  if (e.isIntersecting){ e.target.classList.add('vis'); io.unobserve(e.target); }
+}), {threshold:.15});
+document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+</script>
+</body>
+</html>

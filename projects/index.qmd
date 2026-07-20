@@ -7,8 +7,10 @@ title-block-style: none
 
 ```{=html}
 <section class="page-header">
+  <div class="page-header-mesh m1"></div>
+  <div class="page-header-mesh m2"></div>
   <p class="page-header-eyebrow">Selected work</p>
-  <h1 class="page-header-title">Projects</h1>
+  <h1 class="page-header-title">Projects that <span class="grad-text">moved numbers.</span></h1>
   <p class="page-header-sub">
     Three projects, deep rather than wide. Best one first. Each page states
     the result in one line, then shows the work behind it — including what

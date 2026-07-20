@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About — Ashish Surve · About mockup</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#07080c; --bg-raised:#0e1016; --fg:#f4f5f7; --fg-muted:#9aa3b2; --fg-dim:#5c6474;
+    --a1:#6366f1; --a2:#22d3ee; --grad:linear-gradient(100deg,var(--a1),var(--a2));
+    --border:rgba(255,255,255,.08); --border-hi:rgba(255,255,255,.16);
+    --ease:cubic-bezier(.22,1,.36,1);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--bg);color:var(--fg);font-family:Inter,system-ui,sans-serif;font-size:17px;line-height:1.7;overflow-x:hidden}
+  ::selection{background:rgba(99,102,241,.4)}
+  a{color:var(--a2);text-decoration:none}
+  a:hover{text-decoration:underline}
+
+  nav{position:fixed;inset:0 0 auto 0;z-index:50;display:flex;justify-content:space-between;align-items:center;
+      padding:18px 40px;backdrop-filter:blur(14px);background:rgba(7,8,12,.55);border-bottom:1px solid var(--border)}
+  .nav-logo{font-weight:800;font-size:1.05rem;letter-spacing:-.02em;color:var(--fg)}
+  .nav-logo em{font-style:normal;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .nav-links{display:flex;gap:30px;align-items:center;font-size:.92rem;font-weight:600}
+  .nav-links a{color:var(--fg-muted)}
+  .nav-links a:hover,.nav-links a.active{color:var(--fg);text-decoration:none}
+  .nav-cta{padding:9px 18px;border-radius:999px;background:var(--grad);color:#fff!important;font-weight:700;font-size:.88rem}
+
+  header{padding:170px 40px 70px;position:relative;overflow:hidden}
+  .mesh{position:absolute;border-radius:50%;filter:blur(120px);opacity:.35;animation:drift 16s ease-in-out infinite alternate}
+  .mesh.m1{width:460px;height:460px;background:#4338ca;top:-30%;right:-6%}
+  .mesh.m2{width:360px;height:360px;background:#0e7490;top:10%;left:-8%;animation-delay:-8s}
+  @keyframes drift{from{transform:translate(0,0)}to{transform:translate(-40px,30px) scale(1.1)}}
+  .wrap{max-width:880px;margin:0 auto;position:relative;z-index:2}
+  .eyebrow{font-size:.8rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--a2);margin-bottom:14px}
+  h1{font-size:clamp(2.4rem,5.6vw,4rem);font-weight:900;letter-spacing:-.04em;line-height:1.06;margin-bottom:18px;color:var(--fg)}
+  h1 .grad{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .sub{color:var(--fg-muted);max-width:600px;font-size:1.08rem}
+  .stagger>*{opacity:0;transform:translateY(22px);animation:up .8s var(--ease) forwards}
+  .stagger>*:nth-child(1){animation-delay:.05s}.stagger>*:nth-child(2){animation-delay:.17s}.stagger>*:nth-child(3){animation-delay:.29s}
+  @keyframes up{to{opacity:1;transform:none}}
+
+  main{padding:20px 40px 110px}
+  .intro{color:var(--fg-muted);max-width:720px;margin:0 auto 80px}
+  .intro p{margin-bottom:16px}
+  .intro strong{color:var(--fg);font-weight:600}
+
+  /* timeline */
+  .timeline{position:relative;max-width:720px;margin:0 auto;padding-left:44px}
+  .tl-line{position:absolute;left:11px;top:6px;bottom:6px;width:2px;background:rgba(255,255,255,.08);border-radius:2px;overflow:hidden}
+  .tl-line .fill{position:absolute;top:0;left:0;width:100%;height:0;background:var(--grad)}
+  .tl-item{position:relative;padding-bottom:52px}
+  .tl-item::before{content:"";position:absolute;left:-40px;top:7px;width:12px;height:12px;border-radius:50%;
+    background:var(--bg);border:2px solid var(--fg-dim);transition:border-color .4s,box-shadow .4s}
+  .tl-item.vis::before{border-color:var(--a2);box-shadow:0 0 12px rgba(34,211,238,.5)}
+  .tl-date{font-family:'JetBrains Mono',monospace;font-size:.78rem;color:var(--a2);margin-bottom:6px}
+  .tl-role{font-size:1.22rem;font-weight:800;letter-spacing:-.02em;color:var(--fg);margin-bottom:4px}
+  .tl-org{font-size:.92rem;color:var(--fg-muted);font-weight:600;margin-bottom:10px}
+  .tl-desc{font-size:.95rem;color:var(--fg-muted)}
+  .tl-desc strong{color:var(--fg);font-weight:600}
+
+  /* marquee */
+  .marquee{overflow:hidden;border-block:1px solid var(--border);padding:22px 0;white-space:nowrap;position:relative;margin:90px 0}
+  .marquee::before,.marquee::after{content:"";position:absolute;top:0;bottom:0;width:120px;z-index:2;pointer-events:none}
+  .marquee::before{left:0;background:linear-gradient(90deg,var(--bg),transparent)}
+  .marquee::after{right:0;background:linear-gradient(-90deg,var(--bg),transparent)}
+  .marquee-track{display:inline-flex;gap:44px;animation:marq 30s linear infinite;font-family:'JetBrains Mono',monospace;font-size:.95rem;color:var(--fg-dim)}
+  .marquee:hover .marquee-track{animation-play-state:paused}
+  @keyframes marq{to{transform:translateX(-50%)}}
+  .marquee-track b{color:var(--fg-muted);font-weight:600}
+
+  .cta-block{text-align:center;max-width:640px;margin:0 auto}
+  .cta-block h2{font-size:clamp(1.8rem,3.6vw,2.6rem);font-weight:800;letter-spacing:-.03em;margin-bottom:14px}
+  .cta-block p{color:var(--fg-muted);margin-bottom:30px}
+  .btn{display:inline-flex;align-items:center;gap:10px;padding:15px 30px;border-radius:999px;font-weight:700;font-size:.98rem;
+    transition:transform .18s var(--ease),box-shadow .25s;text-decoration:none!important}
+  .btn-primary{background:var(--grad);color:#fff;box-shadow:0 8px 30px -8px rgba(99,102,241,.55)}
+  .btn-ghost{border:1px solid var(--border-hi);color:var(--fg);background:rgba(255,255,255,.03);margin-left:12px}
+
+  footer{border-top:1px solid var(--border);padding:30px 40px;display:flex;justify-content:space-between;color:var(--fg-dim);font-size:.85rem;font-family:'JetBrains Mono',monospace}
+
+  .reveal{opacity:0;transform:translateY(26px);transition:opacity .7s var(--ease),transform .7s var(--ease)}
+  .reveal.vis{opacity:1;transform:none}
+
+  @media(max-width:700px){
+    nav{padding:16px 22px}header{padding:140px 22px 50px}main{padding:10px 22px 90px}
+    .nav-links a:not(.nav-cta){display:none}
+    .btn-ghost{margin-left:0;margin-top:10px}
+  }
+  @media(prefers-reduced-motion:reduce){
+    *,*::before,*::after{animation:none!important;transition:none!important}
+    .stagger>*,.reveal{opacity:1;transform:none}
+    .tl-line .fill{height:100%!important}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="home.html">ashish<em>.surve</em></a>
+  <div class="nav-links">
+    <a href="projects.html">Projects</a>
+    <a class="active" href="about.html">About</a>
+    <a class="nav-cta" href="mailto:surve.ashish@outlook.com">Get in touch</a>
+  </div>
+</nav>
+
+<header>
+  <div class="mesh m1"></div><div class="mesh m2"></div>
+  <div class="wrap stagger">
+    <p class="eyebrow">About</p>
+    <h1>Modeling choices that<br><span class="grad">change decisions.</span></h1>
+    <p class="sub">Product-focused data scientist who likes problems where the modeling choice changes a business decision — and work that survives contact with production.</p>
+  </div>
+</header>
+
+<main>
+  <div class="intro reveal">
+    <p>I'm a data scientist with <strong>6+ years</strong> building and shipping ML systems across CPG, retail, and real estate. Most of the numbers on this site come from work I led end to end — framing, distributed feature engineering, modeling, deployment, and monitoring.</p>
+    <p>Tools I reach for: Python, SQL, PySpark, Databricks, scikit-learn, PyTorch, TensorFlow, FastAPI, RAG/vector stores, and OpenAI/Hugging Face for LLM work.</p>
+  </div>
+
+  <div class="timeline" id="timeline">
+    <div class="tl-line"><div class="fill" id="tlFill"></div></div>
+
+    <div class="tl-item reveal">
+      <p class="tl-date">2023 — present</p>
+      <p class="tl-role">Senior Data Scientist · Team Lead</p>
+      <p class="tl-org">Globant — payroll fraud detection, Big 4 client</p>
+      <p class="tl-desc">Architected end-to-end, <strong>cloud-agnostic ML pipelines</strong> that made the platform SaaS-ready, cutting new-client development time by <strong>40%</strong>. Configurable multi-algorithm anomaly detection across Azure ML, Synapse, Prefect, Docker, and SageMaker.</p>
+    </div>
+
+    <div class="tl-item reveal">
+      <p class="tl-date">2020 — 2023</p>
+      <p class="tl-role">Data Scientist · Project Lead</p>
+      <p class="tl-org">Tiger Analytics</p>
+      <p class="tl-desc">Built a PySpark forecasting accelerator on Databricks (<strong>0.94 parallelization factor</strong>, used across 20+ projects). Led out-of-stock prevention: <strong>300,000 models, 2TB dataset, $2.4M saved</strong>. Trained 50k models to 84% accuracy for a Russia engagement, with a Temporal Fusion Transformer adding <strong>+17% uplift</strong>. Co-built an anomaly-detection accelerator; RAG marketing assistant took <strong>2nd place</strong> in the internal hackathon.</p>
+    </div>
+
+    <div class="tl-item reveal">
+      <p class="tl-date">2019 — 2020</p>
+      <p class="tl-role">Data Scientist &amp; Developer</p>
+      <p class="tl-org">vCreaTek</p>
+      <p class="tl-desc">Real-estate decision support systems; productionized the API gateway.</p>
+    </div>
+
+    <div class="tl-item reveal">
+      <p class="tl-date">Earlier</p>
+      <p class="tl-role">Apprenticeship &amp; internship</p>
+      <p class="tl-org">Persistent Systems · IoTIoT.in</p>
+      <p class="tl-desc">Led an 8-person team building a COVID-19 pedestrian-detection pipeline in one month; face-recognition pipeline (MTCNN + FaceNet). B.E. Computer Science, SPPU Pune — First Class with Distinction.</p>
+    </div>
+  </div>
+
+  <div class="marquee reveal" aria-hidden="true">
+    <div class="marquee-track">
+      <span><b>Python</b> · SQL · <b>PySpark</b> · Databricks · <b>PyTorch</b> · TensorFlow · scikit-learn · <b>Azure ML</b> · SageMaker · Synapse · Prefect · Docker · <b>FastAPI</b> · RAG · vector stores · LLM agents · Dask · Streamlit&nbsp;·&nbsp;</span>
+      <span><b>Python</b> · SQL · <b>PySpark</b> · Databricks · <b>PyTorch</b> · TensorFlow · scikit-learn · <b>Azure ML</b> · SageMaker · Synapse · Prefect · Docker · <b>FastAPI</b> · RAG · vector stores · LLM agents · Dask · Streamlit&nbsp;·&nbsp;</span>
+    </div>
+  </div>
+
+  <div class="cta-block reveal">
+    <h2>The fastest way to see how I think</h2>
+    <p>The projects page goes deep on the work above — the problem, the modeling choices, and what changed.</p>
+    <a class="btn btn-primary" href="projects.html">View projects →</a>
+    <a class="btn btn-ghost" href="mailto:surve.ashish@outlook.com">surve.ashish@outlook.com</a>
+  </div>
+</main>
+
+<footer>
+  <span>© 2026 Ashish Surve</span>
+  <span>design mockup · about.html</span>
+</footer>
+
+<script>
+const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+const io = new IntersectionObserver(es => es.forEach(e => {
+  if (e.isIntersecting){ e.target.classList.add('vis'); io.unobserve(e.target); }
+}), {threshold:.15});
+document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+/* timeline line draws with scroll */
+const tl = document.getElementById('timeline'), fill = document.getElementById('tlFill');
+if (!reduced) addEventListener('scroll', () => {
+  const r = tl.getBoundingClientRect(), vh = innerHeight;
+  const p = Math.min(1, Math.max(0, (vh*.75 - r.top) / r.height));
+  fill.style.height = (p*100) + '%';
+}, {passive:true});
+else fill.style.height = '100%';
+</script>
+</body>
+</html>
