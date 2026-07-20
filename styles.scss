@@ -1,0 +1,111 @@
+/*-- scss:defaults --*/
+// Clean, minimal, recruiter-friendly light theme (cosmo base).
+
+$font-family-sans-serif: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+$headings-font-weight: 700;
+
+$body-color:      #1f2328;
+$link-color:      #2563eb;
+$primary:         #2563eb;
+$body-bg:         #ffffff;
+
+$navbar-bg:       #ffffff;
+$navbar-fg:       #1f2328;
+
+$font-size-root:  17px;
+$line-height-base: 1.6;
+
+/*-- scss:rules --*/
+
+body { -webkit-font-smoothing: antialiased; }
+
+.navbar {
+  border-bottom: 1px solid #ececf0;
+  font-weight: 600;
+}
+.navbar .navbar-brand { font-weight: 800; letter-spacing: -0.01em; }
+
+// --- Landing hero ---------------------------------------------------------
+.hero-name {
+  font-size: 2.4rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  margin-bottom: 0.15rem;
+}
+.hero-tagline {
+  font-size: 1.2rem;
+  color: #57606a;
+  margin-bottom: 0.25rem;
+}
+
+// --- Project cards (the 70% of the landing page) --------------------------
+.project-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem;
+  margin: 2rem 0 2.5rem;
+}
+@media (max-width: 720px) {
+  .project-cards { grid-template-columns: 1fr; }
+}
+.project-card {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #e6e6ec;
+  border-radius: 10px;
+  overflow: hidden;
+  text-decoration: none !important;
+  color: inherit !important;
+  transition: box-shadow .15s ease, transform .15s ease, border-color .15s ease;
+  background: #fff;
+}
+.project-card:hover {
+  box-shadow: 0 6px 20px rgba(20,20,40,.08);
+  transform: translateY(-2px);
+  border-color: #d5d5df;
+}
+.project-card img {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+  background: #f5f6f8;
+  border-bottom: 1px solid #eee;
+}
+.project-card .pc-body { padding: .9rem 1rem 1.1rem; }
+.project-card .pc-result {
+  font-weight: 700;
+  font-size: 1.02rem;
+  line-height: 1.35;
+  margin: 0 0 .3rem;
+}
+.project-card .pc-sub { color: #57606a; font-size: .92rem; margin: 0; }
+
+// --- Bio row --------------------------------------------------------------
+.bio-row { display: flex; gap: 1.25rem; align-items: center; margin: 1.5rem 0; }
+.bio-row img { width: 96px; height: 96px; border-radius: 50%; object-fit: cover; }
+.bio-row p { margin: 0; color: #2a2f36; }
+
+// --- Contact links --------------------------------------------------------
+.contact-links { display: flex; flex-wrap: wrap; gap: 1rem; margin: 1rem 0 2rem; }
+.contact-links a { font-weight: 600; text-decoration: none; }
+
+// --- "Result in one line" banner on project pages -------------------------
+.result-banner {
+  font-size: 1.35rem;
+  font-weight: 700;
+  line-height: 1.35;
+  padding: 1rem 1.15rem;
+  border-left: 4px solid $primary;
+  background: #f4f7ff;
+  border-radius: 0 8px 8px 0;
+  margin: 0 0 1.75rem;
+}
+
+// --- Latest posts (small, bottom of landing) ------------------------------
+.latest-posts { font-size: .95rem; color: #57606a; margin-top: 2.5rem; }
+.latest-posts h2 { font-size: .8rem; text-transform: uppercase; letter-spacing: .06em; color: #8a909a; }
+.latest-posts a { color: #2a2f36; text-decoration: none; }
+.latest-posts a:hover { color: $link-color; }
+
+// Fold code blocks unobtrusively
+details.code-fold > summary { color: #57606a; font-size: .9rem; }

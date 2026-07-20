@@ -1,0 +1,184 @@
+[
+  {
+    "objectID": "projects/trade-promotion-forecasting/index.html",
+    "href": "projects/trade-promotion-forecasting/index.html",
+    "title": "Saving a CPG client $2.4M on trade promotions",
+    "section": "",
+    "text": "Trained 300,000+ demand-forecasting models across a CPG portfolio to optimize trade promotions — delivering ~$2.4M in client savings, on pipelines processing 100M+ rows a day."
+  },
+  {
+    "objectID": "projects/trade-promotion-forecasting/index.html#the-problem",
+    "href": "projects/trade-promotion-forecasting/index.html#the-problem",
+    "title": "Saving a CPG client $2.4M on trade promotions",
+    "section": "The problem",
+    "text": "The problem\nA CPG client planned trade promotions off forecasts that were too coarse to trust at the SKU × store level, so promo spend was routinely mis-sized. The business needed accurate, per-series demand forecasts across a very large portfolio — and needed them to refresh fast enough to plan against. [[TODO: one sentence on the specific decision the forecast fed — promo depth? volume commitment?]]"
+  },
+  {
+    "objectID": "projects/trade-promotion-forecasting/index.html#the-finding",
+    "href": "projects/trade-promotion-forecasting/index.html#the-finding",
+    "title": "Saving a CPG client $2.4M on trade promotions",
+    "section": "The finding",
+    "text": "The finding\n\n\nCode\nimport numpy as np\nimport matplotlib.pyplot as plt\n\nrng = np.random.default_rng(11)\nt = np.arange(60)\nbase = 100 + 18 * np.sin(t / 6)\nactual = base + rng.normal(0, 5, 60)\nactual[20:24] += 40          # a promotion spike\nfc = base.copy(); fc[20:24] += 34\nfig, ax = plt.subplots(figsize=(8, 4.2))\nax.fill_between(t, fc - 10, fc + 10, color=\"#2563eb\", alpha=0.12, label=\"80% interval\")\nax.plot(t, actual, color=\"#8a909a\", lw=1.6, label=\"actual\")\nax.plot(t, fc, color=\"#2563eb\", lw=2.6, label=\"forecast\")\nax.axvspan(20, 23, color=\"#fde68a\", alpha=0.4, label=\"promotion\")\nax.set_xlabel(\"week\"); ax.set_ylabel(\"units\")\nax.legend(frameon=False, ncol=2)\nfor s in [\"top\", \"right\"]: ax.spines[s].set_visible(False)\nax.spines[\"left\"].set_color(\"#d5d5df\"); ax.spines[\"bottom\"].set_color(\"#d5d5df\")\nax.grid(axis=\"y\", color=\"#eef0f4\", lw=1)\nplt.tight_layout()\nfig.savefig(\"hero.png\", dpi=120, bbox_inches=\"tight\", facecolor=\"white\")\nplt.show()\n\n\n\n\n\n\n\n\nFigure 1: Per-series forecast vs. actuals with prediction interval. Replace the synthetic series with a representative real backtest window.\n\n\n\n\n\nGetting the promotion weeks right (the yellow band) is where the savings came from — that’s where a generic forecast fails and money is left on the table."
+  },
+  {
+    "objectID": "projects/trade-promotion-forecasting/index.html#decisions-and-tradeoffs",
+    "href": "projects/trade-promotion-forecasting/index.html#decisions-and-tradeoffs",
+    "title": "Saving a CPG client $2.4M on trade promotions",
+    "section": "Decisions and tradeoffs",
+    "text": "Decisions and tradeoffs\nTraining a separate model per series (300k+ of them) was a deliberate choice over one global model: it captured per-SKU seasonality and promo response that a pooled model washed out, at the cost of a much heavier training and orchestration burden. I ran this on a distributed stack (PySpark / Databricks / Dask) so the whole portfolio could retrain on 100M+ rows a day. [[TODO: which model family — gradient boosting? statistical (ETS/ARIMA)? — and why you picked it.]]\n[[TODO: what failed first — the honest paragraph. e.g. “A single global model was faster to train but under-forecast promo weeks by X%, so it recommended spend that didn’t pay back; per-series models fixed it but forced me to solve the orchestration/cost problem.” Two-ish sentences, including the tradeoff you accepted.]]"
+  },
+  {
+    "objectID": "projects/trade-promotion-forecasting/index.html#measurement-and-limitations",
+    "href": "projects/trade-promotion-forecasting/index.html#measurement-and-limitations",
+    "title": "Saving a CPG client $2.4M on trade promotions",
+    "section": "Measurement and limitations",
+    "text": "Measurement and limitations\nImpact was measured as client savings (~$2.4M) [[TODO: over what period, and the forecast-accuracy metric — MAPE/WAPE vs. the incumbent planning number]]. Honest limitations: [[TODO: e.g. cold-start SKUs with no promo history are weakest; the per-series design is expensive to retrain, so cadence is a cost tradeoff]]."
+  },
+  {
+    "objectID": "projects/trade-promotion-forecasting/index.html#how-it-works",
+    "href": "projects/trade-promotion-forecasting/index.html#how-it-works",
+    "title": "Saving a CPG client $2.4M on trade promotions",
+    "section": "How it works",
+    "text": "How it works\n\n\nShow the per-series training loop (sketch)\n# Sketch — replace with a real, readable slice of your pipeline.\ndef train_series(df):\n    \"\"\"Fit one forecaster for a single SKU x store series.\"\"\"\n    ...\n\n# Distributed over the portfolio (Spark/Dask): one model per group.\n# results = (spark_df.groupBy(\"sku\", \"store\")\n#                    .applyInPandas(train_series, schema=OUT_SCHEMA))"
+  },
+  {
+    "objectID": "projects/trade-promotion-forecasting/index.html#code",
+    "href": "projects/trade-promotion-forecasting/index.html#code",
+    "title": "Saving a CPG client $2.4M on trade promotions",
+    "section": "Code",
+    "text": "Code\n[[TODO: link the repo — e.g. github.com/Ashish-Surve/…]]. The repo is the technical-details layer; there’s no separate write-up."
+  },
+  {
+    "objectID": "projects/rag-nl2sql/index.html",
+    "href": "projects/rag-nl2sql/index.html",
+    "title": "Production RAG + NL2SQL over live business data",
+    "section": "",
+    "text": "Built and shipped a production RAG + NL2SQL system that turns plain-English questions into governed SQL and grounded answers over live business data."
+  },
+  {
+    "objectID": "projects/rag-nl2sql/index.html#the-problem",
+    "href": "projects/rag-nl2sql/index.html#the-problem",
+    "title": "Production RAG + NL2SQL over live business data",
+    "section": "The problem",
+    "text": "The problem\nStakeholders needed answers from data they couldn’t query themselves, and hand-written reports couldn’t keep up. The system had to translate natural-language questions into correct SQL and ground its answers in retrieved context — reliably enough to trust in front of the business. [[TODO: one sentence on who used it and the decision it supported.]]"
+  },
+  {
+    "objectID": "projects/rag-nl2sql/index.html#the-finding",
+    "href": "projects/rag-nl2sql/index.html#the-finding",
+    "title": "Production RAG + NL2SQL over live business data",
+    "section": "The finding",
+    "text": "The finding\n\n\nCode\nimport numpy as np\nimport matplotlib.pyplot as plt\n\ncats = [\"lookup\", \"aggregation\", \"multi-table\", \"temporal\"]\nbefore = np.array([0.71, 0.52, 0.38, 0.44])\nafter  = np.array([0.94, 0.86, 0.72, 0.79])\nx = np.arange(len(cats)); w = 0.38\nfig, ax = plt.subplots(figsize=(8, 4.2))\nax.bar(x - w/2, before, w, color=\"#c0c4cc\", label=\"baseline LLM\")\nax.bar(x + w/2, after,  w, color=\"#2563eb\", label=\"RAG + NL2SQL guardrails\")\nax.set_xticks(x); ax.set_xticklabels(cats)\nax.set_ylabel(\"answer accuracy\"); ax.set_ylim(0, 1)\nax.legend(frameon=False)\nfor s in [\"top\", \"right\"]: ax.spines[s].set_visible(False)\nax.spines[\"left\"].set_color(\"#d5d5df\"); ax.spines[\"bottom\"].set_color(\"#d5d5df\")\nax.grid(axis=\"y\", color=\"#eef0f4\", lw=1)\nplt.tight_layout()\nfig.savefig(\"hero.png\", dpi=120, bbox_inches=\"tight\", facecolor=\"white\")\nplt.show()\n\n\n\n\n\n\n\n\nFigure 1: Answer accuracy across question types, before vs. after retrieval grounding + NL2SQL guardrails. Replace with your real eval.\n\n\n\n\n\nThe hard questions (multi-table, temporal) are where naive prompting fails — grounding and SQL guardrails are what made those trustworthy. [[TODO: replace the numbers above with your real eval-set results.]]"
+  },
+  {
+    "objectID": "projects/rag-nl2sql/index.html#live-demo",
+    "href": "projects/rag-nl2sql/index.html#live-demo",
+    "title": "Production RAG + NL2SQL over live business data",
+    "section": "Live demo",
+    "text": "Live demo\n\n\n\n\n\n\n\nNote\n\n\n\nEmbed the running app here once deployed:\n\nDelete this note and uncomment the iframe when the Space/App is live."
+  },
+  {
+    "objectID": "projects/rag-nl2sql/index.html#decisions-and-tradeoffs",
+    "href": "projects/rag-nl2sql/index.html#decisions-and-tradeoffs",
+    "title": "Production RAG + NL2SQL over live business data",
+    "section": "Decisions and tradeoffs",
+    "text": "Decisions and tradeoffs\nI split the problem into retrieval (grounding answers in the right context) and NL2SQL (generating governed queries), rather than asking one prompt to do everything — that made each half testable and each failure debuggable. [[TODO: your stack — vector store, embedding model, LangChain vs. custom, and why.]] Guardrails on the generated SQL (schema-constrained, read-only) traded a little flexibility for a lot of safety.\n[[TODO: the failure paragraph. e.g. “End-to-end prompting looked great in demos but silently generated wrong joins on multi-table questions; adding a schema-aware NL2SQL step plus an eval set caught it. Two sentences, incl. the tradeoff you accepted.”]]"
+  },
+  {
+    "objectID": "projects/rag-nl2sql/index.html#measurement-and-limitations",
+    "href": "projects/rag-nl2sql/index.html#measurement-and-limitations",
+    "title": "Production RAG + NL2SQL over live business data",
+    "section": "Measurement and limitations",
+    "text": "Measurement and limitations\nEvaluated on a fixed question set by answer accuracy and SQL validity [[TODO: size of the eval set, how you graded, latency/cost budget]]. Limitations: [[TODO: e.g. degrades on schema it hasn’t seen; retrieval quality bounds answer quality; needs guardrails to stay read-only]]."
+  },
+  {
+    "objectID": "projects/rag-nl2sql/index.html#how-it-works",
+    "href": "projects/rag-nl2sql/index.html#how-it-works",
+    "title": "Production RAG + NL2SQL over live business data",
+    "section": "How it works",
+    "text": "How it works\n\n\nShow the retrieve → generate SQL → answer flow (sketch)\n# Replace with a readable slice of your real pipeline.\ndef answer(question: str) -&gt; str:\n    ctx = retrieve(question)            # vector search over docs/schema\n    sql = nl2sql(question, schema)      # schema-constrained, read-only\n    rows = run_readonly(sql)\n    return synthesize(question, ctx, rows)"
+  },
+  {
+    "objectID": "projects/rag-nl2sql/index.html#code",
+    "href": "projects/rag-nl2sql/index.html#code",
+    "title": "Production RAG + NL2SQL over live business data",
+    "section": "Code",
+    "text": "Code\n[[TODO: repo link — e.g. github.com/Ashish-Surve/…]]."
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Ashish Surve",
+    "section": "",
+    "text": "Ashish Surve\n\n\nI build and ship production ML systems — forecasting, anomaly detection, and fraud detection at scale — for CPG, retail, and enterprise clients.\n\n\n\n\n\n\n  \n    \n    \n      Trained 300,000+ forecasting models to deliver $2.4M in client savings\n      CPG trade-promotion optimization · 100M+ rows/day\n    \n  \n  \n    \n    \n      Cut anomaly-detection false positives by 35%\n      Multivariate time series · PyOD / deep models\n    \n  \n  \n    \n    \n      Shipped production RAG + NL2SQL that answers business questions over live data\n      LLM app · retrieval + agentic workflow\n    \n  \n\n\n\n\n\n\n\nProduct-focused data scientist with 6+ years shipping ML systems across CPG, retail, and real estate. Currently a Senior Data Scientist (Team Lead) at Globant, leading a payroll fraud detection platform for a Big 4 client. Previously at Tiger Analytics, where I trained 300k+ forecasting models and shipped anomaly detection and RAG systems. I own problems end to end, from framing and distributed feature engineering to deployment and monitoring.\n\n\n\n\n\n\nGitHub · LinkedIn · Email · Résumé (PDF)"
+  },
+  {
+    "objectID": "blog/index.html",
+    "href": "blog/index.html",
+    "title": "Writing",
+    "section": "",
+    "text": "Short posts on the craft — the general lessons behind the projects. Each links to the project it came from.\n\n\n\n\nNo matching items"
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "I’m a product-focused data scientist with 6+ years building and shipping ML systems across CPG, retail, and real estate. I like problems where the modeling choice changes a business decision — and I care about work that survives contact with production.\nI’m currently a Senior Data Scientist (Team Lead) at Globant, leading the data science and engineering effort on a payroll fraud detection platform for a Big 4 client. I architected the end-to-end, cloud-agnostic ML and data pipelines that made the system SaaS-ready, cutting development time for new clients by 40%, and built a configurable, multi-algorithm anomaly detection platform that plugs into client front-end/back-end stacks with minimal manual intervention. The stack spans Azure ML, Synapse, Prefect, Docker, Azure Functions, and AWS SageMaker, chosen specifically so the pipelines stay portable across cloud vendors.\nBefore that, I spent three years at Tiger Analytics as a Data Scientist (Project Lead), where most of the numbers on this site’s project pages come from. I designed and productionized a PySpark-based demand forecasting accelerator on Databricks (0.94 parallelization factor, used across 20+ projects) that took model development from weeks to days. On out-of-stock prevention for a major US retailer, I led a solution that trained 300,000 models over a 2TB dataset with automated backtesting and hyperparameter tuning, avoiding $2.4M in stockout and expiry losses. A parallel engagement in Russia trained 50,000 models to 84% accuracy on high-quality segments, and a Temporal Fusion Transformer for cross-learning added a further 17% uplift over the previous best models. I also co-built a time-series anomaly detection accelerator with automated root-cause analysis, a trade-promotion optimization tool for a UK client, and prototyped an LLM + RAG marketing assistant that took 2nd place in Tiger Analytics’ internal hackathon.\nEarlier roles: Data Scientist & Developer at vCreaTek (real-estate decision support systems, API gateway productionization), a Software Engineer Apprenticeship at Persistent Systems (led an 8-person team building a COVID-19 pedestrian-detection pipeline in one month), and an AI internship at IoTIoT.in (face-recognition pipeline, MTCNN + FaceNet). I hold a B.E. in Computer Science from Dr. D. Y. Patil Institute of Technology (SPPU, Pune), First Class with Distinction.\nTools I reach for: Python, SQL, PySpark, Databricks, Spark, Dask, scikit-learn, PyTorch, TensorFlow, FastAPI, Streamlit, RAG/vector stores, and OpenAI/Hugging Face for LLM work.\nThe fastest way to see how I think is the projects page — those go deep on the Tiger Analytics work above. Code lives on GitHub; reach me at surve.ashish@outlook.com."
+  },
+  {
+    "objectID": "projects/index.html",
+    "href": "projects/index.html",
+    "title": "Projects",
+    "section": "",
+    "text": "Three projects, deep rather than wide. Best one first. Each page states the result in one line, then shows the work behind it — including what didn’t work.\n\n\n\n\n\n\n\n\n\n\nSaving a CPG client $2.4M on trade promotions\n\n\nSharper demand forecasts across an entire product portfolio cut wasted promotion spend and delivered $2.4M in client…\n\n\n\n\n\n\n\n\n\n\n\n\nCutting alert fatigue 35% for an ops monitoring team\n\n\nRedesigned anomaly detection to cut false alarms by 35%, restoring analysts’ trust in the system without missing real…\n\n\n\n\n\n\n\n\n\n\n\n\nLetting non-technical stakeholders query live business data in plain English\n\n\nShipped a self-serve Q&A tool that turns plain-English questions into trustworthy answers over live data — no analyst…\n\n\n\n\n\nNo matching items"
+  },
+  {
+    "objectID": "projects/timeseries-anomaly-detection/index.html",
+    "href": "projects/timeseries-anomaly-detection/index.html",
+    "title": "Cutting anomaly false positives 35% on multivariate time series",
+    "section": "",
+    "text": "Reduced anomaly-detection false positives by 35% on multivariate time-series signals — cutting alert fatigue without missing the real incidents."
+  },
+  {
+    "objectID": "projects/timeseries-anomaly-detection/index.html#the-problem",
+    "href": "projects/timeseries-anomaly-detection/index.html#the-problem",
+    "title": "Cutting anomaly false positives 35% on multivariate time series",
+    "section": "The problem",
+    "text": "The problem\nThe existing detector fired too often, and every false alarm cost an analyst’s time and eroded trust in the system. The goal was to keep recall on genuine anomalies while sharply cutting the false-positive rate on correlated, multivariate signals. [[TODO: one sentence on what the signals were and what a missed anomaly cost the business.]]"
+  },
+  {
+    "objectID": "projects/timeseries-anomaly-detection/index.html#the-finding",
+    "href": "projects/timeseries-anomaly-detection/index.html#the-finding",
+    "title": "Cutting anomaly false positives 35% on multivariate time series",
+    "section": "The finding",
+    "text": "The finding\n\n\nCode\nimport numpy as np\nimport matplotlib.pyplot as plt\n\nrng = np.random.default_rng(7)\nt = np.arange(200)\nsig = np.sin(t / 9) + 0.4 * np.sin(t / 3) + rng.normal(0, 0.15, 200)\nanom = np.array([40, 96, 150, 178])\nsig[anom] += np.array([1.8, -1.6, 2.0, -1.7])\nfig, ax = plt.subplots(figsize=(8, 4.2))\nax.plot(t, sig, color=\"#8a909a\", lw=1.3)\nax.scatter(anom, sig[anom], color=\"#dc2626\", s=42, zorder=3,\n           edgecolors=\"white\", lw=0.8, label=\"detected anomaly\")\nax.legend(frameon=False)\nax.set_xlabel(\"time\"); ax.set_ylabel(\"signal\")\nfor s in [\"top\", \"right\"]: ax.spines[s].set_visible(False)\nax.spines[\"left\"].set_color(\"#d5d5df\"); ax.spines[\"bottom\"].set_color(\"#d5d5df\")\nax.grid(axis=\"y\", color=\"#eef0f4\", lw=1)\nplt.tight_layout()\nfig.savefig(\"hero.png\", dpi=120, bbox_inches=\"tight\", facecolor=\"white\")\nplt.show()\n\n\n\n\n\n\n\n\nFigure 1: Multivariate signal with flagged anomalies. Red = detected; the tightened model stops flagging the normal correlated wobble.\n\n\n\n\n\nThe win was modeling the correlation between signals, so normal joint movement stopped tripping single-variable thresholds."
+  },
+  {
+    "objectID": "projects/timeseries-anomaly-detection/index.html#decisions-and-tradeoffs",
+    "href": "projects/timeseries-anomaly-detection/index.html#decisions-and-tradeoffs",
+    "title": "Cutting anomaly false positives 35% on multivariate time series",
+    "section": "Decisions and tradeoffs",
+    "text": "Decisions and tradeoffs\nI moved from per-signal thresholding toward a multivariate approach that models the joint distribution, so a change is only anomalous relative to how the signals usually move together. [[TODO: name the method — PyOD ensemble? a reconstruction model like InterFusion? — and why over the simpler baseline.]] I used SHAP to make each alert explainable, which mattered as much as the score itself for analyst trust.\n[[TODO: the failure paragraph. e.g. “A pure deep reconstruction model caught more but was a black box the ops team wouldn’t act on; pairing a simpler scorer with SHAP explanations got adoption. Two sentences, incl. the tradeoff.”]]"
+  },
+  {
+    "objectID": "projects/timeseries-anomaly-detection/index.html#measurement-and-limitations",
+    "href": "projects/timeseries-anomaly-detection/index.html#measurement-and-limitations",
+    "title": "Cutting anomaly false positives 35% on multivariate time series",
+    "section": "Measurement and limitations",
+    "text": "Measurement and limitations\nMeasured as false-positive rate at fixed recall: a 35% reduction [[TODO: vs. which baseline, over what window, and how recall was held constant]]. Limitations: [[TODO: e.g. needs a clean-ish normal period to learn from; concept drift requires periodic re-fit; thin labels make recall estimates noisy]]."
+  },
+  {
+    "objectID": "projects/timeseries-anomaly-detection/index.html#how-it-works",
+    "href": "projects/timeseries-anomaly-detection/index.html#how-it-works",
+    "title": "Cutting anomaly false positives 35% on multivariate time series",
+    "section": "How it works",
+    "text": "How it works\n\n\nShow the detector + explanation (sketch)\n# Replace with a readable slice of your real code.\nfrom pyod.models.ecod import ECOD   # example: swap for your actual model\n\ndef score(X):\n    model = ECOD().fit(X)\n    return model.decision_function(X)   # higher = more anomalous\n# SHAP on top of the scorer to explain each flagged point."
+  },
+  {
+    "objectID": "projects/timeseries-anomaly-detection/index.html#code",
+    "href": "projects/timeseries-anomaly-detection/index.html#code",
+    "title": "Cutting anomaly false positives 35% on multivariate time series",
+    "section": "Code",
+    "text": "Code\n[[TODO: repo link — e.g. github.com/Ashish-Surve/InterFusion_updated if relevant]]."
+  }
+]
