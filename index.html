@@ -41,7 +41,7 @@ ul.task-list li input[type="checkbox"] {
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-de63f62b328812d8e578a4d74e282472.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-d6bb4f8f187f9d2b4482a2a1c7913fa4.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-04756cc1751e801bc4e98c44011a8b65.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -72,7 +72,6 @@ ul.task-list li input[type="checkbox"] {
 <style>html{ scroll-behavior: smooth; }</style>
 
 
-<link rel="stylesheet" href="styles.scss">
 </head>
 
 <body class="nav-fixed quarto-light">
@@ -125,16 +124,35 @@ ul.task-list li input[type="checkbox"] {
 
 
 
-<div class="hero-name">
-<p>Ashish Surve</p>
-</div>
-<div class="hero-tagline">
-<p>I build and ship production ML systems — forecasting, anomaly detection, and fraud detection at scale — for CPG, retail, and enterprise clients.</p>
-</div>
+<!-- ============================================================= -->
+<!-- DARK HERO — the one visual departure on the site. Full-bleed, -->
+<!-- animated on load. Everything below reverts to the light theme. -->
+<!-- Swap assets/hero-photo.jpg for the real portrait.              -->
+<!-- ============================================================= -->
+<section class="dark-hero">
+  <div class="dark-hero-text">
+    <p class="dark-hero-eyebrow">Data Scientist &amp; AI Engineer</p>
+    <h1 class="dark-hero-name">Ashish Surve</h1>
+    <p class="dark-hero-tagline">
+      I build and ship production ML systems — forecasting, anomaly detection,
+      and fraud detection at scale — for CPG, retail, and enterprise clients.
+    </p>
+    <div class="dark-hero-cta">
+      <a class="primary" href="projects/index.html">View projects</a>
+      <a class="secondary" href="resume.pdf">Résumé (PDF)</a>
+      <a class="secondary" href="mailto:surve.ashish@outlook.com">Get in touch</a>
+    </div>
+  </div>
+  <div class="dark-hero-photo-wrap">
+    <img src="assets/hero-photo.jpg" alt="Ashish Surve">
+  </div>
+  <div class="dark-hero-scroll-cue"><span class="dot"></span> Scroll</div>
+</section>
 <!-- ============================================================= -->
 <!-- PROJECT CARDS — ~70% of the page. Three, best first.          -->
 <!-- Each card: thumbnail, one-line RESULT, one-line context.       -->
 <!-- ============================================================= -->
+<div class="reveal">
 <div class="project-cards">
   <a class="project-card" href="projects/trade-promotion-forecasting/index.html">
     <img src="assets/thumbs/project-1.png" alt="Trade-promotion forecasting at scale">
@@ -151,27 +169,32 @@ ul.task-list li input[type="checkbox"] {
     </div>
   </a>
   <a class="project-card" href="projects/rag-nl2sql/index.html">
-    <img src="assets/thumbs/project-3.png" alt="Production RAG and NL2SQL">
+    <img src="assets/thumbs/project-3.png" alt="RAG-powered marketing assistant">
     <div class="pc-body">
-      <p class="pc-result">Shipped production RAG + NL2SQL that answers business questions over live data</p>
-      <p class="pc-sub">LLM app · retrieval + agentic workflow</p>
+      <p class="pc-result">Built a RAG marketing assistant — 2nd place in an internal hackathon</p>
+      <p class="pc-sub">LLM agent · retrieval + structured-data Q&amp;A</p>
     </div>
   </a>
+</div>
 </div>
 <!-- ============================================================= -->
 <!-- 3-LINE BIO + PHOTO                                             -->
 <!-- ============================================================= -->
+<div class="reveal">
 <div class="bio-row">
 <p><img src="assets/profile.png" class="img-fluid" alt="Ashish Surve"></p>
 <div>
 <p>Product-focused data scientist with 6+ years shipping ML systems across CPG, retail, and real estate. Currently a Senior Data Scientist (Team Lead) at Globant, leading a payroll fraud detection platform for a Big 4 client. Previously at Tiger Analytics, where I trained 300k+ forecasting models and shipped anomaly detection and RAG systems. I own problems end to end, from framing and distributed feature engineering to deployment and monitoring.</p>
 </div>
 </div>
+</div>
 <!-- ============================================================= -->
 <!-- CONTACT LINKS                                                  -->
 <!-- ============================================================= -->
+<div class="reveal">
 <div class="contact-links">
 <p><a href="https://github.com/Ashish-Surve">GitHub</a> · <a href="https://www.linkedin.com/in/ashish-surve">LinkedIn</a> · <a href="mailto:surve.ashish@outlook.com">Email</a> · <a href="resume.pdf">Résumé (PDF)</a></p>
+</div>
 </div>
 <!-- OPTIONAL: latest 3 posts, small, at the very bottom.          -->
 <!-- Uncomment once /blog is live (3 posts).                        -->
@@ -187,6 +210,24 @@ ul.task-list li input[type="checkbox"] {
 
 
 </main> <!-- /main -->
+<script>
+(function () {
+  var els = document.querySelectorAll('.reveal');
+  if (!('IntersectionObserver' in window) || !els.length) {
+    els.forEach(function (el) { el.classList.add('is-visible'); });
+    return;
+  }
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('is-visible');
+        io.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15 });
+  els.forEach(function (el) { io.observe(el); });
+})();
+</script>
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     const isCodeAnnotation = (el) => {

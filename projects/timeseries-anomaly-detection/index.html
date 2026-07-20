@@ -7,9 +7,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="dcterms.date" content="2026-01-15">
-<meta name="description" content="Reduced anomaly-detection false positives by 35% with better modeling and monitoring.">
+<meta name="description" content="Redesigned anomaly detection to cut false alarms by 35%, restoring analysts’ trust in the system without missing real incidents.">
 
-<title>Cutting anomaly false positives 35% on multivariate time series – Ashish Surve</title>
+<title>Cutting alert fatigue 35% for an ops monitoring team – Ashish Surve</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -78,7 +78,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../../site_libs/quarto-html/quarto-syntax-highlighting-de63f62b328812d8e578a4d74e282472.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-d6bb4f8f187f9d2b4482a2a1c7913fa4.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-04756cc1751e801bc4e98c44011a8b65.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -173,7 +173,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Cutting anomaly false positives 35% on multivariate time series</h1>
+<h1 class="title">Cutting alert fatigue 35% for an ops monitoring team</h1>
   <div class="quarto-categories">
     <div class="quarto-category">anomaly detection</div>
     <div class="quarto-category">time series</div>
@@ -182,7 +182,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <div>
   <div class="description">
-    Reduced anomaly-detection false positives by 35% with better modeling and monitoring.
+    Redesigned anomaly detection to cut false alarms by 35%, restoring analysts’ trust in the system without missing real incidents.
   </div>
 </div>
 
@@ -205,15 +205,21 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<!-- Headline (-35% false positives) is yours. Fill the [[TODO]] slots. -->
+<div class="project-breadcrumb">
+  <a href="../index.html">← All projects</a>
+  <span class="tag">anomaly detection</span>
+  <span class="tag">time series</span>
+</div>
+<div class="reveal">
 <div class="result-banner">
 <p>Reduced anomaly-detection false positives by 35% on multivariate time-series signals — cutting alert fatigue without missing the real incidents.</p>
 </div>
-<section id="the-problem" class="level2">
+</div>
+<section id="the-problem" class="level2 reveal">
 <h2 data-anchor-id="the-problem">The problem</h2>
-<p>The existing detector fired too often, and every false alarm cost an analyst’s time and eroded trust in the system. The goal was to keep recall on genuine anomalies while sharply cutting the false-positive rate on correlated, multivariate signals. [[TODO: one sentence on what the signals were and what a missed anomaly cost the business.]]</p>
+<p>This draws on two related builds: a multi-algorithm Anomaly Detection Accelerator with automated root-cause analysis over time-series data (Tiger Analytics), and a configurable, correlation-based fraud-detection platform for payroll data (Globant) — the closer match to “correlated, multivariate signals,” since payroll components naturally move together and a component that breaks that correlation is the actual fraud signal. On the payroll platform specifically, the existing approach flagged each payroll component against its own static threshold, which fired constantly on normal correlated movement and cost analyst time chasing false alarms while eroding trust in the system. The goal was to keep recall on genuine fraud while sharply cutting that false-positive rate.</p>
 </section>
-<section id="the-finding" class="level2">
+<section id="the-finding" class="level2 reveal">
 <h2 data-anchor-id="the-finding">The finding</h2>
 <div id="cell-fig-hero" class="cell" data-execution_count="1">
 <details class="code-fold">
@@ -254,18 +260,18 @@ Figure&nbsp;1: Multivariate signal with flagged anomalies. Red = detected; the t
 </div>
 <p>The win was modeling the <em>correlation</em> between signals, so normal joint movement stopped tripping single-variable thresholds.</p>
 </section>
-<section id="decisions-and-tradeoffs" class="level2">
+<section id="decisions-and-tradeoffs" class="level2 reveal">
 <h2 data-anchor-id="decisions-and-tradeoffs">Decisions and tradeoffs</h2>
-<p>I moved from per-signal thresholding toward a multivariate approach that models the joint distribution, so a change is only anomalous relative to how the signals usually move together. [[TODO: name the method — PyOD ensemble? a reconstruction model like InterFusion? — and why over the simpler baseline.]] I used SHAP to make each alert explainable, which mattered as much as the score itself for analyst trust.</p>
-<p>[[TODO: the failure paragraph. e.g.&nbsp;“A pure deep reconstruction model caught more but was a black box the ops team wouldn’t act on; pairing a simpler scorer with SHAP explanations got adoption. Two sentences, incl.&nbsp;the tradeoff.”]]</p>
+<p>I moved from per-signal thresholding toward a multivariate approach that models the joint distribution, so a change is only anomalous relative to how the signals usually move together. Concretely, this meant PySpark modules that score correlation between payroll components rather than flagging each component against its own static threshold — the platform behind it was built config-driven and multi-algorithm on purpose, so it could plug into a new client’s front-end/back-end stack with minimal manual intervention rather than a rebuild per client. [[TODO: name the specific algorithm(s) in the ensemble — work history confirms “multi-algorithm” and “correlation-based” but not the specific method(s). Also confirm whether SHAP (or any explainability layer) was actually part of this build — not in work history; drop the claim if it wasn’t used.]]</p>
+<p>[[TODO: the failure/tradeoff paragraph — not in work history. What was tried first and discarded? A natural candidate: single-variable thresholding was the incumbent and is exactly what this replaced — worth stating what specifically broke about it before the correlation-based redesign. What did the config-driven, multi-algorithm design cost (e.g.&nbsp;slower to tune per client vs.&nbsp;a bespoke model)?]]</p>
 </section>
-<section id="measurement-and-limitations" class="level2">
+<section id="measurement-and-limitations" class="level2 reveal">
 <h2 data-anchor-id="measurement-and-limitations">Measurement and limitations</h2>
-<p>Measured as false-positive rate at fixed recall: a 35% reduction [[TODO: vs.&nbsp;which baseline, over what window, and how recall was held constant]]. Limitations: [[TODO: e.g.&nbsp;needs a clean-ish normal period to learn from; concept drift requires periodic re-fit; thin labels make recall estimates noisy]].</p>
+<p>Measured as false-positive rate at fixed recall: a 35% reduction [[TODO: work history doesn’t state a 35% figure or baseline — confirm the number and what it’s measured against before publishing]]. Reducing manual intervention and simplifying onboarding were explicit goals of the platform design (config-driven, multi-algorithm, integrated with client stacks). Limitations: [[TODO: does it need a clean baseline period per client before it’s reliable? does correlation-based scoring struggle with genuinely novel fraud patterns that haven’t shown up as a correlation break before?]]</p>
 </section>
-<section id="how-it-works" class="level2">
+<section id="how-it-works" class="level2 reveal">
 <h2 data-anchor-id="how-it-works">How it works</h2>
-<div id="5aa1519a" class="cell" data-execution_count="2">
+<div id="31056aaf" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Show the detector + explanation (sketch)</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Replace with a readable slice of your real code.</span></span>
@@ -273,19 +279,36 @@ Figure&nbsp;1: Multivariate signal with flagged anomalies. Red = detected; the t
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> score(X):</span>
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    model <span class="op">=</span> ECOD().fit(X)</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> model.decision_function(X)   <span class="co"># higher = more anomalous</span></span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="co"># SHAP on top of the scorer to explain each flagged point.</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> model.decision_function(X)   <span class="co"># higher = more anomalous</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
 </section>
-<section id="code" class="level2">
+<section id="code" class="level2 reveal">
 <h2 data-anchor-id="code">Code</h2>
-<p>[[TODO: repo link — e.g.&nbsp;<strong><a href="https://github.com/Ashish-Surve/InterFusion_updated">github.com/Ashish-Surve/InterFusion_updated</a></strong> if relevant]].</p>
-
-
+<p>[[TODO: repo link if the payroll platform’s core detector logic is shareable — otherwise link the Tiger Analytics Anomaly Detection Accelerator repo if that’s public]].</p>
 </section>
 
+
+
 </main> <!-- /main -->
+<script>
+(function () {
+  var els = document.querySelectorAll('.reveal');
+  if (!('IntersectionObserver' in window) || !els.length) {
+    els.forEach(function (el) { el.classList.add('is-visible'); });
+    return;
+  }
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('is-visible');
+        io.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15 });
+  els.forEach(function (el) { io.observe(el); });
+})();
+</script>
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     const isCodeAnnotation = (el) => {

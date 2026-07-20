@@ -41,7 +41,7 @@ ul.task-list li input[type="checkbox"] {
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-de63f62b328812d8e578a4d74e282472.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-d6bb4f8f187f9d2b4482a2a1c7913fa4.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-04756cc1751e801bc4e98c44011a8b65.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -119,6 +119,20 @@ ul.task-list li input[type="checkbox"] {
 <!-- margin-sidebar -->
     
 <!-- main -->
+<main class="content" id="quarto-document-content">
+
+
+
+
+<section class="page-header">
+  <p class="page-header-eyebrow">About</p>
+  <h1 class="page-header-title">About Ashish</h1>
+  <p class="page-header-sub">
+    Product-focused data scientist who likes problems where the modeling
+    choice changes a business decision — and work that survives contact
+    with production.
+  </p>
+</section>
 <div class="quarto-about-trestles">
   <div class="about-entity">
     <img src="assets/profile.png" class="about-image
@@ -149,18 +163,39 @@ ul.task-list li input[type="checkbox"] {
   </a>
 </div>
   </div>
-  <div class="about-contents"><main class="content" id="quarto-document-content">
+  <div class="about-contents"><div id="about-content">
 <p>I’m a product-focused data scientist with 6+ years building and shipping ML systems across CPG, retail, and real estate. I like problems where the modeling choice changes a business decision — and I care about work that survives contact with production.</p>
 <p>I’m currently a Senior Data Scientist (Team Lead) at Globant, leading the data science and engineering effort on a payroll fraud detection platform for a Big 4 client. I architected the end-to-end, cloud-agnostic ML and data pipelines that made the system SaaS-ready, cutting development time for new clients by 40%, and built a configurable, multi-algorithm anomaly detection platform that plugs into client front-end/back-end stacks with minimal manual intervention. The stack spans Azure ML, Synapse, Prefect, Docker, Azure Functions, and AWS SageMaker, chosen specifically so the pipelines stay portable across cloud vendors.</p>
 <p>Before that, I spent three years at Tiger Analytics as a Data Scientist (Project Lead), where most of the numbers on this site’s project pages come from. I designed and productionized a PySpark-based demand forecasting accelerator on Databricks (0.94 parallelization factor, used across 20+ projects) that took model development from weeks to days. On out-of-stock prevention for a major US retailer, I led a solution that trained 300,000 models over a 2TB dataset with automated backtesting and hyperparameter tuning, avoiding $2.4M in stockout and expiry losses. A parallel engagement in Russia trained 50,000 models to 84% accuracy on high-quality segments, and a Temporal Fusion Transformer for cross-learning added a further 17% uplift over the previous best models. I also co-built a time-series anomaly detection accelerator with automated root-cause analysis, a trade-promotion optimization tool for a UK client, and prototyped an LLM + RAG marketing assistant that took 2nd place in Tiger Analytics’ internal hackathon.</p>
 <p>Earlier roles: Data Scientist &amp; Developer at vCreaTek (real-estate decision support systems, API gateway productionization), a Software Engineer Apprenticeship at Persistent Systems (led an 8-person team building a COVID-19 pedestrian-detection pipeline in one month), and an AI internship at IoTIoT.in (face-recognition pipeline, MTCNN + FaceNet). I hold a B.E. in Computer Science from Dr.&nbsp;D. Y. Patil Institute of Technology (SPPU, Pune), First Class with Distinction.</p>
 <p>Tools I reach for: Python, SQL, PySpark, Databricks, Spark, Dask, scikit-learn, PyTorch, TensorFlow, FastAPI, Streamlit, RAG/vector stores, and OpenAI/Hugging Face for LLM work.</p>
 <p>The fastest way to see how I think is the <a href="./projects/index.html">projects</a> page — those go deep on the Tiger Analytics work above. Code lives on <a href="https://github.com/Ashish-Surve">GitHub</a>; reach me at <a href="mailto:surve.ashish@outlook.com">surve.ashish@outlook.com</a>.</p>
-
-
-</main></div>
+</div></div>
 </div>
- <!-- /main -->
+
+
+
+
+
+</main> <!-- /main -->
+<script>
+(function () {
+  var els = document.querySelectorAll('.reveal');
+  if (!('IntersectionObserver' in window) || !els.length) {
+    els.forEach(function (el) { el.classList.add('is-visible'); });
+    return;
+  }
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('is-visible');
+        io.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15 });
+  els.forEach(function (el) { io.observe(el); });
+})();
+</script>
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     const isCodeAnnotation = (el) => {

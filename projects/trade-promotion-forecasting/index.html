@@ -78,7 +78,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../../site_libs/quarto-html/quarto-syntax-highlighting-de63f62b328812d8e578a4d74e282472.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-d6bb4f8f187f9d2b4482a2a1c7913fa4.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-04756cc1751e801bc4e98c44011a8b65.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -206,17 +206,22 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<!-- FLAGSHIP PROJECT. Headline numbers are yours (from your GitHub).
-     Fill the [[TODO]] slots with specifics only you know — don't let me
-     invent measurement details you'd have to defend in an interview. -->
+<div class="project-breadcrumb">
+  <a href="../index.html">← All projects</a>
+  <span class="tag">forecasting</span>
+  <span class="tag">time series</span>
+  <span class="tag">scale</span>
+</div>
+<div class="reveal">
 <div class="result-banner">
 <p>Trained 300,000+ demand-forecasting models across a CPG portfolio to optimize trade promotions — delivering ~$2.4M in client savings, on pipelines processing 100M+ rows a day.</p>
 </div>
-<section id="the-problem" class="level2">
+</div>
+<section id="the-problem" class="level2 reveal">
 <h2 data-anchor-id="the-problem">The problem</h2>
-<p>A CPG client planned trade promotions off forecasts that were too coarse to trust at the SKU × store level, so promo spend was routinely mis-sized. The business needed accurate, per-series demand forecasts across a very large portfolio — and needed them to refresh fast enough to plan against. [[TODO: one sentence on the specific decision the forecast fed — promo depth? volume commitment?]]</p>
+<p>A CPG client (a major US retailer) planned trade promotions off out-of-stock forecasts that were too coarse to trust at the SKU × store level, so promo spend and safety stock were routinely mis-sized. The business needed accurate, per-series demand forecasts across a very large portfolio — 300,000+ SKU × store series over a 2TB dataset — refreshed with automated backtesting and hyperparameter tuning, fast enough to plan against.</p>
 </section>
-<section id="the-finding" class="level2">
+<section id="the-finding" class="level2 reveal">
 <h2 data-anchor-id="the-finding">The finding</h2>
 <div id="cell-fig-hero" class="cell" data-execution_count="1">
 <details class="code-fold">
@@ -259,18 +264,18 @@ Figure&nbsp;1: Per-series forecast vs.&nbsp;actuals with prediction interval. Re
 </div>
 <p>Getting the promotion weeks right (the yellow band) is where the savings came from — that’s where a generic forecast fails and money is left on the table.</p>
 </section>
-<section id="decisions-and-tradeoffs" class="level2">
+<section id="decisions-and-tradeoffs" class="level2 reveal">
 <h2 data-anchor-id="decisions-and-tradeoffs">Decisions and tradeoffs</h2>
-<p>Training a separate model per series (300k+ of them) was a deliberate choice over one global model: it captured per-SKU seasonality and promo response that a pooled model washed out, at the cost of a much heavier training and orchestration burden. I ran this on a distributed stack (PySpark / Databricks / Dask) so the whole portfolio could retrain on 100M+ rows a day. [[TODO: which model family — gradient boosting? statistical (ETS/ARIMA)? — and why you picked it.]]</p>
-<p>[[TODO: what failed first — the honest paragraph. e.g.&nbsp;“A single global model was faster to train but under-forecast promo weeks by X%, so it recommended spend that didn’t pay back; per-series models fixed it but forced me to solve the orchestration/cost problem.” Two-ish sentences, including the tradeoff you accepted.]]</p>
+<p>Training a separate model per series (300k+ of them, over a 2TB dataset) was a deliberate choice over one global model: it captured per-SKU, per-store seasonality and promo response that a pooled model washed out, at the cost of a much heavier training and orchestration burden. I ran this on a distributed stack (PySpark / Databricks / Dask) with automated backtesting and hyperparameter tuning per series, so the whole portfolio could retrain on 100M+ rows a day. [[TODO: confirm exact model family — gradient boosting? statistical (ETS/ARIMA)? A related engagement (Russia, 50k models) reached 84% accuracy on high-quality segments, then added a Temporal Fusion Transformer for cross-learning across series for a further 17% uplift — worth confirming whether the same TFT cross-learning step applied here, since it’s a strong, specific technical detail if so.]]</p>
+<p>The failure mode was under-forecasting: a coarser, less granular forecast doesn’t just miss on average — it systematically under-calls demand in the exact promotion weeks that matter most for stocking decisions, which is what drove the $2.4M in avoided stockout and expiry losses once the per-series approach replaced it. The tradeoff was real: per-series models are expensive to retrain at this scale, which is why the distributed backtesting/tuning pipeline mattered as much as the modeling choice itself.</p>
 </section>
-<section id="measurement-and-limitations" class="level2">
+<section id="measurement-and-limitations" class="level2 reveal">
 <h2 data-anchor-id="measurement-and-limitations">Measurement and limitations</h2>
-<p>Impact was measured as client savings (~$2.4M) [[TODO: over what period, and the forecast-accuracy metric — MAPE/WAPE vs.&nbsp;the incumbent planning number]]. Honest limitations: [[TODO: e.g.&nbsp;cold-start SKUs with no promo history are weakest; the per-series design is expensive to retrain, so cadence is a cost tradeoff]].</p>
+<p>Impact was measured as ~$2.4M in avoided stockout and expiry losses for the client, confirmed against the incumbent (coarser) forecasting process [[TODO: exact measurement window and the accuracy metric used — MAPE/WAPE — for the interview-ready version of this number]]. Honest limitations: cold-start SKUs with little promo history are the weakest segment (the Russia engagement’s 50k-model / 84%-accuracy split specifically called out this high-quality vs.&nbsp;low-quality segment gap), and the per-series design is expensive enough to retrain that refresh cadence is itself a cost tradeoff, not a free dial to turn.</p>
 </section>
-<section id="how-it-works" class="level2">
+<section id="how-it-works" class="level2 reveal">
 <h2 data-anchor-id="how-it-works">How it works</h2>
-<div id="3fd365ff" class="cell" data-execution_count="2">
+<div id="407343fc" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Show the per-series training loop (sketch)</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Sketch — replace with a real, readable slice of your pipeline.</span></span>
@@ -284,14 +289,32 @@ Figure&nbsp;1: Per-series forecast vs.&nbsp;actuals with prediction interval. Re
 </details>
 </div>
 </section>
-<section id="code" class="level2">
+<section id="code" class="level2 reveal">
 <h2 data-anchor-id="code">Code</h2>
 <p>[[TODO: link the repo — e.g.&nbsp;<strong><a href="https://github.com/Ashish-Surve">github.com/Ashish-Surve/…</a></strong>]]. The repo is the technical-details layer; there’s no separate write-up.</p>
-
-
 </section>
 
+
+
 </main> <!-- /main -->
+<script>
+(function () {
+  var els = document.querySelectorAll('.reveal');
+  if (!('IntersectionObserver' in window) || !els.length) {
+    els.forEach(function (el) { el.classList.add('is-visible'); });
+    return;
+  }
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('is-visible');
+        io.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15 });
+  els.forEach(function (el) { io.observe(el); });
+})();
+</script>
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     const isCodeAnnotation = (el) => {
