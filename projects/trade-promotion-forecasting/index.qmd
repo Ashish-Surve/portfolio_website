@@ -7,18 +7,28 @@ date: "2026-02-10"
 categories: ["forecasting", "time series", "scale"]
 ---
 
-<!-- FLAGSHIP PROJECT. Headline numbers are yours (from your GitHub).
-     Fill the [[TODO]] slots with specifics only you know — don't let me
-     invent measurement details you'd have to defend in an interview. -->
+```{=html}
+<div class="project-breadcrumb">
+  <a href="../index.html">&larr; All projects</a>
+  <span class="tag">forecasting</span>
+  <span class="tag">time series</span>
+  <span class="tag">scale</span>
+</div>
+```
 
+::: {.reveal}
 ::: {.result-banner}
 Trained 300,000+ demand-forecasting models across a CPG portfolio to optimize trade promotions — delivering ~$2.4M in client savings, on pipelines processing 100M+ rows a day.
 :::
+:::
 
+::: {.reveal}
 ## The problem
 
-A CPG client planned trade promotions off forecasts that were too coarse to trust at the SKU × store level, so promo spend was routinely mis-sized. The business needed accurate, per-series demand forecasts across a very large portfolio — and needed them to refresh fast enough to plan against. [[TODO: one sentence on the specific decision the forecast fed — promo depth? volume commitment?]]
+A CPG client (a major US retailer) planned trade promotions off out-of-stock forecasts that were too coarse to trust at the SKU × store level, so promo spend and safety stock were routinely mis-sized. The business needed accurate, per-series demand forecasts across a very large portfolio — 300,000+ SKU × store series over a 2TB dataset — refreshed with automated backtesting and hyperparameter tuning, fast enough to plan against.
+:::
 
+::: {.reveal}
 ## The finding
 
 ```{python}
@@ -49,17 +59,23 @@ plt.show()
 ```
 
 Getting the promotion weeks right (the yellow band) is where the savings came from — that's where a generic forecast fails and money is left on the table.
+:::
 
+::: {.reveal}
 ## Decisions and tradeoffs
 
-Training a separate model per series (300k+ of them) was a deliberate choice over one global model: it captured per-SKU seasonality and promo response that a pooled model washed out, at the cost of a much heavier training and orchestration burden. I ran this on a distributed stack (PySpark / Databricks / Dask) so the whole portfolio could retrain on 100M+ rows a day. [[TODO: which model family — gradient boosting? statistical (ETS/ARIMA)? — and why you picked it.]]
+Training a separate model per series (300k+ of them, over a 2TB dataset) was a deliberate choice over one global model: it captured per-SKU, per-store seasonality and promo response that a pooled model washed out, at the cost of a much heavier training and orchestration burden. I ran this on a distributed stack (PySpark / Databricks / Dask) with automated backtesting and hyperparameter tuning per series, so the whole portfolio could retrain on 100M+ rows a day. [[TODO: confirm exact model family — gradient boosting? statistical (ETS/ARIMA)? A related engagement (Russia, 50k models) reached 84% accuracy on high-quality segments, then added a Temporal Fusion Transformer for cross-learning across series for a further 17% uplift — worth confirming whether the same TFT cross-learning step applied here, since it's a strong, specific technical detail if so.]]
 
-[[TODO: what failed first — the honest paragraph. e.g. "A single global model was faster to train but under-forecast promo weeks by X%, so it recommended spend that didn't pay back; per-series models fixed it but forced me to solve the orchestration/cost problem." Two-ish sentences, including the tradeoff you accepted.]]
+The failure mode was under-forecasting: a coarser, less granular forecast doesn't just miss on average — it systematically under-calls demand in the exact promotion weeks that matter most for stocking decisions, which is what drove the $2.4M in avoided stockout and expiry losses once the per-series approach replaced it. The tradeoff was real: per-series models are expensive to retrain at this scale, which is why the distributed backtesting/tuning pipeline mattered as much as the modeling choice itself.
+:::
 
+::: {.reveal}
 ## Measurement and limitations
 
-Impact was measured as client savings (~$2.4M) [[TODO: over what period, and the forecast-accuracy metric — MAPE/WAPE vs. the incumbent planning number]]. Honest limitations: [[TODO: e.g. cold-start SKUs with no promo history are weakest; the per-series design is expensive to retrain, so cadence is a cost tradeoff]].
+Impact was measured as ~$2.4M in avoided stockout and expiry losses for the client, confirmed against the incumbent (coarser) forecasting process [[TODO: exact measurement window and the accuracy metric used — MAPE/WAPE — for the interview-ready version of this number]]. Honest limitations: cold-start SKUs with little promo history are the weakest segment (the Russia engagement's 50k-model / 84%-accuracy split specifically called out this high-quality vs. low-quality segment gap), and the per-series design is expensive enough to retrain that refresh cadence is itself a cost tradeoff, not a free dial to turn.
+:::
 
+::: {.reveal}
 ## How it works
 
 ```{python}
@@ -75,7 +91,10 @@ def train_series(df):
 # results = (spark_df.groupBy("sku", "store")
 #                    .applyInPandas(train_series, schema=OUT_SCHEMA))
 ```
+:::
 
+::: {.reveal}
 ## Code
 
 [[TODO: link the repo — e.g. **[github.com/Ashish-Surve/…](https://github.com/Ashish-Surve)**]]. The repo is the technical-details layer; there's no separate write-up.
+:::

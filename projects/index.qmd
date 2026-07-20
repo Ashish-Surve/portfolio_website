@@ -2,19 +2,48 @@
 title: "Projects"
 pagetitle: "Projects — Ashish Surve"
 toc: false
-listing:
-  id: project-listing
-  contents:
-    - "*/index.qmd"      # every project folder's page
-  type: grid
-  sort: "order asc"      # control order via `order:` in each project's front matter
-  fields: [image, title, description]
-  grid-columns: 3
-  image-height: 180px
-  max-description-length: 120
+title-block-style: none
 ---
 
-Three projects, deep rather than wide. Best one first. Each page states the result in one line, then shows the work behind it — including what didn't work.
+```{=html}
+<section class="page-header">
+  <p class="page-header-eyebrow">Selected work</p>
+  <h1 class="page-header-title">Projects</h1>
+  <p class="page-header-sub">
+    Three projects, deep rather than wide. Best one first. Each page states
+    the result in one line, then shows the work behind it — including what
+    didn't work.
+  </p>
+</section>
+```
 
-::: {#project-listing}
+<!-- Stacked, one per row — ordered same as each project's `order:` front matter.
+     Update title/description here if you change a project's front matter. -->
+
+::: {.reveal}
+```{=html}
+<div class="project-list">
+  <a class="project-row" href="trade-promotion-forecasting/index.html">
+    <img src="trade-promotion-forecasting/hero.png" alt="Trade-promotion forecasting">
+    <div class="pr-body">
+      <p class="pr-title">Saving a CPG client $2.4M on trade promotions</p>
+      <p class="pr-sub">Sharper demand forecasts across an entire product portfolio cut wasted promotion spend and delivered $2.4M in client savings.</p>
+    </div>
+  </a>
+  <a class="project-row" href="timeseries-anomaly-detection/index.html">
+    <img src="timeseries-anomaly-detection/hero.png" alt="Time-series anomaly detection">
+    <div class="pr-body">
+      <p class="pr-title">Cutting alert fatigue 35% for an ops monitoring team</p>
+      <p class="pr-sub">Redesigned anomaly detection to cut false alarms by 35%, restoring analysts' trust in the system without missing real incidents.</p>
+    </div>
+  </a>
+  <a class="project-row" href="rag-nl2sql/index.html">
+    <img src="rag-nl2sql/hero.png" alt="RAG-powered marketing assistant">
+    <div class="pr-body">
+      <p class="pr-title">Helping a CMO plan marketing spend with an LLM agent, not a dashboard</p>
+      <p class="pr-sub">Built a RAG-powered marketing assistant that lets a CMO query existing data and plan activities in plain English — 2nd place in an internal build-off.</p>
+    </div>
+  </a>
+</div>
+```
 :::

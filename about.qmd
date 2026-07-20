@@ -2,7 +2,9 @@
 title: "About"
 pagetitle: "About — Ashish Surve"
 image: assets/profile.png
+toc: false
 about:
+  id: about-content
   template: trestles
   image: assets/profile.png
   links:
@@ -20,6 +22,20 @@ about:
       href: resume.pdf
 ---
 
+```{=html}
+<section class="page-header">
+  <p class="page-header-eyebrow">About</p>
+  <h1 class="page-header-title">About Ashish</h1>
+  <p class="page-header-sub">
+    Product-focused data scientist who likes problems where the modeling
+    choice changes a business decision — and work that survives contact
+    with production.
+  </p>
+</section>
+```
+
+::: {#about-content}
+
 I'm a product-focused data scientist with 6+ years building and shipping ML systems across CPG, retail, and real estate. I like problems where the modeling choice changes a business decision — and I care about work that survives contact with production.
 
 I'm currently a Senior Data Scientist (Team Lead) at Globant, leading the data science and engineering effort on a payroll fraud detection platform for a Big 4 client. I architected the end-to-end, cloud-agnostic ML and data pipelines that made the system SaaS-ready, cutting development time for new clients by 40%, and built a configurable, multi-algorithm anomaly detection platform that plugs into client front-end/back-end stacks with minimal manual intervention. The stack spans Azure ML, Synapse, Prefect, Docker, Azure Functions, and AWS SageMaker, chosen specifically so the pipelines stay portable across cloud vendors.
@@ -31,3 +47,5 @@ Earlier roles: Data Scientist & Developer at vCreaTek (real-estate decision supp
 Tools I reach for: Python, SQL, PySpark, Databricks, Spark, Dask, scikit-learn, PyTorch, TensorFlow, FastAPI, Streamlit, RAG/vector stores, and OpenAI/Hugging Face for LLM work.
 
 The fastest way to see how I think is the [projects](projects/index.qmd) page — those go deep on the Tiger Analytics work above. Code lives on [GitHub](https://github.com/Ashish-Surve); reach me at [surve.ashish@outlook.com](mailto:surve.ashish@outlook.com).
+
+:::

@@ -7,16 +7,27 @@ date: "2026-01-15"
 categories: ["anomaly detection", "time series"]
 ---
 
-<!-- Headline (-35% false positives) is yours. Fill the [[TODO]] slots. -->
+```{=html}
+<div class="project-breadcrumb">
+  <a href="../index.html">&larr; All projects</a>
+  <span class="tag">anomaly detection</span>
+  <span class="tag">time series</span>
+</div>
+```
 
+::: {.reveal}
 ::: {.result-banner}
 Reduced anomaly-detection false positives by 35% on multivariate time-series signals — cutting alert fatigue without missing the real incidents.
 :::
+:::
 
+::: {.reveal}
 ## The problem
 
-The existing detector fired too often, and every false alarm cost an analyst's time and eroded trust in the system. The goal was to keep recall on genuine anomalies while sharply cutting the false-positive rate on correlated, multivariate signals. [[TODO: one sentence on what the signals were and what a missed anomaly cost the business.]]
+This draws on two related builds: a multi-algorithm Anomaly Detection Accelerator with automated root-cause analysis over time-series data (Tiger Analytics), and a configurable, correlation-based fraud-detection platform for payroll data (Globant) — the closer match to "correlated, multivariate signals," since payroll components naturally move together and a component that breaks that correlation is the actual fraud signal. On the payroll platform specifically, the existing approach flagged each payroll component against its own static threshold, which fired constantly on normal correlated movement and cost analyst time chasing false alarms while eroding trust in the system. The goal was to keep recall on genuine fraud while sharply cutting that false-positive rate.
+:::
 
+::: {.reveal}
 ## The finding
 
 ```{python}
@@ -45,17 +56,23 @@ plt.show()
 ```
 
 The win was modeling the *correlation* between signals, so normal joint movement stopped tripping single-variable thresholds.
+:::
 
+::: {.reveal}
 ## Decisions and tradeoffs
 
-I moved from per-signal thresholding toward a multivariate approach that models the joint distribution, so a change is only anomalous relative to how the signals usually move together. [[TODO: name the method — PyOD ensemble? a reconstruction model like InterFusion? — and why over the simpler baseline.]] I used SHAP to make each alert explainable, which mattered as much as the score itself for analyst trust.
+I moved from per-signal thresholding toward a multivariate approach that models the joint distribution, so a change is only anomalous relative to how the signals usually move together. Concretely, this meant PySpark modules that score correlation between payroll components rather than flagging each component against its own static threshold — the platform behind it was built config-driven and multi-algorithm on purpose, so it could plug into a new client's front-end/back-end stack with minimal manual intervention rather than a rebuild per client. [[TODO: name the specific algorithm(s) in the ensemble — work history confirms "multi-algorithm" and "correlation-based" but not the specific method(s). Also confirm whether SHAP (or any explainability layer) was actually part of this build — not in work history; drop the claim if it wasn't used.]]
 
-[[TODO: the failure paragraph. e.g. "A pure deep reconstruction model caught more but was a black box the ops team wouldn't act on; pairing a simpler scorer with SHAP explanations got adoption. Two sentences, incl. the tradeoff."]]
+[[TODO: the failure/tradeoff paragraph — not in work history. What was tried first and discarded? A natural candidate: single-variable thresholding was the incumbent and is exactly what this replaced — worth stating what specifically broke about it before the correlation-based redesign. What did the config-driven, multi-algorithm design cost (e.g. slower to tune per client vs. a bespoke model)?]]
+:::
 
+::: {.reveal}
 ## Measurement and limitations
 
-Measured as false-positive rate at fixed recall: a 35% reduction [[TODO: vs. which baseline, over what window, and how recall was held constant]]. Limitations: [[TODO: e.g. needs a clean-ish normal period to learn from; concept drift requires periodic re-fit; thin labels make recall estimates noisy]].
+Measured as false-positive rate at fixed recall: a 35% reduction [[TODO: work history doesn't state a 35% figure or baseline — confirm the number and what it's measured against before publishing]]. Reducing manual intervention and simplifying onboarding were explicit goals of the platform design (config-driven, multi-algorithm, integrated with client stacks). Limitations: [[TODO: does it need a clean baseline period per client before it's reliable? does correlation-based scoring struggle with genuinely novel fraud patterns that haven't shown up as a correlation break before?]]
+:::
 
+::: {.reveal}
 ## How it works
 
 ```{python}
@@ -68,9 +85,11 @@ from pyod.models.ecod import ECOD   # example: swap for your actual model
 def score(X):
     model = ECOD().fit(X)
     return model.decision_function(X)   # higher = more anomalous
-# SHAP on top of the scorer to explain each flagged point.
 ```
+:::
 
+::: {.reveal}
 ## Code
 
-[[TODO: repo link — e.g. **[github.com/Ashish-Surve/InterFusion_updated](https://github.com/Ashish-Surve/InterFusion_updated)** if relevant]].
+[[TODO: repo link if the payroll platform's core detector logic is shareable — otherwise link the Tiger Analytics Anomaly Detection Accelerator repo if that's public]].
+:::

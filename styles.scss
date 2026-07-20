@@ -25,7 +25,7 @@ body { -webkit-font-smoothing: antialiased; }
 }
 .navbar .navbar-brand { font-weight: 800; letter-spacing: -0.01em; }
 
-// --- Landing hero ---------------------------------------------------------
+// --- Landing hero (light-theme fallback, used on non-index pages) ---------
 .hero-name {
   font-size: 2.4rem;
   font-weight: 800;
@@ -36,6 +36,332 @@ body { -webkit-font-smoothing: antialiased; }
   font-size: 1.2rem;
   color: #57606a;
   margin-bottom: 0.25rem;
+}
+
+// --- Dark hero (homepage only) ---------------------------------------------
+// Full-bleed dark section above the fold. Everything below it reverts to the
+// normal light theme — this is the one intentional visual departure on the site.
+.dark-hero {
+  position: relative;
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+  margin-top: -1.5rem;
+  min-height: 88vh;
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  align-items: stretch;
+  background: #0b0c10;
+  color: #f2f3f5;
+  overflow: hidden;
+}
+
+.dark-hero-text {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 4rem clamp(1.5rem, 5vw, 5rem);
+  z-index: 2;
+}
+
+.dark-hero-eyebrow {
+  font-size: .85rem;
+  font-weight: 600;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: #8b93a1;
+  margin-bottom: 1.1rem;
+  opacity: 0;
+  animation: fade-up .7s ease forwards .1s;
+}
+
+.dark-hero-name {
+  font-size: clamp(2.6rem, 5vw, 4.2rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+  margin: 0 0 1.1rem;
+  color: #ffffff;
+  opacity: 0;
+  animation: fade-up .7s ease forwards .22s;
+}
+
+.dark-hero-tagline {
+  font-size: clamp(1.05rem, 1.6vw, 1.3rem);
+  line-height: 1.55;
+  color: #c3c8d1;
+  max-width: 34rem;
+  margin: 0 0 2rem;
+  opacity: 0;
+  animation: fade-up .7s ease forwards .34s;
+}
+
+.dark-hero-cta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .9rem;
+  opacity: 0;
+  animation: fade-up .7s ease forwards .46s;
+}
+
+.dark-hero-cta a {
+  display: inline-flex;
+  align-items: center;
+  gap: .4rem;
+  padding: .7rem 1.3rem;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: .95rem;
+  text-decoration: none !important;
+  transition: transform .15s ease, background .15s ease, border-color .15s ease;
+}
+
+.dark-hero-cta a.primary {
+  background: #ffffff;
+  color: #0b0c10 !important;
+}
+.dark-hero-cta a.primary:hover { transform: translateY(-2px); background: #e9eaee; }
+
+.dark-hero-cta a.secondary {
+  border: 1px solid #3a3e47;
+  color: #f2f3f5 !important;
+}
+.dark-hero-cta a.secondary:hover { transform: translateY(-2px); border-color: #6b7280; }
+
+.dark-hero-photo-wrap {
+  position: relative;
+  height: 100%;
+  min-height: 88vh;
+  overflow: hidden;
+}
+.dark-hero-photo-wrap img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+  opacity: 0;
+  transform: scale(1.04);
+  animation: photo-in 1s ease forwards .1s;
+}
+// Soft fade where the photo meets the text column, and at the bottom seam
+// into the light section below.
+.dark-hero-photo-wrap::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, #0b0c10 0%, rgba(11,12,16,0) 22%);
+  z-index: 1;
+}
+.dark-hero::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  height: 18%;
+  background: linear-gradient(to bottom, rgba(11,12,16,0), #0b0c10 85%);
+  pointer-events: none;
+}
+
+.dark-hero-scroll-cue {
+  position: absolute;
+  left: clamp(1.5rem, 5vw, 5rem);
+  bottom: 1.75rem;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  font-size: .8rem;
+  color: #8b93a1;
+  opacity: 0;
+  animation: fade-in .8s ease forwards 1s;
+}
+.dark-hero-scroll-cue .dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: #8b93a1;
+  animation: pulse 1.8s ease-in-out infinite;
+}
+
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes photo-in {
+  from { opacity: 0; transform: scale(1.04); }
+  to   { opacity: 1; transform: scale(1); }
+}
+@keyframes pulse {
+  0%, 100% { opacity: .4; }
+  50%      { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dark-hero-eyebrow, .dark-hero-name, .dark-hero-tagline,
+  .dark-hero-cta, .dark-hero-photo-wrap img, .dark-hero-scroll-cue {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
+@media (max-width: 860px) {
+  .dark-hero {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto;
+    min-height: unset;
+  }
+  .dark-hero-photo-wrap { min-height: 55vh; order: -1; }
+  .dark-hero-photo-wrap::before { display: none; }
+  .dark-hero-text { padding: 2.75rem 1.5rem 3.5rem; text-align: left; }
+  .dark-hero-scroll-cue { display: none; }
+}
+
+// --- Page header (compact dark band) ---------------------------------------
+// Reusable on secondary pages (Projects listing, About): same visual language
+// as the homepage hero, no photo, much shorter. See DESIGN.md.
+//
+// Quarto always renders its own #title-block-header (an <h1 class="title">
+// from front matter), regardless of `title-block-style` in front matter
+// (verified unreliable in this Quarto website config — rendered _site/*.html
+// still contained the header even with title-block-style: none set). Any
+// page with a custom .page-header duplicates that title. Confirmed via
+// rendered output that the two blocks appear in DIFFERENT DOM order on the
+// two affected pages: on Projects listing, #title-block-header comes BEFORE
+// .page-header; on About (trestles template), it comes AFTER, further down
+// near the bio content. A plain sibling-combinator can't cover both
+// orderings, so this uses :has() (supported in all evergreen browsers since
+// 2023) to hide #title-block-header on any page that also contains a
+// .page-header, regardless of which one comes first in the DOM.
+main:has(.page-header) #title-block-header {
+  display: none !important;
+}
+.page-header {
+  position: relative;
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+  margin-top: -1.5rem;
+  margin-bottom: 2.5rem;
+  min-height: 34vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background: #0b0c10;
+  color: #f2f3f5;
+  padding: 3.25rem clamp(1.5rem, 5vw, 5rem) 3.75rem;
+  overflow: hidden;
+}
+.page-header-eyebrow {
+  font-size: .85rem;
+  font-weight: 600;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: #8b93a1;
+  margin-bottom: .9rem;
+  opacity: 0;
+  animation: fade-up .6s ease forwards .05s;
+}
+.page-header-title {
+  font-size: clamp(2rem, 3.4vw, 2.75rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+  margin: 0 0 .75rem;
+  color: #ffffff;
+  opacity: 0;
+  animation: fade-up .6s ease forwards .15s;
+}
+.page-header-sub {
+  font-size: clamp(1rem, 1.3vw, 1.15rem);
+  line-height: 1.55;
+  color: #c3c8d1;
+  max-width: 42rem;
+  margin: 0;
+  opacity: 0;
+  animation: fade-up .6s ease forwards .25s;
+}
+.page-header::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  height: 30%;
+  background: linear-gradient(to bottom, rgba(11,12,16,0), #0b0c10 90%);
+  pointer-events: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .page-header-eyebrow, .page-header-title, .page-header-sub {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+@media (max-width: 720px) {
+  .page-header { min-height: unset; padding: 2.5rem 1.5rem 3rem; }
+}
+
+// --- Light breadcrumb (project pages — no dark band, see DESIGN.md) --------
+.project-breadcrumb {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: .75rem;
+  margin: 0 0 .75rem;
+  font-size: .85rem;
+}
+.project-breadcrumb a {
+  font-weight: 600;
+  color: #57606a !important;
+  text-decoration: none !important;
+}
+.project-breadcrumb a:hover { color: $link-color !important; }
+.project-breadcrumb .tag {
+  padding: .2rem .6rem;
+  border-radius: 999px;
+  background: #f1f3f6;
+  color: #57606a;
+  font-weight: 600;
+  font-size: .78rem;
+  letter-spacing: .01em;
+}
+
+// Quarto auto-renders a <header class="quarto-title-block"> with an <h1
+// class="title"> from the page's `title:` front matter, BEFORE any body
+// markdown — including before .project-breadcrumb, even though the
+// breadcrumb appears first in the .qmd source. On project pages, style the
+// two together as one header unit (breadcrumb visually reads as preceding
+// the title via spacing) and tighten the gap into .result-banner so there's
+// no dead space reading like a second, duplicate heading block.
+.quarto-title-block {
+  margin-bottom: 1.25rem;
+}
+.quarto-title-block .quarto-title-meta,
+.quarto-title-block .description {
+  display: none; // avoid repeating the front-matter description a 2nd time — .result-banner already states the result
+}
+.quarto-title-block h1.title {
+  font-size: clamp(1.7rem, 3vw, 2.3rem);
+  font-weight: 800;
+  letter-spacing: -0.015em;
+  line-height: 1.2;
+  margin-bottom: 0;
+}
+
+// --- Scroll-reveal for sections below the hero ------------------------------
+.reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity .6s ease, transform .6s ease;
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+@media (prefers-reduced-motion: reduce) {
+  .reveal { opacity: 1; transform: none; transition: none; }
 }
 
 // --- Project cards (the 70% of the landing page) --------------------------
@@ -88,6 +414,53 @@ body { -webkit-font-smoothing: antialiased; }
 // --- Contact links --------------------------------------------------------
 .contact-links { display: flex; flex-wrap: wrap; gap: 1rem; margin: 1rem 0 2rem; }
 .contact-links a { font-weight: 600; text-decoration: none; }
+
+// --- Projects listing page (stacked, one per row) --------------------------
+.project-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin: 2rem 0 2.5rem;
+}
+.project-row {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 1.75rem;
+  align-items: center;
+  border: 1px solid #e6e6ec;
+  border-radius: 12px;
+  overflow: hidden;
+  text-decoration: none !important;
+  color: inherit !important;
+  transition: box-shadow .15s ease, transform .15s ease, border-color .15s ease;
+  background: #fff;
+}
+.project-row:hover {
+  box-shadow: 0 8px 24px rgba(20,20,40,.08);
+  transform: translateY(-2px);
+  border-color: #d5d5df;
+}
+.project-row img {
+  width: 100%;
+  height: 100%;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+  background: #f5f6f8;
+}
+.project-row .pr-body { padding: 1.25rem 1.5rem 1.25rem 0; }
+.project-row .pr-title {
+  font-weight: 700;
+  font-size: 1.25rem;
+  line-height: 1.35;
+  margin: 0 0 .5rem;
+  color: #1f2328;
+}
+.project-row .pr-sub { color: #57606a; font-size: 1rem; line-height: 1.5; margin: 0; }
+
+@media (max-width: 720px) {
+  .project-row { grid-template-columns: 1fr; }
+  .project-row .pr-body { padding: 1rem 1.25rem 1.25rem; }
+}
 
 // --- "Result in one line" banner on project pages -------------------------
 .result-banner {

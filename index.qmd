@@ -3,24 +3,42 @@ title: ""
 pagetitle: "Ashish Surve — Data Scientist & AI Engineer"
 page-layout: full
 toc: false
-format:
-  html:
-    css: styles.scss
 ---
 
-::: {.hero-name}
-Ashish Surve
-:::
+<!-- ============================================================= -->
+<!-- DARK HERO — the one visual departure on the site. Full-bleed, -->
+<!-- animated on load. Everything below reverts to the light theme. -->
+<!-- Swap assets/hero-photo.jpg for the real portrait.              -->
+<!-- ============================================================= -->
 
-::: {.hero-tagline}
-I build and ship production ML systems — forecasting, anomaly detection, and fraud detection at scale — for CPG, retail, and enterprise clients.
-:::
+```{=html}
+<section class="dark-hero">
+  <div class="dark-hero-text">
+    <p class="dark-hero-eyebrow">Data Scientist &amp; AI Engineer</p>
+    <h1 class="dark-hero-name">Ashish Surve</h1>
+    <p class="dark-hero-tagline">
+      I build and ship production ML systems — forecasting, anomaly detection,
+      and fraud detection at scale — for CPG, retail, and enterprise clients.
+    </p>
+    <div class="dark-hero-cta">
+      <a class="primary" href="projects/index.html">View projects</a>
+      <a class="secondary" href="resume.pdf">Résumé (PDF)</a>
+      <a class="secondary" href="mailto:surve.ashish@outlook.com">Get in touch</a>
+    </div>
+  </div>
+  <div class="dark-hero-photo-wrap">
+    <img src="assets/hero-photo.jpg" alt="Ashish Surve">
+  </div>
+  <div class="dark-hero-scroll-cue"><span class="dot"></span> Scroll</div>
+</section>
+```
 
 <!-- ============================================================= -->
 <!-- PROJECT CARDS — ~70% of the page. Three, best first.          -->
 <!-- Each card: thumbnail, one-line RESULT, one-line context.       -->
 <!-- ============================================================= -->
 
+::: {.reveal}
 ```{=html}
 <div class="project-cards">
   <a class="project-card" href="projects/trade-promotion-forecasting/index.html">
@@ -38,19 +56,21 @@ I build and ship production ML systems — forecasting, anomaly detection, and f
     </div>
   </a>
   <a class="project-card" href="projects/rag-nl2sql/index.html">
-    <img src="assets/thumbs/project-3.png" alt="Production RAG and NL2SQL">
+    <img src="assets/thumbs/project-3.png" alt="RAG-powered marketing assistant">
     <div class="pc-body">
-      <p class="pc-result">Shipped production RAG + NL2SQL that answers business questions over live data</p>
-      <p class="pc-sub">LLM app · retrieval + agentic workflow</p>
+      <p class="pc-result">Built a RAG marketing assistant — 2nd place in an internal hackathon</p>
+      <p class="pc-sub">LLM agent · retrieval + structured-data Q&amp;A</p>
     </div>
   </a>
 </div>
 ```
+:::
 
 <!-- ============================================================= -->
 <!-- 3-LINE BIO + PHOTO                                             -->
 <!-- ============================================================= -->
 
+::: {.reveal}
 ::: {.bio-row}
 ![](assets/profile.png){alt="Ashish Surve"}
 
@@ -60,16 +80,19 @@ Currently a Senior Data Scientist (Team Lead) at Globant, leading a payroll frau
 I own problems end to end, from framing and distributed feature engineering to deployment and monitoring.
 </div>
 :::
+:::
 
 <!-- ============================================================= -->
 <!-- CONTACT LINKS                                                  -->
 <!-- ============================================================= -->
 
+::: {.reveal}
 ::: {.contact-links}
 [GitHub](https://github.com/Ashish-Surve) ·
 [LinkedIn](https://www.linkedin.com/in/ashish-surve) ·
 [Email](mailto:surve.ashish@outlook.com) ·
 [Résumé (PDF)](resume.pdf)
+:::
 :::
 
 <!-- OPTIONAL: latest 3 posts, small, at the very bottom.          -->

@@ -50,6 +50,8 @@ format:
     theme:
       - cosmo
       - styles.scss
+    include-after-body:
+      - assets/reveal.html
     toc: false
     code-fold: true          # global default — project pages inherit this
     code-tools: false

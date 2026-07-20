@@ -1,28 +1,46 @@
 ---
-title: "Letting non-technical stakeholders query live business data in plain English"
-description: "Shipped a self-serve Q&A tool that turns plain-English questions into trustworthy answers over live data — no analyst or SQL required."
+title: "Helping a CMO plan marketing spend with an LLM agent, not a dashboard"
+description: "Built a RAG-powered marketing assistant that lets a CMO query existing data and plan activities in plain English — 2nd place in an internal build-off."
 image: hero.png
 order: 3
 date: "2025-12-05"
 categories: ["GenAI", "RAG", "LLM"]
 ---
 
-<!-- This is your GenAI showcase. It's the natural home for the ONE embedded
-     live demo (Streamlit / HF Space). Fill [[TODO]] with real specifics. -->
+```{=html}
+<div class="project-breadcrumb">
+  <a href="../index.html">&larr; All projects</a>
+  <span class="tag">GenAI</span>
+  <span class="tag">RAG</span>
+  <span class="tag">LLM</span>
+</div>
+```
 
+<!-- Corrected from the earlier "RAG + NL2SQL" framing: work history and
+     about.qmd both confirm this project (the "Marketing Assistant") used
+     RAG + semantic/sparse search + QA over structured/tabular data — no
+     SQL-generation step is documented anywhere, so NL2SQL language was
+     dropped rather than left unverified. It's the natural home for the ONE
+     embedded live demo (Streamlit / HF Space) if you build one. -->
+
+::: {.reveal}
 ::: {.result-banner}
-Built and shipped a production RAG + NL2SQL system that turns plain-English questions into governed SQL and grounded answers over live business data.
+Built a marketing assistant — an LLM agent with retrieval-augmented Q&A over structured business data — to help a CMO plan marketing activities without waiting on an analyst. Took 2nd place in Tiger Analytics' internal hackathon.
+:::
 :::
 
+::: {.reveal}
 ## The problem
 
-Stakeholders needed answers from data they couldn't query themselves, and hand-written reports couldn't keep up. The system had to translate natural-language questions into correct SQL and ground its answers in retrieved context — reliably enough to trust in front of the business. [[TODO: one sentence on who used it and the decision it supported.]]
+A CMO needed answers from existing marketing data to plan activities, without waiting on an analyst to pull and format a report every time. The system had to answer natural-language questions grounded in the company's own structured/tabular data — reliably enough to actually inform planning decisions, not just look good in a demo. [[TODO: one sentence on the specific data (campaign performance? spend by channel?) and the kind of planning decision it fed.]]
+:::
 
+::: {.reveal}
 ## The finding
 
 ```{python}
 #| label: fig-hero
-#| fig-cap: "Answer accuracy across question types, before vs. after retrieval grounding + NL2SQL guardrails. Replace with your real eval."
+#| fig-cap: "Answer accuracy across question types, before vs. after retrieval grounding. Replace with your real eval."
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -32,7 +50,7 @@ after  = np.array([0.94, 0.86, 0.72, 0.79])
 x = np.arange(len(cats)); w = 0.38
 fig, ax = plt.subplots(figsize=(8, 4.2))
 ax.bar(x - w/2, before, w, color="#c0c4cc", label="baseline LLM")
-ax.bar(x + w/2, after,  w, color="#2563eb", label="RAG + NL2SQL guardrails")
+ax.bar(x + w/2, after,  w, color="#2563eb", label="RAG + structured QA")
 ax.set_xticks(x); ax.set_xticklabels(cats)
 ax.set_ylabel("answer accuracy"); ax.set_ylim(0, 1)
 ax.legend(frameon=False)
@@ -44,8 +62,10 @@ fig.savefig("hero.png", dpi=120, bbox_inches="tight", facecolor="white")
 plt.show()
 ```
 
-The hard questions (multi-table, temporal) are where naive prompting fails — grounding and SQL guardrails are what made those trustworthy. [[TODO: replace the numbers above with your real eval-set results.]]
+The hard questions (multi-table, temporal) are where naive prompting fails — grounding in the actual retrieved data is what made those trustworthy. [[TODO: replace the numbers above with your real eval-set results — not in work history, needs your own records/GitHub.]]
+:::
 
+::: {.reveal}
 ## Live demo
 
 <!-- ONE embedded live demo, per the plan. Deploy the app to Streamlit
@@ -61,31 +81,38 @@ Embed the running app here once deployed:
 ```
 Delete this note and uncomment the iframe when the Space/App is live.
 :::
+:::
 
+::: {.reveal}
 ## Decisions and tradeoffs
 
-I split the problem into retrieval (grounding answers in the right context) and NL2SQL (generating governed queries), rather than asking one prompt to do everything — that made each half testable and each failure debuggable. [[TODO: your stack — vector store, embedding model, LangChain vs. custom, and why.]] Guardrails on the generated SQL (schema-constrained, read-only) traded a little flexibility for a lot of safety.
+I split the problem into retrieval (grounding answers in the right context) and answer synthesis over structured data, rather than asking one prompt to do everything — that made each half testable and each failure debuggable. On the retrieval side, I compared semantic vs. sparse search rather than defaulting to one, since marketing questions mix fuzzy ("campaigns similar to...") and exact-match ("Q3 spend on...") lookups that favor different retrieval methods. [[TODO: your stack — vector store, embedding model choice. OpenAI and Hugging Face are both named in work history; worth specifying which did what, e.g. HF for embeddings, OpenAI for generation.]]
 
-[[TODO: the failure paragraph. e.g. "End-to-end prompting looked great in demos but silently generated wrong joins on multi-table questions; adding a schema-aware NL2SQL step plus an eval set caught it. Two sentences, incl. the tradeoff you accepted."]]
+[[TODO: the failure paragraph — not in work history. A natural candidate given the semantic-vs-sparse comparison: semantic-only search likely missed exact-match lookups first, which is the common reason teams add sparse/BM25 retrieval back in — confirm if that's what happened here. Two sentences, incl. the tradeoff you accepted.]]
+:::
 
+::: {.reveal}
 ## Measurement and limitations
 
-Evaluated on a fixed question set by answer accuracy and SQL validity [[TODO: size of the eval set, how you graded, latency/cost budget]]. Limitations: [[TODO: e.g. degrades on schema it hasn't seen; retrieval quality bounds answer quality; needs guardrails to stay read-only]].
+Evaluated on a fixed question set by answer accuracy [[TODO: size of the eval set, how you graded, latency/cost budget — not in work history]]. Limitations: degrades on data/tables the system hasn't seen, and retrieval quality bounds answer quality — a wrong or incomplete retrieval means a confidently wrong answer downstream. Worth noting for credibility: this took 2nd place in Tiger Analytics' internal hackathon rather than shipping to a live CMO in production — an internal build-off result, not a production deployment claim.
+:::
 
+::: {.reveal}
 ## How it works
 
 ```{python}
 #| code-fold: true
-#| code-summary: "Show the retrieve → generate SQL → answer flow (sketch)"
+#| code-summary: "Show the retrieve → answer flow (sketch)"
 #| eval: false
 # Replace with a readable slice of your real pipeline.
 def answer(question: str) -> str:
-    ctx = retrieve(question)            # vector search over docs/schema
-    sql = nl2sql(question, schema)      # schema-constrained, read-only
-    rows = run_readonly(sql)
-    return synthesize(question, ctx, rows)
+    ctx = retrieve(question)            # semantic + sparse search over data
+    return synthesize(question, ctx)    # LLM grounds its answer in ctx
 ```
+:::
 
+::: {.reveal}
 ## Code
 
 [[TODO: repo link — e.g. **[github.com/Ashish-Surve/…](https://github.com/Ashish-Surve)**]].
+:::
